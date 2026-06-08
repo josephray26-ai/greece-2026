@@ -5153,6 +5153,9 @@ function esc(str) {
 /* ═══════════════════════════════════════════════════
    INIT
    ═══════════════════════════════════════════════════ */
+let _ctaParallaxEls = [];
+let _ctaRaf = null;
+
 function init() {
   initTheme();
   updateCountdown();
@@ -5195,13 +5198,17 @@ const FIREBASE_CONFIG = {
 const GALLERY_ENABLED = !!FIREBASE_CONFIG.apiKey;
 let _db = null, _storage = null, _galleryUnsubscribe = null, _uploadFile = null, _uploadBlob = null, _previewUrl = null;
 
-if (GALLERY_ENABLED) {
+function _initFirebase() {
+  if (!GALLERY_ENABLED || _db) return;
+  if (typeof firebase === 'undefined' || !firebase.initializeApp) return;
   try {
-    firebase.initializeApp(FIREBASE_CONFIG);
+    if (!firebase.apps || !firebase.apps.length) firebase.initializeApp(FIREBASE_CONFIG);
     _db      = firebase.firestore();
     _storage = firebase.storage();
   } catch(e) { console.warn('Firebase init error:', e); }
 }
+// Try at load; also retried lazily when the gallery opens (SDK is loaded by then).
+_initFirebase();
 
 function switchToHome() {
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
@@ -5217,8 +5224,6 @@ function goToTab(name) {
   if (tab) tab.click();
 }
 
-let _ctaParallaxEls = [];
-let _ctaRaf = null;
 function initHomeCtas() {
   const bands = document.querySelectorAll('.cta-band');
   if (!bands.length) return;
@@ -5269,10 +5274,13 @@ function openGallery() {
   document.getElementById('gallery-overlay').classList.add('open');
   document.getElementById('gallery-fab').classList.add('visible');
   document.body.style.overflow = 'hidden';
+  if (GALLERY_ENABLED) _initFirebase();
   if (GALLERY_ENABLED && _db && !_galleryUnsubscribe) {
     _startGalleryListener();
   } else if (!GALLERY_ENABLED) {
     _showSetupNotice();
+  } else if (!_db) {
+    _showGalleryError();
   }
 }
 
@@ -5286,13 +5294,17 @@ function _startGalleryListener() {
   document.getElementById('gallery-loading').style.display = 'flex';
   document.getElementById('gallery-grid').style.display = 'none';
   document.getElementById('gallery-empty').style.display = 'none';
+  let _firstSnap = false;
+  const _watchdog = setTimeout(() => { if (!_firstSnap) _showGalleryError(); }, 12000);
   _galleryUnsubscribe = _db.collection('trip-photos')
     .orderBy('timestamp', 'desc')
     .onSnapshot(snap => {
+      _firstSnap = true; clearTimeout(_watchdog);
       _renderGallery(snap.docs.map(d => ({ id: d.id, ...d.data() })));
     }, err => {
       console.error('Gallery error:', err);
-      document.getElementById('gallery-loading').style.display = 'none';
+      clearTimeout(_watchdog);
+      _showGalleryError();
     });
 }
 
@@ -5322,6 +5334,29 @@ function _renderGallery(photos) {
 function _showSetupNotice() {
   document.getElementById('gallery-loading').style.display = 'none';
   document.getElementById('gallery-setup-notice').style.display = 'block';
+}
+
+function _showGalleryError() {
+  const box = document.getElementById('gallery-loading');
+  document.getElementById('gallery-grid').style.display = 'none';
+  document.getElementById('gallery-empty').style.display = 'none';
+  box.style.display = 'flex';
+  box.innerHTML =
+    '<span class="material-symbols-rounded" style="font-size:40px;color:var(--md-sys-color-on-surface-variant);">cloud_off</span>' +
+    '<p class="gallery-state-title">Couldn\'t load photos</p>' +
+    '<p class="gallery-state-sub">Check your connection and try again.</p>' +
+    '<button class="upload-submit" style="width:auto;margin-top:14px;padding:10px 20px;" onclick="_retryGallery()">Retry</button>';
+}
+
+function _retryGallery() {
+  const box = document.getElementById('gallery-loading');
+  box.innerHTML =
+    '<span class="material-symbols-rounded gallery-spinner">progress_activity</span>' +
+    '<p class="gallery-state-sub" style="margin:0;">Loading photos\u2026</p>';
+  box.style.display = 'flex';
+  _initFirebase();
+  if (_db && !_galleryUnsubscribe) _startGalleryListener();
+  else if (!_db) _showGalleryError();
 }
 
 function openUploadSheet() {
