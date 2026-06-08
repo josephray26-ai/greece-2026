@@ -1,0 +1,23 @@
+{
+  "name": "Greece 2026 T&T Mediterranean Adventure",
+  "short_name": "Greece 2026",
+  "description": "Daily itinerary, devotions, and podcast for the T&T Mediterranean cruise.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0A1628",
+  "theme_color": "#0A1628",
+  "icons": [
+    {
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
