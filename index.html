@@ -205,22 +205,6 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0.5 0'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.6'/></svg>");
 }
-.home-hero-logo {
-  position: absolute;
-  top: 42%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: min(88%, 460px);
-  z-index: 1;
-  pointer-events: none;
-}
-.home-hero-logo img {
-  width: 100%;
-  height: auto;
-  opacity: 0.23;
-  mix-blend-mode: soft-light;
-  filter: drop-shadow(0 2px 12px rgba(0,0,0,0.25));
-}
 .home-hero-content {
   position: relative;
   z-index: 2;
@@ -431,6 +415,24 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   opacity: 0.24;
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0.5 0'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.6'/></svg>");
+}
+.home-journey {
+  position: relative;
+}
+.home-journey-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(94%, 520px);
+  z-index: 0;
+  pointer-events: none;
+}
+.home-journey-logo img {
+  width: 100%;
+  height: auto;
+  opacity: 0.18;
+  mix-blend-mode: soft-light;
 }
 .home-immersive-inner {
   position: relative;
@@ -1387,7 +1389,6 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
       <div class="home-hero-bg">
         <img src="assets/home-hero.jpg" alt="Mediterranean Cruise Route">
       </div>
-      <div class="home-hero-logo"><img src="assets/hero-logo.png" alt=""></div>
       <div class="home-hero-content">
         <div class="hero-eyebrow fade-up">Greece 2026 &nbsp;&middot;&nbsp; T&amp;T Expedition</div>
         <div class="hero-h1 fade-up delay-1">Mediterranean<br><em>Adventure</em></div>
@@ -1412,8 +1413,10 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
     <div class="destinations-scroll" id="destinationsScroll"></div>
 
     <!-- THE JOURNEY -->
-    <div class="section-label">The Journey</div>
-    <div style="padding: 0 16px 16px; display: flex; flex-direction: column; gap: 10px;">
+    <div class="home-journey">
+    <div class="home-journey-logo"><img src="assets/hero-logo.png" alt=""></div>
+    <div class="section-label" style="position:relative;z-index:1;">The Journey</div>
+    <div style="position:relative;z-index:1;padding: 0 16px 16px; display: flex; flex-direction: column; gap: 10px;">
       <div class="card">
         <div class="card-content" style="display:flex;gap:12px;align-items:flex-start;">
           <span class="material-symbols-rounded" style="color:var(--md-sys-color-primary);font-size:28px;flex-shrink:0;margin-top:2px;">flight_takeoff</span>
@@ -1459,6 +1462,7 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
           </div>
         </div>
       </div>
+    </div>
     </div>
       </div>
     </div>
