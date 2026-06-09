@@ -1100,7 +1100,14 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   font-size: 14px; font-weight: 600; flex: 1;
   color: var(--md-sys-color-on-surface); line-height: 1.3;
 }
-.script-modal-actions { display: flex; gap: 0; flex-shrink: 0; }
+.script-modal-actions { display: flex; gap: 6px; flex-shrink: 0; align-items: center; }
+.script-size-btn {
+  background: var(--md-sys-color-surface-variant); border: none;
+  border-radius: 16px; padding: 5px 11px; cursor: pointer;
+  color: var(--md-sys-color-on-surface-variant);
+  font-family: inherit; font-weight: 700; font-size: 13px; flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
 .script-modal-body {
   overflow-y: auto; -webkit-overflow-scrolling: touch;
   padding: 16px; flex: 1;
@@ -5074,11 +5081,22 @@ const SCRIPT_CONTENT = {
 /* ═══════════════════════════════════════════════════
    SCRIPT MODAL
    ═══════════════════════════════════════════════════ */
+let scriptFontScale = parseFloat(localStorage.getItem('greece2026_scriptFontScale') || '1');
+function applyScriptFontScale() {
+  const b = document.getElementById('script-modal-body');
+  if (b) b.style.zoom = scriptFontScale;
+}
+function adjustScriptFontSize(delta) {
+  scriptFontScale = Math.min(1.6, Math.max(0.85, Math.round((scriptFontScale + delta * 0.1) * 100) / 100));
+  localStorage.setItem('greece2026_scriptFontScale', String(scriptFontScale));
+  applyScriptFontScale();
+}
 function openScriptModal(id) {
   const s = SCRIPT_CONTENT[id];
   if (!s) return;
   document.getElementById('script-modal-title').textContent = s.title;
   document.getElementById('script-modal-body').innerHTML = s.html;
+  applyScriptFontScale();
   document.getElementById('script-modal').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -5559,6 +5577,8 @@ async function submitPhoto() {
     <div class="script-modal-header">
       <span class="script-modal-title-text" id="script-modal-title"></span>
       <div class="script-modal-actions">
+        <button class="script-size-btn" onclick="adjustScriptFontSize(-1)" title="Smaller text">A&minus;</button>
+        <button class="script-size-btn" onclick="adjustScriptFontSize(1)" title="Larger text">A+</button>
         <button class="icon-btn" onclick="toggleScriptFullscreen()" title="Expand / Collapse">
           <span class="material-symbols-rounded" id="fullscreen-icon">fullscreen</span>
         </button>
