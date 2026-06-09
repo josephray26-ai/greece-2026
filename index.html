@@ -205,6 +205,22 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0.5 0'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.6'/></svg>");
 }
+.home-hero-logo {
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(64%, 320px);
+  z-index: 1;
+  pointer-events: none;
+}
+.home-hero-logo img {
+  width: 100%;
+  height: auto;
+  opacity: 0.28;
+  mix-blend-mode: soft-light;
+  filter: drop-shadow(0 2px 12px rgba(0,0,0,0.25));
+}
 .home-hero-content {
   position: relative;
   z-index: 2;
@@ -1371,6 +1387,7 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
       <div class="home-hero-bg">
         <img src="assets/home-hero.jpg" alt="Mediterranean Cruise Route">
       </div>
+      <div class="home-hero-logo"><img src="assets/hero-logo.png" alt=""></div>
       <div class="home-hero-content">
         <div class="hero-eyebrow fade-up">Greece 2026 &nbsp;&middot;&nbsp; T&amp;T Expedition</div>
         <div class="hero-h1 fade-up delay-1">Mediterranean<br><em>Adventure</em></div>
@@ -1928,8 +1945,12 @@ const TRIP_DATA = {
         { time: "8:30 PM",  activity: "Farewell dinner on board" }
       ],
       bibleKnowledge: null,
-      infoImage: null,
-      podcast: null
+      infoImage: "assets/day9-info.jpg",
+      podcast: {
+        audio: "How_Early_Christianity_Hacked_Rome.m4a",
+        title: "How Early Christianity Hacked Rome",
+        description: "Day 9 — Day at Sea"
+      }
     },
     {
       dayNum: 10,
@@ -1946,7 +1967,7 @@ const TRIP_DATA = {
         { time: "7:05 PM",  activity: "Arrive home in Fayetteville, Arkansas" }
       ],
       bibleKnowledge: null,
-      infoImage: null,
+      infoImage: "assets/day10-info.png",
       podcast: null
     }
   ]
