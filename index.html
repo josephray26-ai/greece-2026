@@ -1594,6 +1594,7 @@ const TRIP_DATA = {
       ],
       bibleKnowledge: null,
       infoImage: "assets/day0-info.jpg",
+      fieldNotesId: "fn_day0",
       podcast: null
     },
     {
@@ -1623,6 +1624,7 @@ const TRIP_DATA = {
         ]
       },
       infoImage: "assets/day1-info.jpg",
+      fieldNotesId: "fn_day1",
       podcast: null
     },
     {
@@ -1971,7 +1973,8 @@ const TRIP_DATA = {
         audio: "How_Early_Christianity_Hacked_Rome.m4a",
         title: "How Early Christianity Hacked Rome",
         description: "Day 9 — Day at Sea"
-      }
+      },
+      fieldNotesId: "fn_day9"
     },
     {
       dayNum: 10,
@@ -1989,6 +1992,7 @@ const TRIP_DATA = {
       ],
       bibleKnowledge: null,
       infoImage: "assets/day10-info.png",
+      fieldNotesId: "fn_day10",
       podcast: null
     }
   ]
@@ -4665,6 +4669,89 @@ const SCRIPT_CONTENT = {
 
   /* ── FIELD NOTES ── */
 
+  fn_day0: {
+    title: "Field Notes — Day 0 · Flight Day",
+    html: `
+<div class="fn-header">Day 0 · Flight Day — Getting There</div>
+<div class="fn-subtitle">XNA → DFW → Athens</div>
+
+<div class="fn-section-title">Your Flights</div>
+<div class="fn-bullet"><strong>AA 3275 &nbsp;·&nbsp; XNA → DFW</strong><br>Departs 11:59 AM · Arrives Dallas/Fort Worth 1:20 PM.</div>
+<div class="fn-bullet"><strong>Layover at DFW</strong> — time to regroup, grab a meal, and unwind in the Capital One lounge before the long haul.</div>
+<div class="fn-bullet"><strong>AA 216 &nbsp;·&nbsp; DFW → ATH</strong> (international)<br>Departs 4:00 PM · Arrives Athens 11:45 AM the next day. Roughly an 11-hour overnight crossing — set your watch ahead and try to sleep on Athens time.</div>
+
+<div class="fn-anchor">
+  <div class="fn-anchor-label">Flying International — Don't Forget</div>
+  <p class="fn-body" style="margin:0 0 8px;"><strong>Passport.</strong> Bring a valid passport issued within the last 10 years. For the Schengen Area (Greece) it must be valid for at least 3 months beyond your departure date — aim for 6 months of validity to be safe.</p>
+  <p class="fn-body" style="margin:0 0 8px;"><strong>ETIAS travel authorization.</strong> Greece is in the Schengen Area, and the EU's ETIAS pre-travel authorization is rolling out for visa-exempt travelers (including U.S. citizens). Apply online in advance, pay the small fee, and link it to your passport. Confirm whether it's required for your July 2026 dates before you fly.</p>
+  <p class="fn-body" style="margin:0;"><strong>Also handy:</strong> your hotel address and transfer voucher (border officers can ask for proof of onward travel and accommodation), a card that works abroad, and any medications in your carry-on. No visa is needed for U.S. citizens for stays under 90 days.</p>
+</div>
+
+<div class="fn-section-title">Airport → Hotel</div>
+<p class="fn-body">A <strong>private arrival transfer</strong> is pre-booked through Viator. After you clear passport control and collect bags, your driver meets you in the arrivals hall with a name sign and takes you straight to the hotel in a private vehicle — no taxi lines, no figuring out the metro after an overnight flight. Keep your booking confirmation/voucher on your phone to show the driver.</p>
+<div class="fn-tip">
+  <div class="fn-tip-label">Transfer Details</div>
+  <p class="fn-body" style="margin:0;">Athens Airport (ATH) to your Athens hotel · private arrival transfer · <a href="https://www.viator.com/tours/Athens/Athens-airport-to-Athens-hotels-Private-arrival-transfer/d496-67222P18" target="_blank" rel="noopener">view booking</a>. If you don't see your driver, check the meeting point on the voucher before wandering — arrivals is busy at midday.</p>
+</div>
+
+<div class="fn-section-title">Where You're Staying</div>
+<div class="fn-bullet"><strong>Tonight (Day 1):</strong> Athens City View Suites — settle in, rest, and shake off the flight.</div>
+<div class="fn-bullet"><strong>From Day 2:</strong> you transfer over to <strong>The Alex Monte Kastella</strong> for the next leg, up in the Kastella neighborhood near the harbor.</div>
+
+<div class="fn-tip">
+  <div class="fn-tip-label">Guide's Tip</div>
+  <p class="fn-body" style="margin:0;">Jet lag is real after an overnight arrival. Get sunlight, stay up until a normal local bedtime, and go easy on the first afternoon. The Acropolis Museum stays open late — a gentle, air-conditioned first taste of Athens if you catch a second wind.</p>
+</div>
+
+<p class="fn-footer">Verify flight times, passport/ETIAS rules, and your transfer meeting point close to departure — these change. Times shown are local to each airport.</p>
+`
+  },
+
+  fn_day1: {
+    title: "Field Notes — Day 1 · Athens",
+    html: `
+<div class="fn-header">Day 1 · Athens — Arrival &amp; Transfer</div>
+<div class="fn-subtitle">XNA → DFW → Athens</div>
+
+<div class="fn-section-title">Route Map</div>
+<a class="fn-map-link" onclick="openLightbox('assets/day1-map-aegean.jpg', 'Aegean Sea \u2014 Route Map')">
+  <span class="material-symbols-rounded fn-map-icon">map</span>
+  <span class="fn-map-text"><strong>Aegean Sea Route</strong><br>The islands and ports of the journey ahead</span>
+  <span class="material-symbols-rounded fn-map-arrow">open_in_full</span>
+</a>
+
+<div class="fn-section-title">Your Flights</div>
+<div class="fn-bullet"><strong>AA 3275 &nbsp;·&nbsp; XNA → DFW</strong><br>Departs 11:59 AM · Arrives Dallas/Fort Worth 1:20 PM.</div>
+<div class="fn-bullet"><strong>Layover at DFW</strong> — time to regroup, grab a meal, and unwind in the Capital One lounge before the long haul.</div>
+<div class="fn-bullet"><strong>AA 216 &nbsp;·&nbsp; DFW → ATH</strong> (international)<br>Departs 4:00 PM · Arrives Athens 11:45 AM the next day. Roughly an 11-hour overnight crossing — set your watch ahead and try to sleep on Athens time.</div>
+
+<div class="fn-anchor">
+  <div class="fn-anchor-label">Flying International — Don't Forget</div>
+  <p class="fn-body" style="margin:0 0 8px;"><strong>Passport.</strong> Bring a valid passport issued within the last 10 years. For the Schengen Area (Greece) it must be valid for at least 3 months beyond your departure date — aim for 6 months of validity to be safe.</p>
+  <p class="fn-body" style="margin:0 0 8px;"><strong>ETIAS travel authorization.</strong> Greece is in the Schengen Area, and the EU's ETIAS pre-travel authorization is rolling out for visa-exempt travelers (including U.S. citizens). Apply online in advance, pay the small fee, and link it to your passport. Confirm whether it's required for your July 2026 dates before you fly.</p>
+  <p class="fn-body" style="margin:0;"><strong>Also handy:</strong> your hotel address and transfer voucher (border officers can ask for proof of onward travel and accommodation), a card that works abroad, and any medications in your carry-on. No visa is needed for U.S. citizens for stays under 90 days.</p>
+</div>
+
+<div class="fn-section-title">Airport → Hotel</div>
+<p class="fn-body">A <strong>private arrival transfer</strong> is pre-booked through Viator. After you clear passport control and collect bags, your driver meets you in the arrivals hall with a name sign and takes you straight to the hotel in a private vehicle — no taxi lines, no figuring out the metro after an overnight flight. Keep your booking confirmation/voucher on your phone to show the driver.</p>
+<div class="fn-tip">
+  <div class="fn-tip-label">Transfer Details</div>
+  <p class="fn-body" style="margin:0;">Athens Airport (ATH) to your Athens hotel · private arrival transfer · <a href="https://www.viator.com/tours/Athens/Athens-airport-to-Athens-hotels-Private-arrival-transfer/d496-67222P18" target="_blank" rel="noopener">view booking</a>. If you don't see your driver, check the meeting point on the voucher before wandering — arrivals is busy at midday.</p>
+</div>
+
+<div class="fn-section-title">Where You're Staying</div>
+<div class="fn-bullet"><strong>Tonight (Day 1):</strong> Athens City View Suites — settle in, rest, and shake off the flight.</div>
+<div class="fn-bullet"><strong>From Day 2:</strong> you transfer over to <strong>The Alex Monte Kastella</strong> for the next leg, up in the Kastella neighborhood near the harbor.</div>
+
+<div class="fn-tip">
+  <div class="fn-tip-label">Guide's Tip</div>
+  <p class="fn-body" style="margin:0;">Jet lag is real after an overnight arrival. Get sunlight, stay up until a normal local bedtime, and go easy on the first afternoon. The Acropolis Museum stays open late — a gentle, air-conditioned first taste of Athens if you catch a second wind.</p>
+</div>
+
+<p class="fn-footer">Verify flight times, passport/ETIAS rules, and your transfer meeting point close to departure — these change. Times shown are local to each airport.</p>
+`
+  },
+
   fn_day2: {
     title: "Field Notes — Day 2 · Athens",
     html: `
@@ -5089,7 +5176,75 @@ const SCRIPT_CONTENT = {
 <div class="fn-bullet">Important pilgrimage and biblical tourism destination.</div>
 <div class="fn-footer">Source: Joshua Project</div>
 `
-  }
+  },
+
+  fn_day9: {
+    title: "Field Notes — Day 9 · Heading Home",
+    html: `
+<div class="fn-header">Day 9 · At Sea — Homeward Prep</div>
+<div class="fn-subtitle">Athens → Chicago → Fayetteville</div>
+<p class="fn-body" style="margin-top:12px;">Enjoy the sea day &mdash; and use a quiet moment to get set for tomorrow&rsquo;s long trip home. Here&rsquo;s the plan.</p>
+
+<div class="fn-section-title">Your Flights Home</div>
+<div class="fn-bullet"><strong>AA 161 &nbsp;·&nbsp; ATH → ORD</strong> (international)<br>Departs Athens 11:15 AM · Arrives Chicago (O'Hare) 2:55 PM the same day. About 11½ hours in the air — a long westbound leg with the sun chasing you the whole way.</div>
+<div class="fn-bullet"><strong>Connect at O'Hare.</strong> Chicago is your first U.S. soil, so you clear immigration and customs here: collect your checked bags, pass through customs, re-drop the bags, and clear security again before the domestic gate. Build in time and don't dawdle.</div>
+<div class="fn-bullet"><strong>AA 3846 &nbsp;·&nbsp; ORD → XNA</strong><br>Departs Chicago 4:59 PM · Arrives Northwest Arkansas (XNA) 7:00 PM. Home.</div>
+
+<div class="fn-anchor">
+  <div class="fn-anchor-label">Mind the Time Change</div>
+  <p class="fn-body" style="margin:0 0 8px;">Athens runs <strong>8 hours ahead</strong> of Arkansas (Athens is on EEST / UTC+3; home is on Central / UTC−5). That's why you leave Athens at 11:15 AM and land in Chicago at 2:55 PM <em>the same calendar day</em>, even after ~11½ hours of flying — you effectively get those 8 hours back.</p>
+  <p class="fn-body" style="margin:0;">End to end, though, it's a marathon: from disembarking around 7:00 AM in Piraeus to walking in the door at 7:00 PM Central is roughly a full 24-hour stretch on the clock. Expect jet lag in reverse — you'll feel ready for bed in the early evening for a few days. Sunlight and a normal local bedtime help you reset.</p>
+</div>
+
+<div class="fn-section-title">Port → Airport</div>
+<p class="fn-body">A <strong>private transfer</strong> from the port to Athens Airport (ATH) is pre-booked. After you disembark in Piraeus (~7:00 AM), your driver takes you straight to the airport — roughly a 45-minute ride — so you're not juggling taxis with all your luggage on departure morning. Keep your booking confirmation/voucher on your phone and confirm the pickup point.</p>
+<div class="fn-tip">
+  <div class="fn-tip-label">Transfer Details</div>
+  <p class="fn-body" style="margin:0;">Piraeus port to Athens Airport (ATH) · private transfer · <a href="https://www.viator.com/tours/Athens/Athens-airport-to-Athens-hotels-Private-arrival-transfer/d496-67222P18" target="_blank" rel="noopener">view booking</a>. Have passports and boarding passes easy to reach before you load up.</p>
+</div>
+
+<div class="fn-tip">
+  <div class="fn-tip-label">Guide's Tip</div>
+  <p class="fn-body" style="margin:0;">Pack the night before so the early disembark is painless. Refill water after security on each leg, keep meds, chargers, and the passport in your carry-on, and download something to watch for the long Atlantic crossing. A short walk during the O'Hare connection does wonders for the legs.</p>
+</div>
+
+<p class="fn-footer">Verify flight times, your transfer pickup, and connection details close to departure — these change. Times shown are local to each airport.</p>
+`
+  },
+
+  fn_day10: {
+    title: "Field Notes — Day 10 · Heading Home",
+    html: `
+<div class="fn-header">Day 10 · Heading Home</div>
+<div class="fn-subtitle">Athens → Chicago → Fayetteville</div>
+
+<div class="fn-section-title">Your Flights Home</div>
+<div class="fn-bullet"><strong>AA 161 &nbsp;·&nbsp; ATH → ORD</strong> (international)<br>Departs Athens 11:15 AM · Arrives Chicago (O'Hare) 2:55 PM the same day. About 11½ hours in the air — a long westbound leg with the sun chasing you the whole way.</div>
+<div class="fn-bullet"><strong>Connect at O'Hare.</strong> Chicago is your first U.S. soil, so you clear immigration and customs here: collect your checked bags, pass through customs, re-drop the bags, and clear security again before the domestic gate. Build in time and don't dawdle.</div>
+<div class="fn-bullet"><strong>AA 3846 &nbsp;·&nbsp; ORD → XNA</strong><br>Departs Chicago 4:59 PM · Arrives Northwest Arkansas (XNA) 7:00 PM. Home.</div>
+
+<div class="fn-anchor">
+  <div class="fn-anchor-label">Mind the Time Change</div>
+  <p class="fn-body" style="margin:0 0 8px;">Athens runs <strong>8 hours ahead</strong> of Arkansas (Athens is on EEST / UTC+3; home is on Central / UTC−5). That's why you leave Athens at 11:15 AM and land in Chicago at 2:55 PM <em>the same calendar day</em>, even after ~11½ hours of flying — you effectively get those 8 hours back.</p>
+  <p class="fn-body" style="margin:0;">End to end, though, it's a marathon: from disembarking around 7:00 AM in Piraeus to walking in the door at 7:00 PM Central is roughly a full 24-hour stretch on the clock. Expect jet lag in reverse — you'll feel ready for bed in the early evening for a few days. Sunlight and a normal local bedtime help you reset.</p>
+</div>
+
+<div class="fn-section-title">Port → Airport</div>
+<p class="fn-body">A <strong>private transfer</strong> from the port to Athens Airport (ATH) is pre-booked. After you disembark in Piraeus (~7:00 AM), your driver takes you straight to the airport — roughly a 45-minute ride — so you're not juggling taxis with all your luggage on departure morning. Keep your booking confirmation/voucher on your phone and confirm the pickup point.</p>
+<div class="fn-tip">
+  <div class="fn-tip-label">Transfer Details</div>
+  <p class="fn-body" style="margin:0;">Piraeus port to Athens Airport (ATH) · private transfer · <a href="https://www.viator.com/tours/Athens/Athens-airport-to-Athens-hotels-Private-arrival-transfer/d496-67222P18" target="_blank" rel="noopener">view booking</a>. Have passports and boarding passes easy to reach before you load up.</p>
+</div>
+
+<div class="fn-tip">
+  <div class="fn-tip-label">Guide's Tip</div>
+  <p class="fn-body" style="margin:0;">Pack the night before so the early disembark is painless. Refill water after security on each leg, keep meds, chargers, and the passport in your carry-on, and download something to watch for the long Atlantic crossing. A short walk during the O'Hare connection does wonders for the legs.</p>
+</div>
+
+<p class="fn-footer">Verify flight times, your transfer pickup, and connection details close to departure — these change. Times shown are local to each airport.</p>
+`
+  },
+
 };
 
 /* ═══════════════════════════════════════════════════
