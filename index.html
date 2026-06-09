@@ -5407,10 +5407,16 @@ function closeUploadSheet() {
 }
 
 function triggerPhotoInput() {
-  document.getElementById('photo-file-input').click();
+  // Reset value BEFORE opening the picker so re-selecting the same photo still
+  // fires 'change'. (Never clear it inside the change handler on iOS — that
+  // invalidates the selected File and breaks the preview/upload.)
+  const inp = document.getElementById('photo-file-input');
+  inp.onchange = _onPhotoChange;   // bind here: the input is parsed after the main script
+  inp.value = '';
+  inp.click();
 }
 
-document.getElementById('photo-file-input').addEventListener('change', async function(e) {
+function _onPhotoChange(e) {
   const file = e.target.files && e.target.files[0];
   if (!file) return;
   _uploadFile = file;
@@ -5425,21 +5431,14 @@ document.getElementById('photo-file-input').addEventListener('change', async fun
   img.style.display = 'none';
   submitBtn.disabled = true;
 
-  // Free the input immediately so re-picking the same photo fires change again.
-  e.target.value = '';
 
-  // Compress NOW (memory-light) instead of building a huge base64 string via
-  // FileReader. On iOS, a multi-MB photo turned into a data URL on top of this
-  // already-large page triggers a memory-pressure reload that wipes state.
-  try {
-    _uploadBlob = await _compressImage(file, 1400, 0.82);
-  } catch (err) {
-    _uploadBlob = file; // fall back to original if compression fails
-  }
-
-  // Preview the small compressed blob via an object URL (no base64 in memory).
+  // Preview the ORIGINAL file via a lightweight object URL (no canvas decode,
+  // no base64) so selection stays memory-cheap on iOS and can't fail/evict the
+  // page. Compression is deferred to submit time (submitPhoto compresses
+  // _uploadFile when _uploadBlob is null).
+  _uploadBlob = null;
   if (_previewUrl) { URL.revokeObjectURL(_previewUrl); }
-  _previewUrl = URL.createObjectURL(_uploadBlob);
+  _previewUrl = URL.createObjectURL(file);
 
   hint.innerHTML = '<span class="material-symbols-rounded">add_photo_alternate</span><span>Tap to choose a photo</span>';
 
@@ -5455,7 +5454,7 @@ document.getElementById('photo-file-input').addEventListener('change', async fun
     submitBtn.disabled = false;
   };
   img.src = _previewUrl;
-});
+}
 
 function _compressImage(file, maxPx, quality) {
   return new Promise((resolve, reject) => {
