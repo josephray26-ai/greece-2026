@@ -1625,6 +1625,9 @@ const TRIP_DATA = {
       },
       infoImage: "assets/day1-info.jpg",
       fieldNotesId: "fn_day1",
+      maps: [
+        { name: "Aegean Sea map", img: "assets/day1-map-aegean.jpg" }
+      ],
       podcast: null
     },
     {
@@ -2248,7 +2251,7 @@ function renderDayDetail(dayNum) {
             <span class="material-symbols-rounded">article</span>Open Field Notes
           </button>
           ${day.maps ? day.maps.map(m => `
-            <a ${m.key ? `onclick="openLightbox(DAY8_MAPS['${m.key}'],'${m.name}')"` : `href="${m.file}" target="_blank" rel="noopener"`} style="${m.key ? 'cursor:pointer;' : ''}display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--md-sys-color-primary);text-decoration:none;margin-top:10px;">
+            <a ${m.img ? `onclick="openLightbox('${m.img}','${m.name}')"` : m.key ? `onclick="openLightbox(DAY8_MAPS['${m.key}'],'${m.name}')"` : `href="${m.file}" target="_blank" rel="noopener"`} style="${(m.img || m.key) ? 'cursor:pointer;' : ''}display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--md-sys-color-primary);text-decoration:none;margin-top:10px;">
               <span class="material-symbols-rounded" style="font-size:15px;">map</span>${m.name}
             </a>
           `).join('') : ''}
