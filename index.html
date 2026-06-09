@@ -2275,7 +2275,7 @@ function buildPodcastPlayerHTML(podcast, id) {
         </div>
       </div>
       <div class="podcast-links">
-        ${podcast.scriptId ? `<button class="text-btn" onclick="openScriptModal('${podcast.scriptId}')"><span class="material-symbols-rounded">description</span>View Script</button>` : ''}
+        ${podcast.scriptId ? `<button class="text-btn" onclick="openScriptModal('${podcast.scriptId}')"><span class="material-symbols-rounded">description</span>Read Interview</button>` : ''}
         ${podcast.video ? `<button class="text-btn" onclick="openVideoModal('${esc(podcast.video)}')"><span class="material-symbols-rounded">play_circle</span>Watch Video</button>` : ''}
       </div>
     </div>
@@ -2471,7 +2471,7 @@ function buildPodcastCards() {
       </div>
       ${(p.scriptId || p.video || p.bibleProjectLinks) ? `
         <div class="podcast-links">
-          ${p.scriptId ? `<button class="text-btn" onclick="openScriptModal('${p.scriptId}')"><span class="material-symbols-rounded">description</span>View Script</button>` : ''}
+          ${p.scriptId ? `<button class="text-btn" onclick="openScriptModal('${p.scriptId}')"><span class="material-symbols-rounded">description</span>Read Interview</button>` : ''}
           ${p.video ? `<button class="text-btn" onclick="openVideoModal('${p.video}')"><span class="material-symbols-rounded">play_circle</span>Watch Video</button>` : ''}
           ${p.bibleProjectLinks ? p.bibleProjectLinks.map(l => `<a href="${l.url}" target="_blank" rel="noopener" class="text-btn" style="text-decoration:none;"><span class="material-symbols-rounded">open_in_new</span>${esc(l.name)}</a>`).join('') : ''}
         </div>
