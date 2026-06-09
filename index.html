@@ -83,10 +83,10 @@ a { color: var(--md-sys-color-primary); }
   z-index: 100;
   background: var(--md-sys-color-surface);
   box-shadow: var(--md-sys-elevation-2);
-  height: 64px;
+  height: calc(56px + env(safe-area-inset-top, 0px));
+  padding: env(safe-area-inset-top, 0px) 8px 0 16px;
   display: flex;
   align-items: center;
-  padding: 0 8px 0 16px;
   gap: 8px;
   transition: background 0.3s;
 }
