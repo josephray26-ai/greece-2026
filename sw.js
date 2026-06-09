@@ -2,7 +2,7 @@
 // Precaches the app shell + displayed images so the app works offline after
 // the first online visit. Audio/video stream (not precached). The unused
 // full-size day itinerary PNGs are intentionally excluded.
-const CACHE = 'greece-2026-v18';
+const CACHE = 'greece-2026-v19';
 const PRECACHE = [
   "./",
   "index.html",
@@ -24,9 +24,18 @@ const PRECACHE = [
   "assets/day8-map-philippi.jpg",
   "assets/day8-map-thessaloniki.jpg",
   "assets/day9-info.jpg",
+  "assets/hero-1.jpg",
+  "assets/hero-10.jpg",
+  "assets/hero-2.jpg",
+  "assets/hero-3.jpg",
+  "assets/hero-4.jpg",
+  "assets/hero-5.jpg",
+  "assets/hero-6.jpg",
+  "assets/hero-7.jpg",
+  "assets/hero-8.jpg",
+  "assets/hero-9.jpg",
   "assets/hero-logo.png",
   "assets/home-aerial.jpg",
-  "assets/home-hero.jpg",
   "assets/icon-192.png",
   "assets/icon-512.png"
 ];
@@ -54,8 +63,8 @@ self.addEventListener('fetch', (e) => {
   const req = e.request;
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
-  if (url.origin !== self.location.origin) return;          // let CDN/Firebase pass
-  if (/\.(m4a|mp4|mov)$/i.test(url.pathname)) return;        // don't cache big media
+  if (url.origin !== self.location.origin) return;
+  if (/\.(m4a|mp4|mov)$/i.test(url.pathname)) return;
 
   e.respondWith(
     caches.match(req).then((cached) => {
