@@ -1242,7 +1242,8 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
 .gallery-overlay.open { transform: translateX(0); }
 .gallery-app-bar {
   display: flex; align-items: center;
-  height: 64px; padding: 0 8px 0 4px; gap: 8px;
+  height: calc(64px + env(safe-area-inset-top, 0px));
+  padding: env(safe-area-inset-top, 0px) 8px 0 4px; gap: 8px;
   background: var(--md-sys-color-surface);
   box-shadow: var(--md-sys-elevation-2);
   flex-shrink: 0; z-index: 10;
