@@ -659,6 +659,32 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   padding-top: 2px;
 }
 .schedule-activity { font-size: 14px; color: var(--md-sys-color-on-surface); line-height: 1.5; flex: 1; }
+.schedule-summary {
+  font-size: 12px; color: var(--md-sys-color-on-surface-variant);
+  letter-spacing: 0.02em; padding: 4px 16px 12px;
+  border-bottom: 1px solid var(--md-sys-color-outline-variant);
+}
+.schedule-item--minor { padding: 8px 16px 8px 28px; }
+.schedule-item--minor .schedule-time { font-size: 12px; font-weight: 500; color: var(--md-sys-color-on-surface-variant); opacity: 0.85; }
+.schedule-item--minor .schedule-activity { font-size: 13px; color: var(--md-sys-color-on-surface-variant); }
+.schedule-expander {
+  display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%;
+  padding: 12px 16px; background: none; border: none;
+  border-top: 1px solid var(--md-sys-color-outline-variant);
+  cursor: pointer; font-size: 13px; font-weight: 600;
+  color: var(--md-sys-color-primary); font-family: inherit; box-sizing: border-box;
+}
+.schedule-expander-count { font-weight: 500; opacity: 0.7; margin-left: 2px; }
+.hl-omega {
+  margin-left: auto; flex-shrink: 0; align-self: center;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: none; border: none; padding: 2px; cursor: pointer;
+  color: var(--md-sys-color-on-surface-variant); opacity: 0.38;
+  transition: opacity .15s, color .15s, transform .1s;
+  -webkit-tap-highlight-color: transparent;
+}
+.hl-omega:active { transform: scale(0.88); }
+.hl-omega--on { color: var(--md-sys-color-primary); opacity: 1; }
 .schedule-edit-toggle {
   margin-left: auto; display: inline-flex; align-items: center; gap: 4px;
   font-size: 12px; font-weight: 600; color: var(--md-sys-color-primary);
@@ -1409,7 +1435,7 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
       </div>
       <div class="home-hero-content">
         <div class="hero-eyebrow fade-up">Greece 2026 &nbsp;&middot;&nbsp; T&amp;T Expedition</div>
-        <div class="hero-h1 fade-up delay-1">Mediterranean<br><em>Adventure</em></div>
+        <div class="hero-h1 fade-up delay-1">Aegean Sea<br><em>Adventure</em></div>
         <div class="hero-tagline fade-up delay-2">July 8–18, 2026 &nbsp;&middot;&nbsp; Athens → Greek Islands</div>
         <div class="hero-meta-row fade-up delay-3">
           <span class="hero-pill accent" id="heroCountdownPill">— days away</span>
@@ -1588,10 +1614,15 @@ const TRIP_DATA = {
       location: "Travel",
       itineraryImage: "Day 0.png",
       schedule: [
-        { time: "10:30 AM", activity: "Arrive at XNA for flight" },
-        { time: "11:56 AM", activity: "Flight leaves for Dallas" },
+        { time: "9:00 AM",  activity: "Get packed and ready to go!" },
+        { time: "10:00 AM", activity: "Head to the airport" },
+        { time: "10:30 AM", activity: "Arrive at XNA for flight", highlight: true },
+        { time: "11:56 AM", activity: "Flight leaves for Dallas", highlight: true },
         { time: "1:30 PM",  activity: "Hang out in Capital One lounge" },
-        { time: "3:30 PM",  activity: "Board international flight to Athens (4pm flight) — 11hr 45min flight time (CST arrival 3:45 AM)" }
+        { time: "3:30 PM",  activity: "Board international flight to Athens — 11hr 45min flight time", highlight: true },
+        { time: "4:00 PM",  activity: "Flight takes off for Athens" },
+        { time: "7:00 PM",  activity: "In-flight meal service" },
+        { time: "9:00 PM",  activity: "Try to get some sleep, flight arrives 4am on our internal clock", highlight: true }
       ],
       bibleKnowledge: null,
       infoImage: "assets/day0-info.jpg",
@@ -1605,10 +1636,14 @@ const TRIP_DATA = {
       location: "Athens, Greece",
       itineraryImage: "assets/day1-itinerary.png",
       schedule: [
-        { time: "11:45 AM", activity: "Arrive in Athens — car service to hotel" },
-        { time: "12:45 PM", activity: "Check in at Athens City View Suites Hotel" },
-        { time: "1:00 PM",  activity: "Rest and decompress from long flight" },
-        { time: "5:00 PM",  activity: "Grab dinner and explore the city (Acropolis Museum open until 10pm)" }
+        { time: "8:00 AM",  activity: "Did anyone actually sleep?" },
+        { time: "9:00 AM",  activity: "Lights on in the main cabin" },
+        { time: "11:45 AM", activity: "Arrive in Athens — car service to hotel", highlight: true },
+        { time: "12:45 PM", activity: "Check in at Athens City View Suites Hotel", highlight: true },
+        { time: "1:00 PM",  activity: "Rest and decompress from long flight", highlight: true },
+        { time: "5:00 PM",  activity: "Grab dinner and explore the city (Acropolis Museum open until 10pm)", highlight: true },
+        { time: "7:00 PM",  activity: "Get out the local shopping scene" },
+        { time: "8:00 PM",  activity: "Acropolis Museum maybe?" }
       ],
       bibleKnowledge: {
         title: "Biblical Greece — The Setting of Acts",
@@ -1638,11 +1673,11 @@ const TRIP_DATA = {
       location: "Athens, Greece",
       itineraryImage: "assets/day2-itinerary.png",
       schedule: [
-        { time: "8:00 AM",  activity: "Meet for breakfast" },
-        { time: "9:00 AM",  activity: "Guided tour: Church of Kapnikarea, Ancient Agora, Roman Agora, Temple of Olympian Zeus, Panathenaic Stadium, Hellenic Parliament, Mount Lycabettus, Academy of Athens, Cenotaph Ceremony, Plaka, Thisseion" },
-        { time: "2:00 PM",  activity: "Tour ends — free explore: Mars Hill (Areopagus), museums" },
+        { time: "8:00 AM",  activity: "Meet for breakfast", highlight: true },
+        { time: "9:00 AM",  activity: "Guided tour: Church of Kapnikarea, Ancient Agora, Roman Agora, Temple of Olympian Zeus, Panathenaic Stadium, Hellenic Parliament, Mount Lycabettus, Academy of Athens, Cenotaph Ceremony, Plaka, Thisseion", highlight: true },
+        { time: "2:00 PM",  activity: "Tour ends — free explore: Mars Hill (Areopagus), museums", highlight: true },
         { time: "6:00 PM",  activity: "Check in at The Alex Morris Kanellis in Piraeus" },
-        { time: "7:00 PM",  activity: "Dinner and explore Piraeus" }
+        { time: "7:00 PM",  activity: "Dinner and explore Piraeus", highlight: true }
       ],
       bibleKnowledge: {
         image: "assets/day2-infographic.jpg",
@@ -1682,11 +1717,11 @@ const TRIP_DATA = {
       location: "Piraeus, Greece",
       itineraryImage: "assets/day3-itinerary.png",
       schedule: [
-        { time: "8:30 AM",  activity: "Meet for breakfast" },
-        { time: "9:30 AM",  activity: "Tour around the coast and ship boarding area" },
+        { time: "8:30 AM",  activity: "Meet for breakfast", highlight: true },
+        { time: "9:30 AM",  activity: "Tour around the coast and ship boarding area", highlight: true },
         { time: "1:00 PM",  activity: "Head to ship for boarding" },
-        { time: "2:00 PM",  activity: "Boarding window begins" },
-        { time: "5:00 PM",  activity: "Ship sets sail — Mediterranean cruise begins!" },
+        { time: "2:00 PM",  activity: "Boarding window begins", highlight: true },
+        { time: "5:00 PM",  activity: "Ship sets sail — Aegean sea adventure begins!", highlight: true },
         { time: "8:30 PM",  activity: "Dinner on board" },
         { time: "10:00 PM", activity: "Club Constellation party" }
       ],
@@ -1729,13 +1764,13 @@ const TRIP_DATA = {
       schedule: [
         { time: "7:30 AM",  activity: "Gangway open" },
         { time: "8:15 AM",  activity: "Board tender to Old Port (~15 min)" },
-        { time: "9:00 AM",  activity: "Shore excursion departs — Ultimate Santorini (9h 30min total)" },
+        { time: "9:00 AM",  activity: "Shore excursion departs — Ultimate Santorini (9h 30min total)", highlight: true },
         { time: "9:00 AM",  activity: "Bus to Oia (~30 min)" },
-        { time: "9:30 AM",  activity: "Oia — cobblestone streets, blue-domed churches & caldera views (2h 15min)" },
+        { time: "9:30 AM",  activity: "Oia — cobblestone streets, blue-domed churches & caldera views (2h 15min)", highlight: true },
         { time: "11:45 AM", activity: "Bus to Fira (~30 min)" },
-        { time: "12:15 PM", activity: "Fira — shops, cafes, art galleries & caldera views (2h)" },
+        { time: "12:15 PM", activity: "Fira — shops, cafes, art galleries & caldera views (2h)", highlight: true },
         { time: "2:15 PM",  activity: "Bus to Royal Beach Club Santorini (~45 min)" },
-        { time: "3:00 PM",  activity: "Royal Beach Club Santorini — all-inclusive Greek dining, drinks, beach umbrellas & loungers (3h)" },
+        { time: "3:00 PM",  activity: "Royal Beach Club Santorini — all-inclusive Greek dining, drinks, beach umbrellas & loungers (3h)", highlight: true },
         { time: "6:00 PM",  activity: "Bus back to tender dock (~25 min)" },
         { time: "6:25 PM",  activity: "Tender back to ship (~15 min)" },
         { time: "8:30 PM",  activity: "Dinner on board" },
@@ -1773,11 +1808,11 @@ const TRIP_DATA = {
       itineraryImage: "assets/day5-itinerary.png",
       schedule: [
         { time: "9:30 AM",  activity: "Gangway open" },
-        { time: "10:00 AM", activity: "Shore excursion departs (5h total)" },
+        { time: "10:00 AM", activity: "Shore excursion departs (5h total)", highlight: true },
         { time: "10:00 AM", activity: "Drive through Medieval City walls (pass by)" },
-        { time: "10:10 AM", activity: "Mandraki Harbour — Colossus site, Italian monuments (15 min, free)" },
-        { time: "10:25 AM", activity: "Church of the Annunciation — largest Orthodox church in Rhodes (5 min, free)" },
-        { time: "10:30 AM", activity: "Acropolis of Rhodes / Monte Smith Hill (pass by — panoramic views, Temple of Apollo ruins)" },
+        { time: "10:10 AM", activity: "Mandraki Harbour — Colossus site, Italian monuments (15 min, free)", highlight: true },
+        { time: "10:25 AM", activity: "Church of the Annunciation — largest Orthodox church in Rhodes (5 min, free)", highlight: true },
+        { time: "10:30 AM", activity: "Acropolis of Rhodes / Monte Smith Hill (pass by — panoramic views, Temple of Apollo ruins)", highlight: true },
         { time: "10:50 AM", activity: "Drive south to Lindos (~55 min)" },
         { time: "11:45 AM", activity: "Village of Lindos — panoramic viewpoint & whitewashed village (1h 30min, free)" },
         { time: "1:15 PM",  activity: "Acropolis of Lindos — 116m clifftop above the sea (30 min, admission not included)" },
@@ -1819,10 +1854,10 @@ const TRIP_DATA = {
       itineraryImage: "assets/day6-itinerary.png",
       schedule: [
         { time: "8:30 AM",  activity: "Gangway open" },
-        { time: "9:00 AM",  activity: "Private tour begins: Ephesus Ancient City (5–6 hrs)" },
-        { time: "9:30 AM",  activity: "Ephesus Ancient City — Library of Celsus, Great Theatre, Curetes Street" },
-        { time: "11:30 AM", activity: "House of the Virgin Mary" },
-        { time: "12:30 PM", activity: "Sirince village (optional)" },
+        { time: "9:00 AM",  activity: "Private tour begins: Ephesus Ancient City (5–6 hrs)", highlight: true },
+        { time: "9:30 AM",  activity: "Ephesus Ancient City — Library of Celsus, Great Theatre, Curetes Street", highlight: true },
+        { time: "11:30 AM", activity: "House of the Virgin Mary", highlight: true },
+        { time: "12:30 PM", activity: "Sirince village (optional)", highlight: true },
         { time: "2:30 PM",  activity: "Tour ends — return to Kusadasi Port" },
         { time: "3:30 PM",  activity: "Free time in Kusadasi (optional spa)" },
         { time: "5:00 PM",  activity: "Return to ship" },
@@ -1866,11 +1901,11 @@ const TRIP_DATA = {
       location: "Mykonos, Greece",
       itineraryImage: "assets/day7-itinerary.png",
       schedule: [
-        { time: "7:30 AM",  activity: "Gangway open" },
-        { time: "8:00 AM",  activity: "Disembark at Tourlos, 10 min taxi to Mykonos Old Port and Little Venice" },
-        { time: "9:00 AM",  activity: "Walk through Little Venice & the Windmills" },
+        { time: "7:30 AM",  activity: "Gangway open", highlight: true },
+        { time: "8:00 AM",  activity: "Disembark at Tourlos, 10 min taxi to Mykonos Old Port and Little Venice", highlight: true },
+        { time: "9:00 AM",  activity: "Walk through Little Venice & the Windmills", highlight: true },
         { time: "12:00 PM", activity: "Lunch in town" },
-        { time: "2:00 PM",  activity: "Beach time at Agios Stefanos Beach" },
+        { time: "2:00 PM",  activity: "Beach time at Agios Stefanos Beach", highlight: true },
         { time: "4:30 PM",  activity: "Walk back to ship (~15 mins)" },
         { time: "5:30 PM",  activity: "Gangway closed" },
         { time: "8:30 PM",  activity: "Dinner on board" }
@@ -1907,16 +1942,18 @@ const TRIP_DATA = {
       itineraryImage: "assets/day8-itinerary.png",
       schedule: [
         { time: "8:30 AM",  activity: "Gangway open" },
-        { time: "8:45 AM",  activity: "Pick up rental car" },
+        { time: "8:45 AM",  activity: "Pick up rental car", highlight: true },
+        { time: "9:30 AM",  activity: "Explore Thessaloniki and the biblical stops", highlight: true },
         { time: "10:00 AM", activity: "Arch of Galerius & Rotunda" },
         { time: "10:30 AM", activity: "Church of Saint Demetrius" },
         { time: "10:45 AM", activity: "Roman Forum of Thessaloniki" },
         { time: "11:30 AM", activity: "Depart for Philippi (90 km east)" },
         { time: "12:00 PM", activity: "The Lion of Amphipolis" },
+        { time: "1:00 PM",  activity: "Explore Philippi and the footsteps of Paul", highlight: true },
         { time: "1:15 PM",  activity: "Baptistery of Saint Lydia (River Gangites)" },
         { time: "1:50 PM",  activity: "Archaeological Site of Philippi — Roman Forum, Paul's Prison, Via Egnatia, Early Christian Basilicas, On-site Museum" },
         { time: "4:30 PM",  activity: "Depart Philippi" },
-        { time: "6:15 PM",  activity: "Arrive back in Thessaloniki" },
+        { time: "6:15 PM",  activity: "Arrive back in Thessaloniki", highlight: true },
         { time: "7:45 PM",  activity: "Return to ship" },
         { time: "8:30 PM",  activity: "Dinner on board" },
         { time: "8:30 PM",  activity: "Gangway closed" }
@@ -1963,13 +2000,13 @@ const TRIP_DATA = {
       location: "Mediterranean Sea",
       itineraryImage: "assets/day9-itinerary.png",
       schedule: [
-        { time: "8:00 AM",  activity: "Sleep in & breakfast at leisure" },
-        { time: "10:30 AM", activity: "Pool day & spa treatments" },
+        { time: "8:00 AM",  activity: "Sleep in & breakfast at leisure", highlight: true },
+        { time: "10:30 AM", activity: "Pool day & spa treatments", highlight: true },
         { time: "12:30 PM", activity: "Lunch at poolside restaurant" },
-        { time: "2:00 PM",  activity: "Sea day activities (TBD — check ship schedule)" },
-        { time: "4:00 PM",  activity: "Afternoon tea & cake" },
+        { time: "2:00 PM",  activity: "Sea day activities (TBD — check ship schedule)", highlight: true },
+        { time: "4:00 PM",  activity: "Afternoon naps" },
         { time: "8:00 PM",  activity: "Captain's cocktail party" },
-        { time: "8:30 PM",  activity: "Farewell dinner on board" }
+        { time: "8:30 PM",  activity: "Farewell dinner on board", highlight: true }
       ],
       bibleKnowledge: null,
       infoImage: "assets/day9-info.jpg",
@@ -1987,10 +2024,10 @@ const TRIP_DATA = {
       location: "Athens / Piraeus, Greece",
       itineraryImage: "assets/day10-itinerary.png",
       schedule: [
-        { time: "5:30 AM",  activity: "Gangway open" },
-        { time: "7:00 AM",  activity: "Disembark ship — 45 min car ride to Athens airport" },
-        { time: "10:45 AM", activity: "Board international flight to Chicago (ORD)" },
-        { time: "2:00 PM",  activity: "Arrive in Chicago (local time)" },
+        { time: "5:30 AM",  activity: "Gangway open", highlight: true },
+        { time: "7:00 AM",  activity: "Disembark ship — 45 min car ride to Athens airport", highlight: true },
+        { time: "10:45 AM", activity: "Board international flight to Chicago (ORD)", highlight: true },
+        { time: "2:00 PM",  activity: "Arrive in Chicago (local time)", highlight: true },
         { time: "5:00 PM",  activity: "Flight departs ORD → XNA (Fayetteville)" },
         { time: "7:05 PM",  activity: "Arrive home in Fayetteville, Arkansas" }
       ],
@@ -2181,6 +2218,29 @@ function renderDayDetail(dayNum) {
   const editMode = !!scheduleEditMode[dayNum];
   const schedule = getSchedule(dayNum);
 
+  const _DEFAULT_COUNT = 4; // before the user picks, default to 4 rows (highlights first)
+  const _items = schedule.map((it, i) => ({ time: it.time, activity: it.activity, i, minor: isMinorScheduleItem(it.activity), highlight: !!it.highlight }));
+  const _userPicked = _items.filter(x => x.highlight);
+  const _hasPicks = _userPicked.length > 0;
+  // A row is a highlight by the user's pick once they've starred any; until then, by auto-detection.
+  const _isHi = (x) => _hasPicks ? x.highlight : !x.minor;
+  let _collapsedRows;
+  if (_hasPicks) {
+    _collapsedRows = _userPicked; // show exactly the user's picks (chronological)
+  } else {
+    const _defaultIds = new Set(
+      _items.filter(x => !x.minor).map(x => x.i)
+        .concat(_items.filter(x => x.minor).map(x => x.i))
+        .slice(0, _DEFAULT_COUNT)
+    );
+    _collapsedRows = _items.filter(x => _defaultIds.has(x.i));
+  }
+  const _collapsible = !editMode && _items.length > _collapsedRows.length;
+  const _showFull = !_collapsible || !!scheduleExpanded[dayNum];
+  const _rows = _showFull ? _items : _collapsedRows;
+  const _hiddenCount = _items.length - _collapsedRows.length;
+  const _muteMinor = !editMode && _items.some(_isHi); // don't grey-out a day with no highlights
+
   let html = `
     <div class="day-title-row">
       <h2>${esc(day.title)}</h2>
@@ -2195,27 +2255,34 @@ function renderDayDetail(dayNum) {
           ${editMode ? 'Done' : 'Edit'}
         </button>
       </div>
-      ${schedule.map((item, i) => `
-        <div class="schedule-item">
+      ${!editMode ? `<div class="schedule-summary">${schedule.length ? esc(schedule[0].time) : ''}${schedule.length > 1 ? ' – ' + esc(schedule[schedule.length - 1].time) : ''}</div>` : ''}
+      ${_rows.map(item => `
+        <div class="schedule-item${_showFull && !_isHi(item) && _muteMinor ? ' schedule-item--minor' : ''}">
           <span class="schedule-time">${esc(item.time)}</span>
           <span class="schedule-activity">${esc(item.activity)}</span>
+          ${!editMode ? `<button class="hl-omega${item.highlight ? ' hl-omega--on' : ''}" onclick="toggleHighlight(${dayNum},${item.i})" title="${item.highlight ? 'Remove from highlights' : 'Mark as highlight'}" aria-pressed="${item.highlight}"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 18h4v-2.3a7 7 0 1 1 6 0v2.3h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>` : ''}
           ${editMode ? `
           <div class="schedule-item-actions">
-            <button class="icon-btn" onclick="moveScheduleItem(${dayNum},${i},-1)" title="Move up" ${i === 0 ? 'disabled style="opacity:0.25;"' : ''}>
+            <button class="icon-btn" onclick="moveScheduleItem(${dayNum},${item.i},-1)" title="Move up" ${item.i === 0 ? 'disabled style="opacity:0.25;"' : ''}>
               <span class="material-symbols-rounded" style="font-size:18px;">arrow_upward</span>
             </button>
-            <button class="icon-btn" onclick="moveScheduleItem(${dayNum},${i},1)" title="Move down" ${i === schedule.length - 1 ? 'disabled style="opacity:0.25;"' : ''}>
+            <button class="icon-btn" onclick="moveScheduleItem(${dayNum},${item.i},1)" title="Move down" ${item.i === schedule.length - 1 ? 'disabled style="opacity:0.25;"' : ''}>
               <span class="material-symbols-rounded" style="font-size:18px;">arrow_downward</span>
             </button>
-            <button class="icon-btn" onclick="openScheduleEditor(${dayNum},${i})" title="Edit">
+            <button class="icon-btn" onclick="openScheduleEditor(${dayNum},${item.i})" title="Edit">
               <span class="material-symbols-rounded" style="font-size:18px;">edit</span>
             </button>
-            <button class="icon-btn" onclick="deleteScheduleItem(${dayNum},${i})" title="Delete">
+            <button class="icon-btn" onclick="deleteScheduleItem(${dayNum},${item.i})" title="Delete">
               <span class="material-symbols-rounded" style="font-size:18px;color:var(--md-sys-color-error);">delete</span>
             </button>
           </div>` : ''}
         </div>
       `).join('')}
+      ${_collapsible ? `
+        <button class="schedule-expander" onclick="toggleScheduleExpand(${dayNum})">
+          <span class="material-symbols-rounded" style="font-size:18px;">${_showFull ? 'expand_less' : 'expand_more'}</span>
+          ${_showFull ? 'Hide details' : `Show full schedule <span class="schedule-expander-count">+${_hiddenCount} entries</span>`}
+        </button>` : ''}
       ${editMode ? `
         <button class="schedule-add-btn" onclick="openScheduleEditor(${dayNum},-1)">
           <span class="material-symbols-rounded" style="font-size:18px;">add_circle</span>
@@ -2518,11 +2585,26 @@ let scheduleEdits = JSON.parse(localStorage.getItem('greece2026_scheduleEdits') 
 let scheduleEditMode = {};
 let _schedEditDay = null;
 let _schedEditIdx = null;
+let scheduleExpanded = {}; // keyed by dayNum; falsy = summary view, true = full timeline
+function toggleScheduleExpand(n) { scheduleExpanded[n] = !scheduleExpanded[n]; renderDayDetail(n); }
+function toggleHighlight(dayNum, index) {
+  const sched = getSchedule(dayNum).map(it => ({ ...it }));
+  if (!sched[index]) return;
+  sched[index].highlight = !sched[index].highlight;
+  scheduleEdits[dayNum] = sched;
+  _saveScheduleEdits();
+  renderDayDetail(dayNum);
+}
+function isMinorScheduleItem(activity) {
+  // Logistics / admin / routine rows that should be de-emphasized and hidden from the summary.
+  return /^(gangway|boarding|board |bus |tender |drive |walk back|return to|depart|arrive|disembark|head to|pick up rental|check[ -]?in|flight |meet for|tour ends|hang out|dinner on board|breakfast|lunch\b)/i
+    .test((activity || '').trim());
+}
 
 function getSchedule(dayNum) {
   if (scheduleEdits[dayNum] !== undefined) return scheduleEdits[dayNum];
   const day = TRIP_DATA.days.find(d => d.dayNum === dayNum);
-  return day ? day.schedule.map(i => ({ time: i.time, activity: i.activity })) : [];
+  return day ? day.schedule.map(i => ({ time: i.time, activity: i.activity, highlight: !!i.highlight })) : [];
 }
 
 function _saveScheduleEdits() {
@@ -2577,7 +2659,7 @@ function saveScheduleEditor() {
   if (!activity) return;
   const sched = getSchedule(_schedEditDay);
   if (_schedEditIdx >= 0) {
-    sched[_schedEditIdx] = { time, activity };
+    sched[_schedEditIdx] = { ...sched[_schedEditIdx], time, activity };
   } else {
     sched.push({ time, activity });
   }
