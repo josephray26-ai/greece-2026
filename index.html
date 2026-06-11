@@ -1099,6 +1099,13 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   border-top: 1px solid var(--md-sys-color-outline-variant);
   padding-top: 12px;
 }
+.cr-item {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 14px;
+  padding: 9px 0; border-bottom: 1px solid var(--md-sys-color-outline-variant);
+}
+.cr-item:last-child { border-bottom: none; }
+.cr-name { font-size: 14px; color: var(--md-sys-color-on-surface); line-height: 1.4; }
+.cr-price { flex-shrink: 0; font-size: 13px; font-weight: 600; color: var(--md-sys-color-primary); white-space: nowrap; }
 
 /* ── Script Modal ── */
 .script-modal-overlay {
@@ -4807,6 +4814,106 @@ const SCRIPT_CONTENT = {
 <p class="script-body"><strong>16</strong> Now may the Lord of peace himself give you peace at all times and in every way. The Lord be with all of you.</p>
 <p class="script-body"><strong>17</strong> I, Paul, write this greeting in my own hand, which is the distinguishing mark in all my letters. This is how I write. <strong>18</strong> The grace of our Lord Jesus Christ be with you all.</p>
 <p class="script-note">&#8212; 1 &amp; 2 Thessalonians, New International Version (NIV)</p>
+`
+  },
+
+  /* ── CELEBRITY CRUISE ── */
+
+  cr_day0: {
+    title: "Celebrity Cruise — Slot Tournament",
+    html: `
+<div class="fn-header">Slot Tournament</div>
+<div class="fn-subtitle">From $34.99 / per package</div>
+
+<div class="fn-anchor">
+  <div class="fn-anchor-label">Restrictions</div>
+  <p class="fn-body" style="margin:0;">Minimum age: 18 years.</p>
+</div>
+
+<div class="fn-section-title">Overview</div>
+<p class="fn-body">Enter the exciting slot tournaments happening onboard during your upcoming vacation. Enjoy these exhilarating, action-packed events, with chances to win incredible prizes. Buy pre-cruise to get our best rates on non-stop casino thrills.</p>
+
+<div class="fn-section-title">Important Details &amp; Advisements</div>
+<div class="fn-bullet">Slot Tournament entry ("Offer") applies to purchases made via Cruise Planner no less than three days prior to cruise departure. Tournament entry fee is per seat, per person, per tournament session for the purchased sailing. These pre-cruise offerings are standard tournaments.</div>
+<div class="fn-bullet">Offer limit up to one per person per sailing. Offer must be redeemed at the Casino cage during casino open hours by the guest who purchased the Offer. Redemption is the responsibility of the guest; value of Offer expires at the end of the cruise.</div>
+<div class="fn-bullet">Pre-Cruise purchases made that exceed the maximum purchase of entries will be refunded to the credit card originally used for purchase within seven business days after the original charge was made. Tournament entry is not transferable, not redeemable for cash or onboard credit, for casino game-play only, and must be used at the tournament day and time during the sailing — guests must inquire with a casino representative for the day and time of the tournament session(s).</div>
+<div class="fn-bullet">Promotional packages will not count towards Blue Chip Club loyalty points accumulation. Offer is subject to availability, and a minimum of participants is required. If the minimum of participants is not met prior to the tournament session, tournament fees will be refunded. Offer is subject to change without notice and may be withdrawn at any time. Celebrity Cruises reserves the right to correct any errors, inaccuracies, or omissions.</div>
+
+<p class="fn-footer">Pre-cruise rate shown ($34.99 per package). Purchase through the Celebrity Cruise Planner before sailing for the best rate.</p>
+`
+  },
+
+  cr_day9: {
+    title: "Celebrity Cruise — Spa & Wellness",
+    html: `
+<div class="fn-header">Spa &amp; Wellness</div>
+<div class="fn-subtitle">Celebrity Infinity · onboard spa · pre-cruise rates</div>
+
+<p class="fn-body">Pre-book treatments through the Cruise Planner for the best rates. Prices shown are starting "from" rates per adult; most reflect up to 30% off (injectables up to 10% off).</p>
+
+<div class="fn-section-title">Ladies Services</div>
+<div class="cr-item"><span class="cr-name">The Ultimate Facial - 50 minutes</span><span class="cr-price">From $173.99</span></div>
+<div class="cr-item"><span class="cr-name">Fire &amp; Ice Manicure and Pedicure</span><span class="cr-price">From $124.99</span></div>
+<div class="cr-item"><span class="cr-name">Fire &amp; Ice Manicure and Pedicure with Shellac</span><span class="cr-price">From $150.99</span></div>
+<div class="cr-item"><span class="cr-name">Keratin Complex® Express Blowout - Long Hair</span><span class="cr-price">From $174.99</span></div>
+<div class="cr-item"><span class="cr-name">Keratin Complex® Express Blowout - Short / Medium Hair</span><span class="cr-price">From $138.99</span></div>
+<div class="cr-item"><span class="cr-name">Hair Updo - Medium Hair</span><span class="cr-price">From $68.99</span></div>
+<div class="cr-item"><span class="cr-name">Shampoo and Style Dry - Medium Hair</span><span class="cr-price">From $40.99</span></div>
+<div class="cr-item"><span class="cr-name">Shampoo and Style Dry - Long Hair</span><span class="cr-price">From $62.99</span></div>
+<div class="cr-item"><span class="cr-name">Intensely Cleansing Salt Scrub - 50 minutes</span><span class="cr-price">From $159.99</span></div>
+
+<div class="fn-section-title">Men's Services</div>
+<div class="cr-item"><span class="cr-name">Ultimate Men's Tech Facial &amp; Shave</span><span class="cr-price">From $124.99</span></div>
+<div class="cr-item"><span class="cr-name">Men's Wet Cut and Style Dry</span><span class="cr-price">From $40.99</span></div>
+<div class="cr-item"><span class="cr-name">Dynamic Resurfacing Men's Facial &amp; Shave</span><span class="cr-price">From $110.99</span></div>
+<div class="cr-item"><span class="cr-name">Groom &amp; Go</span><span class="cr-price">From $68.99</span></div>
+
+<div class="fn-section-title">Couples Services</div>
+<div class="cr-item"><span class="cr-name">Persian Garden 7-Day Cruise Pass</span><span class="cr-price">From $229.00</span></div>
+<div class="cr-item"><span class="cr-name">Aroma Stone Therapy - 75 minutes</span><span class="cr-price">From $180.99</span></div>
+<div class="cr-item"><span class="cr-name">Aroma Stone Therapy - 100 minutes</span><span class="cr-price">From $229.99</span></div>
+<div class="cr-item"><span class="cr-name">Deep Tissue Muscle Massage - 75 minutes</span><span class="cr-price">From $166.99</span></div>
+<div class="cr-item"><span class="cr-name">Aroma Spa Seaweed Massage - 100 minutes</span><span class="cr-price">From $243.99</span></div>
+<div class="cr-item"><span class="cr-name">Bamboo Massage - 75 minutes</span><span class="cr-price">From $180.99</span></div>
+<div class="cr-item"><span class="cr-name">Hot Mineral Body Boost</span><span class="cr-price">From $194.99</span></div>
+<div class="cr-item"><span class="cr-name">Poultice-Powered Muscle Release</span><span class="cr-price">From $194.99</span></div>
+<div class="cr-item"><span class="cr-name">R3 - Pain Management Therapy - 100 minutes</span><span class="cr-price">From $243.99</span></div>
+<div class="cr-item"><span class="cr-name">Zero Gravity Wellness Massage</span><span class="cr-price">From $180.99</span></div>
+<div class="cr-item"><span class="cr-name">SLIM IV</span><span class="cr-price">From $208.99</span></div>
+<div class="cr-item"><span class="cr-name">DYSPORT - Ultimate Wrinkle Remedy</span><span class="cr-price">From $1,348.99</span></div>
+<div class="cr-item"><span class="cr-name">DYSPORT - Wrinkle Reduction</span><span class="cr-price">From $898.99</span></div>
+<div class="cr-item"><span class="cr-name">Medi-Spa Aesthetic Facial Consultation</span><span class="cr-price">Free consultation</span></div>
+<div class="cr-item"><span class="cr-name">Thermage Consultation</span><span class="cr-price">Free consultation</span></div>
+<div class="cr-item"><span class="cr-name">Weight Loss Acupuncture</span><span class="cr-price">From $139.00</span></div>
+<div class="cr-item"><span class="cr-name">Sea Sickness Acupuncture</span><span class="cr-price">From $139.00</span></div>
+<div class="cr-item"><span class="cr-name">Stress-free Acupuncture</span><span class="cr-price">From $139.00</span></div>
+<div class="cr-item"><span class="cr-name">Just to Try Acupuncture</span><span class="cr-price">From $139.00</span></div>
+
+<p class="fn-footer">Starting prices, subject to availability and change. Some treatments carry age or health restrictions — confirm onboard. Book via the Celebrity Cruise Planner.</p>
+`
+  },
+
+  cr_day3: {
+    title: "Celebrity Cruise — Dining Dress Code",
+    html: `
+<div class="fn-header">Dining Dress Code</div>
+<div class="fn-subtitle">Celebrity Infinity · what to wear at dinner</div>
+
+<div class="fn-section-title">What's the dress code? Do we have to dress up?</div>
+<p class="fn-body">Smart Casual attire is required for entry to main dining, specialty dining, and the Celebrity Theatre. Smart Casual means you look comfortable yet tasteful in a dress, skirt, long pants, or jean, and a stylish top or button-down. Shorts and flip flops are not considered Smart Casual. Each itinerary features one to two "formal" nights we call Evening Chic. Evening Chic means you dress to impress, glamorous and sophisticated in your own way, with a cocktail dress, skirt, slacks, or designer jean, an elegant dress top or blazer — some guests even pack a tuxedo or gown for onboard photos. The Daily program, delivered to your stateroom and available at the Guest Relations Desk, will be your guide to the correct attire each evening. If you do not wish to participate in Evening Chic, Smart Casual attire is acceptable for dining and theater.</p>
+
+<div class="fn-section-title">What's appropriate for dinner onboard?</div>
+<p class="fn-body">Most nights, Smart Casual attire is appropriate for dinner in the Main Dining Room(s). On an Evening Chic night, women should feel comfortable in cocktail dresses, skirts, pants or designer jeans with an elegant top. Men should feel comfortable in pants, designer jeans, a long-sleeved or button-down shirt, sweaters, sport coats or blazers.</p>
+
+<div class="fn-section-title">How many formal nights are there?</div>
+<p class="fn-body">For 6-night cruises or less, there is 1 Evening Chic night. For 7 nights or longer, there are 2 Evening Chic nights. While tuxedos and formal attire are still appropriate, they are not required — guests are comfortable in both formal wear and a dressier smart casual style. Jackets are not required.</p>
+
+<div class="fn-tip">
+  <div class="fn-tip-label">For our sailing</div>
+  <p class="fn-body" style="margin:0;">Our cruise runs 7 nights (Jul 11–18), so expect <strong>2 Evening Chic nights</strong>. Check the Daily program in the stateroom for the attire each evening.</p>
+</div>
+
+<p class="fn-footer">Guidance from Celebrity Cruises. The Daily program is the final word on each evening's dress code.</p>
 `
   },
 
