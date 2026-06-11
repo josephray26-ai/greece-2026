@@ -590,8 +590,8 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
 #section-itinerary { padding: 12px 0 0; }
 .day-chips-scroll {
   display: flex;
-  gap: 8px;
-  padding: 0 16px 12px;
+  gap: 10px;
+  padding: 4px 16px 14px;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
@@ -599,11 +599,14 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
 .day-chips-scroll::-webkit-scrollbar { display: none; }
 .day-chip {
   flex-shrink: 0;
-  height: 32px;
-  padding: 0 16px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  padding: 0 22px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
   border: 1.5px solid var(--md-sys-color-outline);
   color: var(--md-sys-color-on-surface-variant);
   background: transparent;
@@ -617,6 +620,8 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   border-color: var(--md-sys-color-primary);
 }
 .day-detail { padding: 0 16px 16px; }
+.day-detail.day-fade { animation: dayFade 0.22s ease; }
+@keyframes dayFade { from { opacity: 0.35; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 .day-hero-img {
   width: 100%;
   border-radius: 16px;
@@ -2204,6 +2209,37 @@ function buildDayChips() {
   });
 }
 
+// Axis-locked horizontal swipe to move between days (won't fire on vertical scroll).
+function initDaySwipe() {
+  const el = document.getElementById('dayDetail');
+  if (!el) return;
+  let x0 = null, y0 = null, t0 = 0, lock = null;
+  el.addEventListener('touchstart', (e) => {
+    if (e.touches.length !== 1) { x0 = null; return; }
+    x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; t0 = Date.now(); lock = null;
+  }, { passive: true });
+  el.addEventListener('touchmove', (e) => {
+    if (x0 === null) return;
+    const dx = e.touches[0].clientX - x0, dy = e.touches[0].clientY - y0;
+    if (lock === null && (Math.abs(dx) > 10 || Math.abs(dy) > 10)) {
+      lock = Math.abs(dx) > Math.abs(dy) ? 'h' : 'v';
+    }
+  }, { passive: true });
+  el.addEventListener('touchend', (e) => {
+    if (x0 === null) return;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - x0, dy = t.clientY - y0, dt = Date.now() - t0;
+    x0 = null;
+    // Only a deliberate horizontal flick: locked horizontal, far enough, clearly sideways, quick-ish.
+    if (lock === 'h' && Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 2 && dt < 700) {
+      const days = TRIP_DATA.days.map(d => d.dayNum);
+      const idx = days.indexOf(activeDay);
+      if (dx < 0 && idx < days.length - 1) setActiveDay(days[idx + 1]);
+      else if (dx > 0 && idx > 0) setActiveDay(days[idx - 1]);
+    }
+  }, { passive: true });
+}
+
 function setActiveDay(num) {
   activeDay = num;
   document.querySelectorAll('.day-chip').forEach(c => {
@@ -2213,6 +2249,8 @@ function setActiveDay(num) {
   const activeChip = document.querySelector(`.day-chip[data-day="${num}"]`);
   if (activeChip) activeChip.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
   renderDayDetail(num);
+  const dd = document.getElementById('dayDetail');
+  if (dd) { dd.classList.remove('day-fade'); void dd.offsetWidth; dd.classList.add('day-fade'); }
 }
 
 function renderDayDetail(dayNum) {
@@ -2331,6 +2369,21 @@ function renderDayDetail(dayNum) {
       </div>
     `;
   }
+
+  html += `
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-content">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+          <span class="material-symbols-rounded" style="color:var(--md-sys-color-tertiary);font-size:20px;">directions_boat</span>
+          <span style="font-size:14px;font-weight:600;color:var(--md-sys-color-on-surface);">Celebrity Cruise</span>
+        </div>
+        <div style="font-size:13px;color:var(--md-sys-color-on-surface-variant);line-height:1.55;margin-bottom:12px;">What to wear, where to be, when to be there.</div>
+        <button class="text-btn" style="margin:0;padding:0;" onclick="openCruise(${day.dayNum})">
+          <span class="material-symbols-rounded">sailing</span>Open Cruise Details
+        </button>
+      </div>
+    </div>
+  `;
 
   if (day.infoImage) {
     html += `
@@ -5359,6 +5412,16 @@ function openScriptModal(id) {
   document.getElementById('script-modal').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
+// Celebrity Cruise day info — same modal as Field Notes; content keyed cr_day<N>, added later.
+function openCruise(dayNum) {
+  const s = SCRIPT_CONTENT['cr_day' + dayNum];
+  document.getElementById('script-modal-title').textContent = s ? s.title : 'Celebrity Cruise';
+  document.getElementById('script-modal-body').innerHTML = s ? s.html
+    : '<div class="fn-header">Celebrity Cruise</div><p class="fn-body" style="padding:18px 0;color:var(--md-sys-color-on-surface-variant);">Details for this day are coming soon.</p>';
+  applyScriptFontScale();
+  document.getElementById('script-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
 function openVideoModal(src) {
   const v = document.getElementById('video-el');
   v.src = src;
@@ -5459,6 +5522,7 @@ function init() {
   updateCountdown();
   buildDestinationChips();
   buildDayChips();
+  initDaySwipe();
   setActiveDay(1);
   buildBiblicalCards();
   initHomeCtas();
