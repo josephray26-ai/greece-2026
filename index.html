@@ -2388,6 +2388,9 @@ function renderDayDetail(dayNum) {
         <button class="text-btn" style="margin:0;padding:0;" onclick="openCruise(${day.dayNum})">
           <span class="material-symbols-rounded">sailing</span>Open Cruise Details
         </button>
+        <a href="assets/cruise-details.pdf" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--md-sys-color-primary);text-decoration:none;margin-top:10px;">
+          <span class="material-symbols-rounded" style="font-size:16px;">picture_as_pdf</span>Cruise Details (PDF)
+        </a>
       </div>
     </div>
   `;
@@ -4938,7 +4941,7 @@ const SCRIPT_CONTENT = {
   },
 
   cr_day3: {
-    title: "Celebrity Cruise — Dining Dress Code",
+    title: "Celebrity Cruise — Onboard Essentials",
     html: `
 <div class="fn-header">Dining Dress Code</div>
 <div class="fn-subtitle">Celebrity Infinity · what to wear at dinner</div>
@@ -4958,6 +4961,108 @@ const SCRIPT_CONTENT = {
 </div>
 
 <p class="fn-footer">Guidance from Celebrity Cruises. The Daily program is the final word on each evening's dress code.</p>
+
+<div class="fn-header">Seasickness</div>
+<div class="fn-section-title">Do you provide anything if I feel seasick?</div>
+<p class="fn-body">Yes — Bonine (meclizine) is available onboard all ships, 24 hours a day, at no charge to guests who are feeling seasick. Visit the Medical Facility or the Guest Relations Desk to obtain it.</p>
+
+<div class="fn-header">Lost &amp; Found</div>
+<div class="fn-section-title">I left a personal item onboard — is there a Lost &amp; Found?</div>
+<p class="fn-body">Yes. Celebrity makes every effort to recover lost items and conducts thorough investigations. Begin the process through the Lost &amp; Found link; the team conducts an extensive search and provides a response within 5 days.</p>
+
+<div class="fn-header">Onboard Religious Services</div>
+<div class="fn-section-title">Will I be able to attend Catholic Mass onboard?</div>
+<p class="fn-body">Religious services are offered for Catholic and Jewish faiths, plus Interdenominational services during major religious holidays. Guests of all faiths can host their own spiritual fellowship or group gathering by inquiring with the Guest Relations Desk onboard.</p>
+
+<div class="fn-header">Travel Documents</div>
+<div class="fn-subtitle">Celebrity Infinity · passports &amp; ID</div>
+
+<div class="fn-tip">
+  <div class="fn-tip-label">For our sailing</div>
+  <p class="fn-body" style="margin:0;">Because this cruise embarks in Greece (not a U.S. port), a valid <strong>passport is required for everyone</strong>. The U.S. birth-certificate option below applies only to cruises departing from the U.S.</p>
+</div>
+
+<div class="fn-section-title">Do I need a passport to cruise?</div>
+<p class="fn-body">Everyone must present an accepted form of identification to board. Celebrity strongly recommends a passport for all guests on boarding day, and for some guests it is required. The passport must be valid for six months after the day your cruise ends, and the name should match your reservation. A passport is the best option because:</p>
+<div class="fn-bullet">It's the hassle-free, gold standard for traveling between countries.</div>
+<div class="fn-bullet">Boarding and clearing customs is usually faster than with other ID documents.</div>
+<div class="fn-bullet">If you have an issue at a foreign port (such as missing the ship), it's best to have your passport with you.</div>
+<p class="fn-body">Guests who do not bring required documents may be denied boarding.</p>
+
+<div class="fn-section-title">Can I cruise with a birth certificate instead?</div>
+<p class="fn-body"><strong>U.S. citizens:</strong> technically yes — on most cruises departing from the U.S., a state-certified birth certificate plus a government-issued photo ID is accepted (though a passport is the more efficient, secure option). If you go that route:</p>
+<div class="fn-bullet">Most, but not all, U.S. sailings accept a birth certificate — check Celebrity's Travel Documents Hub.</div>
+<div class="fn-bullet">It must be a state-certified birth certificate issued by the government — no "baby feet" certificates, no hospital birth certificates, and no baptismal papers.</div>
+<div class="fn-bullet">Present the original copy, no photocopies.</div>
+<div class="fn-bullet">Also show a valid government-issued photo ID, like a driver's license.</div>
+<div class="fn-bullet">Guests 15 and under need only the birth certificate (no photo ID).</div>
+<div class="fn-bullet">The name across all documents and the reservation must match.</div>
+<p class="fn-body">Puerto Rican birth certificates issued before July 1, 2010 are not valid; the government of Puerto Rico has partnered with VitalChek.com to issue new ones.</p>
+
+<p class="fn-footer">Per Celebrity Cruises. Document rules vary by citizenship and embarkation port — confirm yours well before sailing.</p>
+`
+  },
+
+  cr_day4: {
+    title: "Celebrity Cruise — Onboard Essentials",
+    html: `
+<div class="fn-header">Dining Dress Code</div>
+<div class="fn-subtitle">Celebrity Infinity · what to wear at dinner</div>
+
+<div class="fn-section-title">What's the dress code? Do we have to dress up?</div>
+<p class="fn-body">Smart Casual attire is required for entry to main dining, specialty dining, and the Celebrity Theatre. Smart Casual means you look comfortable yet tasteful in a dress, skirt, long pants, or jean, and a stylish top or button-down. Shorts and flip flops are not considered Smart Casual. Each itinerary features one to two "formal" nights we call Evening Chic. Evening Chic means you dress to impress, glamorous and sophisticated in your own way, with a cocktail dress, skirt, slacks, or designer jean, an elegant dress top or blazer — some guests even pack a tuxedo or gown for onboard photos. The Daily program, delivered to your stateroom and available at the Guest Relations Desk, will be your guide to the correct attire each evening. If you do not wish to participate in Evening Chic, Smart Casual attire is acceptable for dining and theater.</p>
+
+<div class="fn-section-title">What's appropriate for dinner onboard?</div>
+<p class="fn-body">Most nights, Smart Casual attire is appropriate for dinner in the Main Dining Room(s). On an Evening Chic night, women should feel comfortable in cocktail dresses, skirts, pants or designer jeans with an elegant top. Men should feel comfortable in pants, designer jeans, a long-sleeved or button-down shirt, sweaters, sport coats or blazers.</p>
+
+<div class="fn-section-title">How many formal nights are there?</div>
+<p class="fn-body">For 6-night cruises or less, there is 1 Evening Chic night. For 7 nights or longer, there are 2 Evening Chic nights. While tuxedos and formal attire are still appropriate, they are not required — guests are comfortable in both formal wear and a dressier smart casual style. Jackets are not required.</p>
+
+<div class="fn-tip">
+  <div class="fn-tip-label">For our sailing</div>
+  <p class="fn-body" style="margin:0;">Our cruise runs 7 nights (Jul 11–18), so expect <strong>2 Evening Chic nights</strong>. Check the Daily program in the stateroom for the attire each evening.</p>
+</div>
+
+<p class="fn-footer">Guidance from Celebrity Cruises. The Daily program is the final word on each evening's dress code.</p>
+
+<div class="fn-header">Seasickness</div>
+<div class="fn-section-title">Do you provide anything if I feel seasick?</div>
+<p class="fn-body">Yes — Bonine (meclizine) is available onboard all ships, 24 hours a day, at no charge to guests who are feeling seasick. Visit the Medical Facility or the Guest Relations Desk to obtain it.</p>
+
+<div class="fn-header">Lost &amp; Found</div>
+<div class="fn-section-title">I left a personal item onboard — is there a Lost &amp; Found?</div>
+<p class="fn-body">Yes. Celebrity makes every effort to recover lost items and conducts thorough investigations. Begin the process through the Lost &amp; Found link; the team conducts an extensive search and provides a response within 5 days.</p>
+
+<div class="fn-header">Onboard Religious Services</div>
+<div class="fn-section-title">Will I be able to attend Catholic Mass onboard?</div>
+<p class="fn-body">Religious services are offered for Catholic and Jewish faiths, plus Interdenominational services during major religious holidays. Guests of all faiths can host their own spiritual fellowship or group gathering by inquiring with the Guest Relations Desk onboard.</p>
+
+<div class="fn-header">Travel Documents</div>
+<div class="fn-subtitle">Celebrity Infinity · passports &amp; ID</div>
+
+<div class="fn-tip">
+  <div class="fn-tip-label">For our sailing</div>
+  <p class="fn-body" style="margin:0;">Because this cruise embarks in Greece (not a U.S. port), a valid <strong>passport is required for everyone</strong>. The U.S. birth-certificate option below applies only to cruises departing from the U.S.</p>
+</div>
+
+<div class="fn-section-title">Do I need a passport to cruise?</div>
+<p class="fn-body">Everyone must present an accepted form of identification to board. Celebrity strongly recommends a passport for all guests on boarding day, and for some guests it is required. The passport must be valid for six months after the day your cruise ends, and the name should match your reservation. A passport is the best option because:</p>
+<div class="fn-bullet">It's the hassle-free, gold standard for traveling between countries.</div>
+<div class="fn-bullet">Boarding and clearing customs is usually faster than with other ID documents.</div>
+<div class="fn-bullet">If you have an issue at a foreign port (such as missing the ship), it's best to have your passport with you.</div>
+<p class="fn-body">Guests who do not bring required documents may be denied boarding.</p>
+
+<div class="fn-section-title">Can I cruise with a birth certificate instead?</div>
+<p class="fn-body"><strong>U.S. citizens:</strong> technically yes — on most cruises departing from the U.S., a state-certified birth certificate plus a government-issued photo ID is accepted (though a passport is the more efficient, secure option). If you go that route:</p>
+<div class="fn-bullet">Most, but not all, U.S. sailings accept a birth certificate — check Celebrity's Travel Documents Hub.</div>
+<div class="fn-bullet">It must be a state-certified birth certificate issued by the government — no "baby feet" certificates, no hospital birth certificates, and no baptismal papers.</div>
+<div class="fn-bullet">Present the original copy, no photocopies.</div>
+<div class="fn-bullet">Also show a valid government-issued photo ID, like a driver's license.</div>
+<div class="fn-bullet">Guests 15 and under need only the birth certificate (no photo ID).</div>
+<div class="fn-bullet">The name across all documents and the reservation must match.</div>
+<p class="fn-body">Puerto Rican birth certificates issued before July 1, 2010 are not valid; the government of Puerto Rico has partnered with VitalChek.com to issue new ones.</p>
+
+<p class="fn-footer">Per Celebrity Cruises. Document rules vary by citizenship and embarkation port — confirm yours well before sailing.</p>
 `
   },
 
@@ -5019,6 +5124,148 @@ const SCRIPT_CONTENT = {
 <div class="fn-bullet">Express luggage service in the terminal when debarking.</div>
 
 <p class="fn-footer">Premium Access may not be available on all sailings; amenities/benefits may vary by ship and destination and are subject to change without notice. Per Celebrity Cruises.</p>
+`
+  },
+
+  cr_day5: {
+    title: "Celebrity Cruise — Laundry",
+    html: `
+<div class="fn-header">Laundry</div>
+<div class="fn-subtitle">Celebrity Infinity · wash, dry clean &amp; press</div>
+
+<div class="fn-section-title">Are there laundry services onboard?</div>
+<p class="fn-body">Yes — a full laundry and dry-cleaning service is available onboard for reasonable rates. (The detergent used fleetwide is Laundry Neutral Detergent from Ecolab.)</p>
+<div class="fn-bullet"><strong>Regular Service</strong> — items collected after 9:00 a.m. are processed and delivered the following day from 5:00 p.m. onward.</div>
+<div class="fn-bullet"><strong>Same-Day Express</strong> — pick-up between 9:00 and 11:00 a.m. with a 50% surcharge; items returned the same day.</div>
+<div class="fn-bullet"><strong>Laundry Promotions &amp; Captain's Club Wash &amp; Fold</strong> — items returned within 48 hours.</div>
+
+<div class="fn-section-title">Is there self-service laundry?</div>
+<p class="fn-body">No — there are no self-service or public laundry facilities onboard. The full laundry and dry-cleaning services above cover everything at reasonable rates.</p>
+
+<p class="fn-footer">Per Celebrity Cruises. Service times and surcharges may vary by sailing.</p>
+`
+  },
+
+  cr_day6: {
+    title: "Celebrity Cruise — Health & Sanitation",
+    html: `
+<div class="fn-header">Health &amp; Sanitation</div>
+<div class="fn-subtitle">Celebrity Infinity · cleaning, air &amp; hygiene</div>
+
+<div class="fn-section-title">Cleaning &amp; sanitization standards</div>
+<p class="fn-body">In compliance with strict standards set by U.S. Public Health Services (USPHS) and the Vessel Sanitation Program (VSP), ships are maintained with rigorous cleaning regimens — thoroughly cleaned and sanitized before every voyage and frequently throughout the sailing, using agents certified effective against SARS-CoV-2 / COVID-19 and other pathogens. All chemicals are EPA-certified, alcohol-based, scentless, and safe for the general population. High-traffic, frequently touched areas (elevators, escalators, stairways, promenades) are cleaned every two hours, and gangway rails every 20–30 minutes during busy times. Staterooms are cleaned daily, only while guests are out of the room. Standards are upheld through frequent stateroom inspections using black-light technology, and crew complete mandatory, documented training in line with SOLAS, STCW, and ISO regulations.</p>
+
+<div class="fn-section-title">Hand hygiene</div>
+<p class="fn-body">Numerous handwashing sinks and sanitizer stations are located throughout the ship. Celebrity has increased Purell® sanitizer stations by 75% and added Purell sanitizer wipe stations in high-touch areas.</p>
+
+<div class="fn-section-title">Air circulation &amp; filtration</div>
+<p class="fn-body">Ships continuously supply 100% fresh ocean air: intake on one side of the ship, exhaust on the opposite side, replacing the air up to 12 times an hour in staterooms and about 15 times an hour in large public spaces. Fan coil units add an extra layer, continuously scrubbing the air with a high-grade MERV 13 filter that captures aerosols 0.3–1 micron in size at ≈90% efficacy — fine enough to filter aerosolized viruses. An independent University of Nebraska Medical Center study confirmed cross-contamination of air between adjacent spaces is virtually impossible.</p>
+
+<div class="fn-section-title">Linens &amp; towels</div>
+<p class="fn-body">Washer and dryer temperatures follow U.S. CDC guidance to ensure all laundered goods — towels, bed linens, and cloth napkins — are fully sanitized.</p>
+
+<div class="fn-section-title">Masks &amp; personal sanitizer</div>
+<p class="fn-body">Each guest is encouraged to bring their own preferred protective equipment. If you forget or misplace a mask or other items, ask the Guest Relations desk or visit the sundry station onboard.</p>
+
+<p class="fn-footer">Per Celebrity Cruises. Health protocols may be updated by sailing and destination.</p>
+`
+  },
+
+  cr_day7: {
+    title: "Celebrity Cruise — Safety & Security",
+    html: `
+<div class="fn-header">Safety &amp; Security</div>
+<div class="fn-subtitle">Celebrity Infinity · onboard security</div>
+
+<div class="fn-section-title">Security measures onboard</div>
+<p class="fn-body">Your safety and security is the highest priority, with processes in place to help ensure a safe and enjoyable vacation. The Staff Captain (second in command of the ship) oversees daily security operations, run by Security Officers and supported by Deputy Security Officers, Guest Security Supervisors, Supervisors, and Security Guards.</p>
+<p class="fn-body">Security Guards and Supervisors wear light blue shirts with a distinctive epaulet on each shoulder and a gold badge on the left pocket — you can approach them anytime, or ask Guest Services to notify Security if you need to speak with them.</p>
+<p class="fn-body">Security Officers receive specialized training, certified by the UK's Security Industry Authority and trained by specialists including the FBI, following procedures developed in partnership with the FBI. Criminal allegations do occasionally occur (at a rate well below crime on land); by policy and law all are reported to law enforcement — including the FBI, who can and do board ships to investigate and prosecute. It's recommended you exercise the same precautions at sea as in social settings on land.</p>
+<p class="fn-body">Closed-circuit cameras cover hundreds of strategic public locations — never private staterooms, public restrooms, or private spa areas. Recordings are routinely used by security teams and made available to investigative authorities as requested.</p>
+
+<div class="fn-tip">
+  <div class="fn-tip-label">In an emergency</div>
+  <p class="fn-body" style="margin:0;">Dial the designated emergency number (911 on most ships — confirm in your Guest Services Directory) from any shipboard telephone. A ship's officer will send security and, if needed, medical personnel to your location.</p>
+</div>
+
+<div class="fn-section-title">Safety &amp; security overview</div>
+<p class="fn-body">For Celebrity Cruises® and parent company Royal Caribbean Cruises Ltd, the safety of guests and crew has always been the highest priority. A strong marine safety record across the corporation's 42-year operating history — and Celebrity's 20-year history — reflects that commitment to the millions who sail each year, with ships often exceeding what regulatory authorities require.</p>
+
+<p class="fn-footer">Per Celebrity Cruises. Procedures may vary by ship and sailing.</p>
+`
+  },
+
+  cr_day10: {
+    title: "Celebrity Cruise — Disembarkation Day",
+    html: `
+<div class="fn-header">Disembarkation Day</div>
+<div class="fn-subtitle">Celebrity Infinity · leaving the ship</div>
+
+<div class="fn-tip">
+  <div class="fn-tip-label">For our sailing</div>
+  <p class="fn-body" style="margin:0;">Our plan: disembark around 7:00 AM with a pre-booked private transfer to Athens Airport. Keep passports on you for customs, and settle the bill the night before.</p>
+</div>
+
+<div class="fn-section-title">What happens on disembarkation day?</div>
+<p class="fn-body">It's a busy day. You'll be invited to put your luggage outside your stateroom the night before; the crew collects it overnight, and it's waiting for you in the terminal when you leave. Settle your final bill the day before, pack your carry-on, and have breakfast. When your pre-allocated disembarkation time comes, make your way to the gangway. In the terminal you'll identify and claim your luggage, clear customs, and take whatever onward transportation you've arranged.</p>
+
+<div class="fn-section-title">What documents do I need for customs?</div>
+<p class="fn-body">Bring your passport and receipts for any duty-free goods, in case you're stopped at customs. The ship will normally have been cleared by local immigration, but you may still need to show your passport to officials as you disembark. If you've checked in for your flight and prefer a paper boarding pass, you can print it in the ship's internet center. If you parked at the port, keep the receipt and know where your car is.</p>
+
+<div class="fn-section-title">How will I know what to expect?</div>
+<p class="fn-body">Near the end of the cruise there's a talk on disembarkation procedures, also shown on your stateroom TV and detailed in the daily program. You'll have been asked about your plans — a Celebrity airport transfer, a shore excursion ending at the airport, or independent plans (add your flight details or pickup time to the form you're given). A day or so before the end, your stateroom attendant delivers a disembarkation letter and colored luggage tags; the letter gives your time, and you'll be called by group number or color code. Stick to these staggered times to avoid congestion at the gangway. If you're unhappy with your allocated time, raise it with Guest Services early — not on the morning itself.</p>
+
+<div class="fn-section-title">Do I have to put luggage out the night before?</div>
+<p class="fn-body">Most cruisers put their luggage outside the stateroom door — color-tagged and locked — the night before; it's more convenient than wrestling heavy bags into crowded elevators and down a steep gangway. If you'd rather keep your bag, or you're traveling light, you can opt for "self-disembarkation," which usually lets you leave the ship as soon as disembarkation begins.</p>
+
+<div class="fn-section-title">How long can you stay on the ship?</div>
+<p class="fn-body">It's not a day to linger — the crew is preparing the ship for the next voyage. Disembarkation usually runs roughly 8–10 a.m.; a later flight means a later slot in that window, but don't expect to sleep in. (On a back-to-back cruise you can relax aboard or join an excursion.) You'll normally vacate your stateroom by 8 a.m. so it can be prepared for the next guest; if your time is later, public areas are available to relax with your carry-on.</p>
+
+<div class="fn-section-title">Is there time for breakfast?</div>
+<p class="fn-body">Of course — you're still on vacation and won't be sent away hungry. Most usual breakfast venues are open, including Café al Bacio for coffee to go. Restaurants may be busier than usual as everyone prepares to leave within the same short window.</p>
+
+<div class="fn-section-title">How long does it take to get off?</div>
+<p class="fn-body">If everyone follows instructions and shows up when invited, it's quick — usually 15–30 minutes, including collecting baggage in the terminal. Delays can happen at the whim of local immigration, so leave plenty of time before your flight. If you booked a Celebrity airport transfer or disembarkation-day tour, your transportation waits until everyone is present.</p>
+
+<div class="fn-section-title">Things not to do</div>
+<div class="fn-bullet">Don't pack all your clothes and leave the bag out the night before — nobody wants to disembark in their PJs.</div>
+<div class="fn-bullet">Don't pack travel documents in checked luggage; keep them with you for the customs hall.</div>
+<div class="fn-bullet">Don't party too hard on the last night — it's a busy day with an early start.</div>
+<div class="fn-bullet">Don't forget the valuables you put in the safe on day one.</div>
+<div class="fn-bullet">Don't wait until the morning to check your final bill — view your statement on the stateroom TV.</div>
+<div class="fn-bullet">Don't expect to use ship facilities — no last swim or workout, and the shops are closed in port.</div>
+<div class="fn-bullet">Don't leave your key card in the stateroom; you need it to leave the ship for the last time.</div>
+<div class="fn-bullet">Leave the bathrobe — the slippers are yours to keep, but a bathrobe will be charged to your account.</div>
+
+<p class="fn-footer">Per Celebrity Cruises. Times and procedures vary by port and sailing.</p>
+`
+  },
+
+  cr_day8: {
+    title: "Celebrity Cruise — Entertainment",
+    html: `
+<div class="fn-header">Entertainment</div>
+<div class="fn-subtitle">Celebrity Infinity · onboard shows &amp; activities</div>
+
+<p class="fn-body">Onboard entertainment is designed to be fresh, unpredictable, and happening around the clock — carefully crafted to match the ships themselves.</p>
+
+<div class="fn-section-title">Production Shows</div>
+<div class="fn-bullet"><strong>Feel the Funk</strong> — a funky, exciting, fashionably nostalgic production with a modern twist.</div>
+<div class="fn-bullet"><strong>On Broadway</strong> — a spectacular musical production combining the biggest Broadway classics.</div>
+
+<div class="fn-section-title">Live Music &amp; Parties</div>
+<p class="fn-body">Live music performances complement the ship's stunning spaces, alongside award-winning experiences and unpredictable parties throughout the ship.</p>
+
+<div class="fn-section-title">Game Shows</div>
+<div class="fn-bullet"><strong>Deal or No Deal</strong> — a high-energy contest of nerves and raw intuition, with cash prizes up to $1,000.</div>
+
+<div class="fn-section-title">Camp at Sea</div>
+<p class="fn-body">A customizable youth program with 500+ activities across four categories — Art, Recreation, Culinary, and S.T.E.M. — with daily programming designed by Youth Counselors.</p>
+
+<div class="fn-section-title">And much more</div>
+<p class="fn-body">Hundreds of different activities happen across the ship each day. Check the daily program in your stateroom for what's on.</p>
+
+<p class="fn-footer">Per Celebrity Cruises. Specific shows and activities vary by ship and sailing.</p>
 `
   },
 
