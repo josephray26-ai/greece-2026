@@ -2385,12 +2385,14 @@ function renderDayDetail(dayNum) {
           <span style="font-size:14px;font-weight:600;color:var(--md-sys-color-on-surface);">Celebrity Cruise</span>
         </div>
         <div style="font-size:13px;color:var(--md-sys-color-on-surface-variant);line-height:1.55;margin-bottom:12px;">What to wear, where to be, when to be there.</div>
-        <button class="text-btn" style="margin:0;padding:0;" onclick="openCruise(${day.dayNum})">
-          <span class="material-symbols-rounded">sailing</span>Open Cruise Details
-        </button>
-        <a href="assets/cruise-details.pdf" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--md-sys-color-primary);text-decoration:none;margin-top:10px;">
-          <span class="material-symbols-rounded" style="font-size:16px;">picture_as_pdf</span>Cruise Details (PDF)
-        </a>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+          <button class="text-btn" style="margin:0;padding:0;" onclick="openCruise(${day.dayNum})">
+            <span class="material-symbols-rounded">sailing</span>Open Cruise Details
+          </button>
+          <a href="assets/cruise-details.pdf" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--md-sys-color-primary);text-decoration:none;flex-shrink:0;">
+            <span class="material-symbols-rounded" style="font-size:16px;">picture_as_pdf</span>Additional Info
+          </a>
+        </div>
       </div>
     </div>
   `;
