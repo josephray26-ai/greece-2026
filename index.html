@@ -1015,6 +1015,8 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   font-size: 13px; color: var(--md-sys-color-on-surface);
   line-height: 1.7; margin-bottom: 8px;
 }
+.script-verse { cursor: pointer; border-radius: 4px; padding: 1px 3px; transition: background-color 0.15s ease; }
+.script-verse.verse-selected { background-color: var(--md-sys-color-primary-container); }
 
 /* ── Field Notes ── */
 .fn-header {
@@ -5560,6 +5562,14 @@ const SCRIPT_CONTENT = {
 <div class="fn-bullet"><strong>10:40 AM</strong> — <strong>Roman Forum</strong> (~20 min) — Paul ministered here at the center of Thessalonica during his second missionary journey. The underground museum is small and efficient. This is the marketplace of Acts 17.</div>
 <div class="fn-bullet"><strong>11:10 AM</strong> — Leave for Philippi. Drive east on the Egnatia Motorway (E90). ~1 hr 45 min to Philippi.</div>
 
+<div class="fn-section-title">&#128663; Rental Car &mdash; Hertz</div>
+<div class="fn-bullet"><strong>Confirmation #H-GR0FL387</strong> &mdash; booked through Hertz. Email confirmation on file (joseph.ray26@gmail.com). Earned 6,587 miles on the booking.</div>
+<div class="fn-bullet"><strong>Vehicle:</strong> Fullsize Passenger Van &mdash; Toyota Proace City Verso or similar. Seats 7, 2 bags, <strong>manual transmission</strong>, air conditioning.</div>
+<div class="fn-bullet"><strong>Pick-up:</strong> Thu, Jul 16 at 10:00 AM</div>
+<div class="fn-bullet"><strong>Drop-off:</strong> Fri, Jul 17 at 10:00 AM</div>
+<div class="fn-bullet"><strong>Free cancellation until Jul 14.</strong></div>
+<div class="fn-tip"><span class="fn-tip-label">Heads up</span> It\'s a <strong>manual</strong> &mdash; make sure whoever drives is comfortable with a stick shift. Confirm the exact Hertz pick-up location and whether the port shuttle or a short taxi gets you there fastest.</div>
+
 <div class="fn-section-title">&#128739; Between the Cities: What to Stop For</div>
 <p class="fn-body">Two cities are mentioned by name in Acts 17:1 along this route — <strong>Amphipolis</strong> and <strong>Apollonia</strong>. After being released from prison, Paul and Silas passed through both on their way to Thessalonica.</p>
 <div class="fn-bullet"><strong>Apollonia</strong> — Little remains from Roman times. An old plaque on a deserted church claims Paul preached here as he passed along the Via Egnatia. Not worth a dedicated stop — noted as a passthrough in Acts with little to see today.</div>
@@ -5854,21 +5864,49 @@ const SCRIPT_CONTENT = {
 /* ═══════════════════════════════════════════════════
    SCRIPT MODAL
    ═══════════════════════════════════════════════════ */
-let scriptFontScale = parseFloat(localStorage.getItem('greece2026_scriptFontScale') || '1');
+let scriptFontScale = parseFloat(localStorage.getItem('greece2026_scriptFontScale_v2') || '2');
 function applyScriptFontScale() {
   const b = document.getElementById('script-modal-body');
   if (b) b.style.zoom = scriptFontScale;
 }
 function adjustScriptFontSize(delta) {
-  scriptFontScale = Math.min(1.6, Math.max(0.85, Math.round((scriptFontScale + delta * 0.1) * 100) / 100));
-  localStorage.setItem('greece2026_scriptFontScale', String(scriptFontScale));
+  // Default is 2x; Smaller/Larger step the size by a multiple of 1.5x
+  const factor = delta > 0 ? 1.5 : (1 / 1.5);
+  scriptFontScale = Math.min(8, Math.max(0.5, Math.round((scriptFontScale * factor) * 1000) / 1000));
+  localStorage.setItem('greece2026_scriptFontScale_v2', String(scriptFontScale));
   applyScriptFontScale();
+}
+// Scripture modal: wrap each verse so a tap toggles a light-teal highlight.
+function enhanceScriptureVerses() {
+  const body = document.getElementById('script-modal-body');
+  if (!body) return;
+  body.querySelectorAll('p.script-body').forEach(p => {
+    if (p.dataset.versesWrapped) return;
+    const childNodes = Array.from(p.childNodes);
+    const isVerseMarker = n => n.nodeType === 1 && n.tagName === 'STRONG' && /^\d+$/.test((n.textContent || '').trim());
+    if (!childNodes.some(isVerseMarker)) return;
+    p.dataset.versesWrapped = '1';
+    const groups = [];
+    let current = null;
+    childNodes.forEach(node => {
+      if (isVerseMarker(node) || !current) {
+        current = document.createElement('span');
+        current.className = 'script-verse';
+        current.addEventListener('click', e => e.currentTarget.classList.toggle('verse-selected'));
+        groups.push(current);
+      }
+      current.appendChild(node);
+    });
+    p.innerHTML = '';
+    groups.forEach(g => p.appendChild(g));
+  });
 }
 function openScriptModal(id) {
   const s = SCRIPT_CONTENT[id];
   if (!s) return;
   document.getElementById('script-modal-title').textContent = s.title;
   document.getElementById('script-modal-body').innerHTML = s.html;
+  enhanceScriptureVerses();
   applyScriptFontScale();
   document.getElementById('script-modal').classList.add('open');
   document.body.style.overflow = 'hidden';
