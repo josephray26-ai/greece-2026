@@ -1015,6 +1015,30 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   font-size: 13px; color: var(--md-sys-color-on-surface);
   line-height: 1.7; margin-bottom: 8px;
 }
+/* Modal text scaling — A-/A+ buttons set --sfs on #script-modal-body (default 2x).
+   Only the text font-size scales, not the layout/margins. */
+#script-modal-body { --sfs: 2; }
+#script-modal-body .script-ep-title   { font-size: calc(16px * var(--sfs, 2)); }
+#script-modal-body .script-ep-sub     { font-size: calc(12px * var(--sfs, 2)); }
+#script-modal-body .script-section    { font-size: calc(11px * var(--sfs, 2)); }
+#script-modal-body .script-stage      { font-size: calc(12px * var(--sfs, 2)); }
+#script-modal-body .script-speaker    { font-size: calc(10px * var(--sfs, 2)); }
+#script-modal-body .script-dialogue   { font-size: calc(14px * var(--sfs, 2)); }
+#script-modal-body .script-scripture  { font-size: calc(13px * var(--sfs, 2)); }
+#script-modal-body .script-note       { font-size: calc(12px * var(--sfs, 2)); }
+#script-modal-body .script-pause      { font-size: calc(12px * var(--sfs, 2)); }
+#script-modal-body .script-body       { font-size: calc(13px * var(--sfs, 2)); }
+#script-modal-body .fn-header         { font-size: calc(18px * var(--sfs, 2)); }
+#script-modal-body .fn-subtitle       { font-size: calc(12px * var(--sfs, 2)); }
+#script-modal-body .fn-section-title  { font-size: calc(11px * var(--sfs, 2)); }
+#script-modal-body .fn-body           { font-size: calc(14px * var(--sfs, 2)); }
+#script-modal-body .fn-bullet         { font-size: calc(14px * var(--sfs, 2)); }
+#script-modal-body .fn-anchor-label   { font-size: calc(10px * var(--sfs, 2)); }
+#script-modal-body .fn-tip-label      { font-size: calc(10px * var(--sfs, 2)); }
+#script-modal-body .fn-map-text       { font-size: calc(13px * var(--sfs, 2)); }
+#script-modal-body .fn-footer         { font-size: calc(12px * var(--sfs, 2)); }
+#script-modal-body .cr-name           { font-size: calc(14px * var(--sfs, 2)); }
+#script-modal-body .cr-price          { font-size: calc(13px * var(--sfs, 2)); }
 .script-verse { cursor: pointer; border-radius: 4px; padding: 1px 3px; transition: background-color 0.15s ease; }
 .script-verse.verse-selected { background-color: var(--md-sys-color-primary-container); }
 
@@ -5867,7 +5891,9 @@ const SCRIPT_CONTENT = {
 let scriptFontScale = parseFloat(localStorage.getItem('greece2026_scriptFontScale_v2') || '2');
 function applyScriptFontScale() {
   const b = document.getElementById('script-modal-body');
-  if (b) b.style.zoom = scriptFontScale;
+  // Drive a CSS var that the text classes multiply into via calc() — reliable
+  // everywhere (iOS Safari ignores `zoom` on scrolling modal bodies).
+  if (b) { b.style.zoom = ''; b.style.setProperty('--sfs', scriptFontScale); }
 }
 function adjustScriptFontSize(delta) {
   // Default is 2x; Smaller/Larger step the size by a multiple of 1.5x
