@@ -1041,6 +1041,35 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
 #script-modal-body .cr-price          { font-size: calc(13px * var(--sfs, 2)); }
 .script-verse { cursor: pointer; border-radius: 4px; padding: 1px 3px; transition: background-color 0.15s ease; }
 .script-verse.verse-selected { background-color: var(--md-sys-color-primary-container); }
+.script-verse.verse-has-note { text-decoration: underline; text-decoration-style: dotted; text-decoration-color: var(--md-sys-color-primary); text-underline-offset: 3px; }
+/* Verse options bar (Copy / Add Note) */
+#verse-options-bar {
+  position: fixed; left: 50%; bottom: 0; z-index: 1040;
+  transform: translate(-50%, 160%); opacity: 0;
+  display: flex; align-items: stretch; gap: 4px;
+  background: var(--md-sys-color-surface-container);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  box-shadow: 0 -4px 24px rgba(0,0,0,0.4);
+  border-radius: 18px; padding: 8px;
+  margin-bottom: calc(env(safe-area-inset-bottom, 0px) + 16px);
+  max-width: calc(100% - 24px);
+  transition: transform 0.24s cubic-bezier(.2,.8,.2,1), opacity 0.2s ease;
+}
+#verse-options-bar.open { transform: translate(-50%, 0); opacity: 1; }
+.verse-opt-ref {
+  display: flex; align-items: center; padding: 0 12px; white-space: nowrap;
+  font-size: 13px; font-weight: 700; color: var(--md-sys-color-primary);
+  border-right: 1px solid var(--md-sys-color-outline-variant); margin-right: 2px;
+}
+.verse-opt-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  background: transparent; border: none; cursor: pointer;
+  color: var(--md-sys-color-on-surface);
+  font-family: inherit; font-size: 12px; font-weight: 600;
+  padding: 6px 18px; border-radius: 12px; min-width: 64px;
+}
+.verse-opt-btn:active { background: var(--md-sys-color-surface-variant); }
+.verse-opt-btn .material-symbols-rounded { font-size: 22px; color: var(--md-sys-color-primary); }
 
 /* ── Field Notes ── */
 .fn-header {
@@ -5902,7 +5931,8 @@ function adjustScriptFontSize(delta) {
   localStorage.setItem('greece2026_scriptFontScale_v2', String(scriptFontScale));
   applyScriptFontScale();
 }
-// Scripture modal: wrap each verse so a tap toggles a light-teal highlight.
+// Scripture modal: wrap each verse so a tap highlights it (light teal) and
+// opens an options bar (Copy / Add Note).
 function enhanceScriptureVerses() {
   const body = document.getElementById('script-modal-body');
   if (!body) return;
@@ -5918,7 +5948,8 @@ function enhanceScriptureVerses() {
       if (isVerseMarker(node) || !current) {
         current = document.createElement('span');
         current.className = 'script-verse';
-        current.addEventListener('click', e => e.currentTarget.classList.toggle('verse-selected'));
+        if (isVerseMarker(node)) current.dataset.verse = node.textContent.trim();
+        current.addEventListener('click', e => onVerseTap(e.currentTarget));
         groups.push(current);
       }
       current.appendChild(node);
@@ -5926,10 +5957,166 @@ function enhanceScriptureVerses() {
     p.innerHTML = '';
     groups.forEach(g => p.appendChild(g));
   });
+  applyStoredVerseNotes();
+}
+
+/* ── Scripture verse notes + options bar ── */
+let verseNotes = {};
+try { verseNotes = JSON.parse(localStorage.getItem('greece2026_verseNotes') || '{}'); } catch (e) { verseNotes = {}; }
+let currentScriptId = null;
+let currentScriptRef = '';      // e.g. "Acts 1"
+let currentScriptDayKey = null; // notes key for the day this scripture was opened from
+let activeVerseEl = null;
+let verseNoteCtx = null;        // { scriptId, vn }
+
+function verseRefFor(vn) { return (currentScriptRef ? currentScriptRef + ':' : '') + vn; }
+function verseHasNote(scriptId, vn) {
+  return !!(scriptId && verseNotes[scriptId] && verseNotes[scriptId][vn] && (verseNotes[scriptId][vn].note || '').trim());
+}
+
+// Re-apply saved verse notes (highlight + dotted underline) when a passage opens.
+function applyStoredVerseNotes() {
+  if (!currentScriptId) return;
+  const map = verseNotes[currentScriptId];
+  if (!map) return;
+  document.querySelectorAll('#script-modal-body .script-verse').forEach(el => {
+    const vn = el.dataset.verse;
+    if (vn && map[vn] && (map[vn].note || '').trim()) el.classList.add('verse-selected', 'verse-has-note');
+  });
+}
+
+function onVerseTap(el) {
+  const vn = el.dataset.verse;
+  if (!vn) return;
+  if (verseHasNote(currentScriptId, vn)) {
+    el.classList.add('verse-selected');   // a noted verse always stays highlighted
+    setActiveVerse(el);
+  } else {
+    const nowSelected = el.classList.toggle('verse-selected');
+    if (nowSelected) setActiveVerse(el);
+    else clearActiveVerse();
+  }
+}
+
+function setActiveVerse(el) {
+  if (activeVerseEl && activeVerseEl !== el) activeVerseEl.classList.remove('verse-active');
+  activeVerseEl = el;
+  el.classList.add('verse-active');
+  document.getElementById('verse-options-ref').textContent = verseRefFor(el.dataset.verse);
+  document.getElementById('verse-options-note-label').textContent =
+    verseHasNote(currentScriptId, el.dataset.verse) ? 'Edit Note' : 'Add Note';
+  document.getElementById('verse-options-copy-label').textContent = 'Copy';
+  document.getElementById('verse-options-bar').classList.add('open');
+}
+
+function clearActiveVerse() {
+  if (activeVerseEl) activeVerseEl.classList.remove('verse-active');
+  activeVerseEl = null;
+  const bar = document.getElementById('verse-options-bar');
+  if (bar) bar.classList.remove('open');
+}
+
+function copyActiveVerse() {
+  if (!activeVerseEl) return;
+  const text = (activeVerseEl.textContent || '').replace(/^\s*\d+\s*/, '').trim();
+  const payload = text + '\n\n\u2014 ' + verseRefFor(activeVerseEl.dataset.verse) + ' (NIV)';
+  const done = () => {
+    const lbl = document.getElementById('verse-options-copy-label');
+    lbl.textContent = 'Copied!';
+    setTimeout(() => { lbl.textContent = 'Copy'; }, 1300);
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(payload).then(done).catch(() => verseFallbackCopy(payload, done));
+  } else verseFallbackCopy(payload, done);
+}
+function verseFallbackCopy(text, cb) {
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.focus(); ta.select();
+  try { document.execCommand('copy'); } catch (e) {}
+  document.body.removeChild(ta); if (cb) cb();
+}
+
+function openVerseNoteFromBar() {
+  if (!activeVerseEl) return;
+  openVerseNoteModal(currentScriptId, activeVerseEl.dataset.verse);
+}
+function openVerseNoteModal(scriptId, vn) {
+  verseNoteCtx = { scriptId, vn };
+  const existing = (verseNotes[scriptId] && verseNotes[scriptId][vn]) ? verseNotes[scriptId][vn].note : '';
+  document.getElementById('verse-note-title').textContent = verseRefFor(vn);
+  const ta = document.getElementById('verse-note-textarea');
+  ta.value = existing || '';
+  document.getElementById('verse-note-delete').style.display = (existing && existing.trim()) ? '' : 'none';
+  document.getElementById('verse-note-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => ta.focus(), 150);
+}
+function closeVerseNoteModal() {
+  document.getElementById('verse-note-modal').classList.remove('open');
+  document.body.style.overflow = document.getElementById('script-modal').classList.contains('open') ? 'hidden' : '';
+  verseNoteCtx = null;
+}
+function saveVerseNote() {
+  if (!verseNoteCtx) return;
+  const scriptId = verseNoteCtx.scriptId, vn = verseNoteCtx.vn;
+  const text = document.getElementById('verse-note-textarea').value;
+  if (!verseNotes[scriptId]) verseNotes[scriptId] = {};
+  if (text.trim()) verseNotes[scriptId][vn] = { note: text, ref: verseRefFor(vn), dayKey: currentScriptDayKey };
+  else delete verseNotes[scriptId][vn];
+  localStorage.setItem('greece2026_verseNotes', JSON.stringify(verseNotes));
+  if (activeVerseEl && activeVerseEl.dataset.verse === vn) {
+    if (text.trim()) activeVerseEl.classList.add('verse-selected', 'verse-has-note');
+    else activeVerseEl.classList.remove('verse-has-note');
+    document.getElementById('verse-options-note-label').textContent = text.trim() ? 'Edit Note' : 'Add Note';
+  }
+  if (currentScriptDayKey) syncVerseNotesToDay(currentScriptDayKey);
+  closeVerseNoteModal();
+}
+function deleteVerseNote() {
+  if (!verseNoteCtx) return;
+  const scriptId = verseNoteCtx.scriptId, vn = verseNoteCtx.vn;
+  if (verseNotes[scriptId]) delete verseNotes[scriptId][vn];
+  localStorage.setItem('greece2026_verseNotes', JSON.stringify(verseNotes));
+  if (activeVerseEl && activeVerseEl.dataset.verse === vn) activeVerseEl.classList.remove('verse-has-note', 'verse-selected');
+  if (currentScriptDayKey) syncVerseNotesToDay(currentScriptDayKey);
+  closeVerseNoteModal();
+  clearActiveVerse();
+}
+
+// Mirror verse notes into the day's existing Notes (auto-managed section at the end).
+function syncVerseNotesToDay(dayKey) {
+  const SENT = '\u2014\u2014\u2014 Scripture Notes \u2014\u2014\u2014';
+  const items = [];
+  Object.keys(verseNotes).forEach(sid => {
+    Object.keys(verseNotes[sid]).forEach(vn => {
+      const rec = verseNotes[sid][vn];
+      if (rec && rec.dayKey === dayKey && (rec.note || '').trim()) {
+        items.push({ chap: (rec.ref || '').replace(/:\d+$/, ''), vn: parseInt(vn, 10) || 0, ref: rec.ref, note: rec.note.trim() });
+      }
+    });
+  });
+  items.sort((a, b) => a.chap < b.chap ? -1 : a.chap > b.chap ? 1 : a.vn - b.vn);
+  let base = (notesData[dayKey] !== undefined) ? notesData[dayKey] : (DEFAULT_NOTES[dayKey] || '');
+  const idx = base.indexOf(SENT);
+  if (idx !== -1) base = base.slice(0, idx).replace(/\s+$/, '');
+  let combined = base;
+  if (items.length) {
+    const block = items.map(it => it.ref + ' \u2014 ' + it.note).join('\n\n');
+    combined = (base ? base + '\n\n' : '') + SENT + '\n' + block;
+  }
+  notesData[dayKey] = combined;
+  localStorage.setItem('greece2026_notes', JSON.stringify(notesData));
+  const btn = document.querySelector('[data-note-key="' + dayKey + '"]');
+  if (btn) { const lab = btn.querySelector('.note-btn-label'); if (lab) lab.textContent = combined.trim() ? 'Edit Notes' : 'Add Notes'; }
 }
 function openScriptModal(id) {
   const s = SCRIPT_CONTENT[id];
   if (!s) return;
+  currentScriptId = id;
+  currentScriptRef = (s.title || '').split(' \u2014 ')[0].trim();
+  currentScriptDayKey = 'biblical_day_' + activeDay;
+  clearActiveVerse();
   document.getElementById('script-modal-title').textContent = s.title;
   document.getElementById('script-modal-body').innerHTML = s.html;
   enhanceScriptureVerses();
@@ -5962,6 +6149,7 @@ function closeVideoModal() {
   document.body.style.overflow = '';
 }
 function closeScriptModal() {
+  clearActiveVerse();
   document.getElementById('script-modal').classList.remove('open');
   document.getElementById('script-modal-container').classList.remove('fullscreen');
   document.getElementById('fullscreen-icon').textContent = 'fullscreen';
@@ -6472,6 +6660,38 @@ async function submitPhoto() {
       <button class="notes-size-btn" onclick="adjustNotesFontSize(-1)" title="Smaller text">A−</button>
       <button class="notes-size-btn" onclick="adjustNotesFontSize(1)" title="Larger text">A+</button>
       <button class="notes-save-btn" onclick="saveNote()">Save Note</button>
+    </div>
+  </div>
+</div>
+
+<!-- Verse Options Bar (Scripture: Copy / Add Note) -->
+<div id="verse-options-bar">
+  <span class="verse-opt-ref" id="verse-options-ref"></span>
+  <button class="verse-opt-btn" onclick="copyActiveVerse()">
+    <span class="material-symbols-rounded">content_copy</span>
+    <span id="verse-options-copy-label">Copy</span>
+  </button>
+  <button class="verse-opt-btn" onclick="openVerseNoteFromBar()">
+    <span class="material-symbols-rounded">edit_note</span>
+    <span id="verse-options-note-label">Add Note</span>
+  </button>
+</div>
+
+<!-- Verse Note Modal -->
+<div id="verse-note-modal" class="notes-modal-overlay" style="z-index:1100;" onclick="if(event.target===this)closeVerseNoteModal()">
+  <div class="notes-modal-container" style="height:auto;max-height:72dvh;">
+    <div class="notes-modal-drag"></div>
+    <div class="notes-modal-header">
+      <span class="material-symbols-rounded" style="color:var(--md-sys-color-primary);font-size:20px;flex-shrink:0;">menu_book</span>
+      <span class="notes-modal-title" id="verse-note-title">Verse Note</span>
+      <button class="icon-btn" onclick="closeVerseNoteModal()" title="Close">
+        <span class="material-symbols-rounded">close</span>
+      </button>
+    </div>
+    <textarea id="verse-note-textarea" class="notes-textarea" style="flex:none;height:34vh;" placeholder="Add a note for this verse\u2026"></textarea>
+    <div class="notes-footer">
+      <button class="notes-size-btn" id="verse-note-delete" onclick="deleteVerseNote()" style="display:none;">Delete</button>
+      <button class="notes-save-btn" onclick="saveVerseNote()">Save Note</button>
     </div>
   </div>
 </div>
