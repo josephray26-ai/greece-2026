@@ -2297,8 +2297,11 @@ function initDaySwipe() {
     if (lock === 'h' && Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 2 && dt < 700) {
       const days = TRIP_DATA.days.map(d => d.dayNum);
       const idx = days.indexOf(activeDay);
-      if (dx < 0 && idx < days.length - 1) setActiveDay(days[idx + 1]);
-      else if (dx > 0 && idx > 0) setActiveDay(days[idx - 1]);
+      let changed = false;
+      if (dx < 0 && idx < days.length - 1) { setActiveDay(days[idx + 1]); changed = true; }
+      else if (dx > 0 && idx > 0) { setActiveDay(days[idx - 1]); changed = true; }
+      // Anchor back to the top so the day change reads as a fresh page
+      if (changed) window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, { passive: true });
 }
