@@ -1041,6 +1041,7 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
 #script-modal-body .cr-price          { font-size: calc(13px * var(--sfs, 2)); }
 .script-verse { cursor: pointer; border-radius: 4px; padding: 1px 3px; transition: background-color 0.15s ease; }
 .script-verse.verse-selected { background-color: var(--md-sys-color-primary-container); }
+[data-theme="light"] .script-verse.verse-selected { background-color: #a3ddcd; }
 .script-verse.verse-has-note { text-decoration: underline; text-decoration-style: dotted; text-decoration-color: var(--md-sys-color-primary); text-underline-offset: 3px; }
 /* Verse options bar (Copy / Add Note) */
 #verse-options-bar {
@@ -6114,7 +6115,7 @@ function openScriptModal(id) {
   const s = SCRIPT_CONTENT[id];
   if (!s) return;
   currentScriptId = id;
-  currentScriptRef = (s.title || '').split(' \u2014 ')[0].trim();
+  currentScriptRef = (s.title || '').split(' \u2014 ')[0].split(':')[0].trim();
   currentScriptDayKey = 'biblical_day_' + activeDay;
   clearActiveVerse();
   document.getElementById('script-modal-title').textContent = s.title;
