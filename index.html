@@ -2311,9 +2311,15 @@ function setActiveDay(num) {
   document.querySelectorAll('.day-chip').forEach(c => {
     c.classList.toggle('active', parseInt(c.dataset.day) === num);
   });
-  // Scroll selected chip into view
+  // Center the selected chip — horizontally only, within the chip strip. Using
+  // scrollIntoView here also moved the vertical page scroll, which fought the
+  // swipe/tap "anchor to top" and left the page stuck at the first card.
   const activeChip = document.querySelector(`.day-chip[data-day="${num}"]`);
-  if (activeChip) activeChip.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  const chipScroller = document.getElementById('dayChipsScroll');
+  if (activeChip && chipScroller) {
+    const target = activeChip.offsetLeft - (chipScroller.clientWidth - activeChip.offsetWidth) / 2;
+    chipScroller.scrollTo({ left: Math.max(0, target), behavior: 'smooth' });
+  }
   renderDayDetail(num);
   const dd = document.getElementById('dayDetail');
   if (dd) { dd.classList.remove('day-fade'); void dd.offsetWidth; dd.classList.add('day-fade'); }
