@@ -796,6 +796,8 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   font-style: italic;
 }
 .biblical-connections { padding: 0 16px 8px; }
+.explore-extra-header { padding: 18px 16px 2px; margin-top: 6px; border-top: 1px solid var(--md-sys-color-outline-variant); font-family: 'Roboto Serif', Georgia, serif; font-size: 16px; font-weight: 600; color: var(--md-sys-color-on-surface); }
+.explore-extra-sub { padding: 0 16px 4px; font-size: 13px; font-style: italic; color: var(--md-sys-color-on-surface-variant); }
 .connection-item {
   padding: 12px 0;
   border-bottom: 1px solid var(--md-sys-color-outline-variant);
@@ -2157,9 +2159,17 @@ const EXPLORE_DATA = {
         { name: "Lykavittos (Mount Lycabettus)", summary: "The highest hill in central Athens — a funicular (or a steep climb) leads to a whitewashed chapel of St. George and the finest panorama in the city, stretching all the way to the sea.", contentId: "explore_day2_lycabettus" },
         { name: "Academy of Athens", summary: "A gleaming neoclassical landmark crowned by statues of Athena and Apollo — part of the 'Athenian Trilogy' and a modern tribute to Plato's ancient Academy.", contentId: "explore_day2_academy" },
         { name: "Acropolis", summary: "The crowning glory of Athens — the sacred citadel of the Parthenon, Erechtheion, and Temple of Athena Nike, with the Areopagus (Mars Hill) of Paul's sermon just below.", contentId: "explore_day2_acropolis" },
+        { name: "Mars Hill (Areopagus)", summary: "A bare marble hill just below the Acropolis — the ancient high court of Athens and the spot where Paul preached his famous sermon to the Athenians (Acts 17:22–34).", contentId: "explore_day2_mars_hill" },
         { name: "Changing of the Guard Ceremony", summary: "The Changing of the Guard at the Tomb of the Unknown Soldier — Evzones in traditional dress perform their slow, ceremonial march on the hour in front of Parliament.", contentId: "explore_day2_changing_guard" },
         { name: "Plaka", summary: "The oldest neighborhood of Athens — a charming maze of narrow lanes, tavernas, and neoclassical houses nestled directly beneath the Acropolis.", contentId: "explore_day2_plaka" },
         { name: "Theodores Grill", summary: "A well-earned lunch stop — a traditional Athens grill house serving souvlaki, gyros, and char-grilled Greek classics.", contentId: "explore_day2_theodores_grill" }
+      ],
+      additional: [
+        { name: "Acropolis Museum", summary: "A world-class museum of glass and light at the foot of the Acropolis, built over an excavated ancient neighborhood — home to the Parthenon's surviving sculptures.", contentId: "explore_day2_acropolis_museum" },
+        { name: "National Archaeological Museum", summary: "Greece's greatest museum — Mycenaean gold, monumental bronzes, and the astonishing 2,000-year-old Antikythera Mechanism.", contentId: "explore_day2_national_museum" },
+        { name: "Monastiraki Square & Flea Market", summary: "The buzzing heart of old Athens — a lively square and sprawling flea market beneath the Acropolis, ringed by ancient and Ottoman landmarks.", contentId: "explore_day2_monastiraki" },
+        { name: "Hadrian's Library", summary: "The grand Roman library and cultural complex the emperor Hadrian built in AD 132, just off Monastiraki Square.", contentId: "explore_day2_hadrians_library" },
+        { name: "Kerameikos (Ancient Cemetery)", summary: "A tranquil green archaeological site — the ancient cemetery of Athens and the location of the city's principal gates.", contentId: "explore_day2_kerameikos" }
       ]
     }
   ]
@@ -2680,6 +2690,19 @@ function buildExploreCards() {
             </div>
           `).join('')}
         </div>
+        ${day.additional && day.additional.length ? `
+          <div class="explore-extra-header">Additional Sites</div>
+          <div class="explore-extra-sub">Other stops you may consider making at this location.</div>
+          <div class="biblical-connections">
+            ${day.additional.map(st => `
+              <div class="connection-item">
+                <div class="connection-title">${esc(st.name)}</div>
+                <div class="connection-detail">${esc(st.summary)}</div>
+                <button class="connection-ref-btn" onclick="openScriptModal('${st.contentId}')"><span class="material-symbols-rounded" style="font-size:13px;">menu_book</span>Read the deep dive</button>
+              </div>
+            `).join('')}
+          </div>
+        ` : ''}
       </div>
     `;
     container.appendChild(card);
@@ -4895,6 +4918,90 @@ const SCRIPT_CONTENT = {
 <p class="script-body">After a morning on your feet, this is the reward — a classic Greek grill house where the tour pauses for lunch. Expect the staples done well: charcoal-grilled souvlaki and gyros, juicy grilled meats, a fresh Greek salad crowned with a slab of feta, tzatziki, and warm pita.</p>
 <p class="script-body">Eating is a national pastime in Greece, so settle in. Meals here are meant to be unhurried and shared — order a few plates for the table, and don't be surprised when the hospitality (filoxenia, &lsquo;love of strangers&rsquo;) arrives with a little something extra on the house.</p>
 <p class="script-note">Fun fact: A traditional Greek meal often ends not with the bill, but with a complimentary dessert or a shot of tsipouro — lingering is the whole point.</p>
+`
+  },
+  explore_day2_mars_hill: {
+    title: "Mars Hill (Areopagus)",
+    html: `
+<div class="script-section">Mars Hill (Areopagus)</div>
+<div class="note-stats">
+  <div class="note-stat"><span class="note-stat-label">Built</span><span class="note-stat-value">A natural rocky outcrop (not built); a court site from earliest Athenian times</span></div>
+  <div class="note-stat"><span class="note-stat-label">Originally Used For</span><span class="note-stat-value">The meeting place of the Areopagus — Athens' ancient high council and supreme court.</span></div>
+  <div class="note-stat"><span class="note-stat-label">In Scripture</span><span class="note-stat-value"><button class="connection-ref-btn" style="margin-top:0;" onclick="openScriptModal('acts_17_16_34')"><span class="material-symbols-rounded" style="font-size:13px;">menu_book</span>Acts 17:22&ndash;34</button></span></div>
+</div>
+<p class="script-body">Just below the Acropolis rises a bare marble hill the Greeks called the Areopagus &mdash; the &lsquo;Hill of Ares,&rsquo; god of war. For centuries it was the seat of Athens' oldest and most respected council, where the city's elders judged cases of murder and weighed questions of religion and morality.</p>
+<p class="script-body">It is most famous, though, as the place where the Apostle Paul addressed the philosophers of Athens (Acts 17:22&ndash;34): &lsquo;Men of Athens, I perceive that in every way you are very religious. For as I passed along and observed the objects of your worship, I found an altar with this inscription: To the unknown god.&rsquo; Paul used their own altar to introduce the God they worshiped without knowing. A bronze plaque at the foot of the hill carries the speech in Greek; the worn marble steps can be slippery, so climb with care.</p>
+<p class="script-note">Fun fact: The avenue running below the hill, Dionysiou Areopagitou, is named for Dionysius the Areopagite &mdash; a member of the council who believed Paul's message and, by tradition, became the first bishop of Athens (Acts 17:34).</p>
+`
+  },
+  explore_day2_acropolis_museum: {
+    title: "Acropolis Museum",
+    html: `
+<div class="script-section">Acropolis Museum</div>
+<div class="note-stats">
+  <div class="note-stat"><span class="note-stat-label">Built</span><span class="note-stat-value">Opened in 2009 (designed by architect Bernard Tschumi)</span></div>
+  <div class="note-stat"><span class="note-stat-label">Originally Used For</span><span class="note-stat-value">Purpose-built to display the surviving sculptures and finds from the Acropolis.</span></div>
+  <div class="note-stat"><span class="note-stat-label">In Scripture</span><span class="note-stat-value">None</span></div>
+</div>
+<p class="script-body">A striking museum of glass, light, and concrete at the southern foot of the Acropolis, consistently ranked among the finest in the world. It stands directly over an excavated ancient Athenian neighborhood &mdash; glass floors let you look down on the streets and houses beneath your feet as you walk.</p>
+<p class="script-body">The top floor is the showstopper: a glass-walled gallery set at the exact angle and footprint of the Parthenon (visible right through the windows), displaying its frieze in order. Deliberate gaps mark the sculptures still held in London &mdash; a quiet part of Greece's long campaign to bring them home.</p>
+<p class="script-note">Fun fact: Wear comfortable shoes &mdash; part of your visit is spent walking on glass floors suspended above real ancient ruins.</p>
+`
+  },
+  explore_day2_national_museum: {
+    title: "National Archaeological Museum",
+    html: `
+<div class="script-section">National Archaeological Museum</div>
+<div class="note-stats">
+  <div class="note-stat"><span class="note-stat-label">Built</span><span class="note-stat-value">Building completed 1889 (neoclassical design)</span></div>
+  <div class="note-stat"><span class="note-stat-label">Originally Used For</span><span class="note-stat-value">Built to gather and protect Greece's most important antiquities.</span></div>
+  <div class="note-stat"><span class="note-stat-label">In Scripture</span><span class="note-stat-value">None</span></div>
+</div>
+<p class="script-body">The largest museum in Greece and one of the world's great collections of ancient art, a little north of the city center. Its galleries span 5,000 years &mdash; from delicate Cycladic figurines to Mycenaean treasure to monumental classical bronzes.</p>
+<p class="script-body">Don't miss the gold &lsquo;Mask of Agamemnon&rsquo; from the royal graves of Mycenae, the magnificent bronze of Zeus (or Poseidon) poised to hurl a thunderbolt, and the Antikythera Mechanism &mdash; an astonishing 2,000-year-old geared device that tracked the movements of the sun, moon, and planets.</p>
+<p class="script-note">Fun fact: The Antikythera Mechanism displayed here is so sophisticated it's often called the world's first analog computer &mdash; nothing as complex appears again for over a thousand years.</p>
+`
+  },
+  explore_day2_monastiraki: {
+    title: "Monastiraki Square & Flea Market",
+    html: `
+<div class="script-section">Monastiraki Square & Flea Market</div>
+<div class="note-stats">
+  <div class="note-stat"><span class="note-stat-label">Built</span><span class="note-stat-value">Named for the &lsquo;little monastery&rsquo; church (Pantanassa), parts of which date to the 10th century</span></div>
+  <div class="note-stat"><span class="note-stat-label">Originally Used For</span><span class="note-stat-value">A marketplace and bazaar district at the foot of the Acropolis.</span></div>
+  <div class="note-stat"><span class="note-stat-label">In Scripture</span><span class="note-stat-value">None</span></div>
+</div>
+<p class="script-body">The buzzing heart of old Athens &mdash; a lively square ringed by the little Pantanassa church, the Ottoman-era Tzistarakis Mosque, and the ruins of Hadrian's Library. The flea market spills down the surrounding lanes, packed with antiques, leather, souvenirs, records, and vintage finds.</p>
+<p class="script-body">It's a wonderful place to wander, grab a souvlaki, and people-watch. Sundays bring the biggest market crowds, and the rooftop cafés serve up some of the finest views in the city.</p>
+<p class="script-note">Fun fact: From Monastiraki's rooftop bars you get a postcard view of the floodlit Acropolis at night &mdash; one of the best free vistas in Athens.</p>
+`
+  },
+  explore_day2_hadrians_library: {
+    title: "Hadrian's Library",
+    html: `
+<div class="script-section">Hadrian's Library</div>
+<div class="note-stats">
+  <div class="note-stat"><span class="note-stat-label">Built</span><span class="note-stat-value">AD 132, by the Roman emperor Hadrian</span></div>
+  <div class="note-stat"><span class="note-stat-label">Originally Used For</span><span class="note-stat-value">A grand library and cultural complex — scroll halls, reading rooms, and lecture halls around a courtyard.</span></div>
+  <div class="note-stat"><span class="note-stat-label">In Scripture</span><span class="note-stat-value">None</span></div>
+</div>
+<p class="script-body">The largest building the emperor Hadrian raised in Athens, tucked just off Monastiraki Square. It was far more than a library: a vast rectangular complex with a colonnaded marble courtyard and a central pool, surrounded by reading rooms, lecture halls, and niches that once held papyrus scrolls.</p>
+<p class="script-body">Over the centuries, churches rose and fell within its walls. Today its towering western façade, with a proud row of Corinthian columns, still hints at the grandeur of the original.</p>
+<p class="script-note">Fun fact: The &lsquo;books&rsquo; here were papyrus scrolls, tucked into the rectangular wall niches you can still pick out in the ruins.</p>
+`
+  },
+  explore_day2_kerameikos: {
+    title: "Kerameikos (Ancient Cemetery)",
+    html: `
+<div class="script-section">Kerameikos (Ancient Cemetery)</div>
+<div class="note-stats">
+  <div class="note-stat"><span class="note-stat-label">Built</span><span class="note-stat-value">Burial ground in use from around 3000 BC; most monuments are classical (5th–4th century BC)</span></div>
+  <div class="note-stat"><span class="note-stat-label">Originally Used For</span><span class="note-stat-value">The principal cemetery of ancient Athens and the site of the city's main gates.</span></div>
+  <div class="note-stat"><span class="note-stat-label">In Scripture</span><span class="note-stat-value">None</span></div>
+</div>
+<p class="script-body">A green, peaceful, and often-overlooked site northwest of the Agora &mdash; the ancient burial ground of Athens, named for the potters (&lsquo;kerameis&rsquo;) who worked the clay banks of the little Eridanos stream that still trickles through it.</p>
+<p class="script-body">Here stood the Dipylon, the grand double gate of the city, and the Sacred Gate, where the road to Eleusis and the route of the Panathenaic procession began. You'll find beautifully carved grave monuments, a quiet walking path, and a small museum of finds.</p>
+<p class="script-note">Fun fact: Our word &lsquo;ceramics&rsquo; comes straight from Kerameikos &mdash; this was the potters' quarter of ancient Athens.</p>
 `
   },
   eph_first_last: {
