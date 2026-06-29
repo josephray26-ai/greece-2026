@@ -1625,8 +1625,8 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   </section>
 
   <!-- NOTES -->
-  <section id="section-notes" class="section">
-    <div id="notesCards"></div>
+  <section id="section-explore" class="section">
+    <div id="exploreCards"></div>
   </section>
 
   <!-- BIBLICAL -->
@@ -1653,10 +1653,10 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
     <span class="material-symbols-rounded">map</span>
     <span class="nav-label">Itinerary</span>
   </button>
-  <button class="nav-tab" data-section="notes">
+  <button class="nav-tab" data-section="explore">
     <div class="nav-indicator"></div>
     <span class="material-symbols-rounded">explore</span>
-    <span class="nav-label">Notes</span>
+    <span class="nav-label">Explore</span>
   </button>
   <button class="nav-tab" data-section="biblical">
     <div class="nav-indicator"></div>
@@ -2138,9 +2138,9 @@ const TRIP_DATA = {
 };
 
 /* ═══════════════════════════════════════════════════
-   TRAVEL NOTES (deep-dive guide by day)
+   EXPLORE (deep-dive guide by day)
    ═══════════════════════════════════════════════════ */
-const NOTES_DATA = {
+const EXPLORE_DATA = {
   days: [
     {
       dayNum: 2,
@@ -2148,17 +2148,17 @@ const NOTES_DATA = {
       title: "Athens \u2014 A Walk Through the Ancient City",
       intro: "Day 2 is Athens on foot. A single guided walk threads together the city's greatest hits \u2014 Byzantine churches, the agoras where Paul preached, ancient temples, the marble Olympic stadium, and the view from Mount Lycabettus. Tap any stop below for what to look for and why it matters.",
       stops: [
-          { name: "Church of Kapnikarea", summary: "A small 11th-century Byzantine church marooned in the middle of the busy Ermou shopping street — one of the oldest churches in Athens, with glittering mosaics waiting inside.", contentId: "note_day2_kapnikarea" },
-          { name: "Ancient Agora", summary: "The civic and commercial heart of classical Athens — marketplace, courts, and meeting place where Socrates taught and where Paul reasoned daily with all who happened to be there (Acts 17:17).", contentId: "note_day2_ancient_agora" },
-          { name: "Roman Agora", summary: "The marketplace built when Rome ruled Athens, home to the elegant Tower of the Winds — an ancient clock and weather station — and the Gate of Athena Archegetis.", contentId: "note_day2_roman_agora" },
-          { name: "Temple of Olympian Zeus", summary: "The colossal Olympieion, begun in the 6th century BC and finished 600 years later by the emperor Hadrian — a cluster of towering Corinthian columns is all that survives of the largest temple in Greece.", contentId: "note_day2_olympian_zeus" },
-          { name: "Panathenaic Stadium", summary: "The only stadium in the world built entirely of marble — host of the ancient Panathenaic Games and the site of the very first modern Olympics in 1896.", contentId: "note_day2_panathenaic" },
-          { name: "Hellenic Parliament", summary: "The former Royal Palace overlooking Syntagma Square, now home to Greece's parliament — fronted by the Tomb of the Unknown Soldier and its kilted Evzone guards.", contentId: "note_day2_parliament" },
-          { name: "Mount Lycabettus", summary: "The highest hill in central Athens — a funicular (or a steep climb) leads to a whitewashed chapel of St. George and the finest panorama in the city, stretching all the way to the sea.", contentId: "note_day2_lycabettus" },
-          { name: "Academy of Athens", summary: "A gleaming neoclassical landmark crowned by statues of Athena and Apollo — part of the 'Athenian Trilogy' and a modern tribute to Plato's ancient Academy.", contentId: "note_day2_academy" },
-          { name: "Cenotaph Ceremony", summary: "The Changing of the Guard at the Tomb of the Unknown Soldier — Evzones in traditional dress perform their slow, ceremonial march on the hour in front of Parliament.", contentId: "note_day2_cenotaph" },
-          { name: "Plaka", summary: "The oldest neighborhood of Athens — a charming maze of narrow lanes, tavernas, and neoclassical houses nestled directly beneath the Acropolis.", contentId: "note_day2_plaka" },
-          { name: "Thisseion", summary: "Perched above the Ancient Agora, the Temple of Hephaestus is the best-preserved ancient Greek temple anywhere — and it lends its name to the lively Thissio district that surrounds it.", contentId: "note_day2_thisseion" }
+          { name: "Church of Kapnikarea", summary: "A small 11th-century Byzantine church marooned in the middle of the busy Ermou shopping street — one of the oldest churches in Athens, with glittering mosaics waiting inside.", contentId: "explore_day2_kapnikarea" },
+          { name: "Ancient Agora", summary: "The civic and commercial heart of classical Athens — marketplace, courts, and meeting place where Socrates taught and where Paul reasoned daily with all who happened to be there (Acts 17:17).", contentId: "explore_day2_ancient_agora" },
+          { name: "Roman Agora", summary: "The marketplace built when Rome ruled Athens, home to the elegant Tower of the Winds — an ancient clock and weather station — and the Gate of Athena Archegetis.", contentId: "explore_day2_roman_agora" },
+          { name: "Temple of Olympian Zeus", summary: "The colossal Olympieion, begun in the 6th century BC and finished 600 years later by the emperor Hadrian — a cluster of towering Corinthian columns is all that survives of the largest temple in Greece.", contentId: "explore_day2_olympian_zeus" },
+          { name: "Panathenaic Stadium", summary: "The only stadium in the world built entirely of marble — host of the ancient Panathenaic Games and the site of the very first modern Olympics in 1896.", contentId: "explore_day2_panathenaic" },
+          { name: "Hellenic Parliament", summary: "The former Royal Palace overlooking Syntagma Square, now home to Greece's parliament — fronted by the Tomb of the Unknown Soldier and its kilted Evzone guards.", contentId: "explore_day2_parliament" },
+          { name: "Mount Lycabettus", summary: "The highest hill in central Athens — a funicular (or a steep climb) leads to a whitewashed chapel of St. George and the finest panorama in the city, stretching all the way to the sea.", contentId: "explore_day2_lycabettus" },
+          { name: "Academy of Athens", summary: "A gleaming neoclassical landmark crowned by statues of Athena and Apollo — part of the 'Athenian Trilogy' and a modern tribute to Plato's ancient Academy.", contentId: "explore_day2_academy" },
+          { name: "Cenotaph Ceremony", summary: "The Changing of the Guard at the Tomb of the Unknown Soldier — Evzones in traditional dress perform their slow, ceremonial march on the hour in front of Parliament.", contentId: "explore_day2_cenotaph" },
+          { name: "Plaka", summary: "The oldest neighborhood of Athens — a charming maze of narrow lanes, tavernas, and neoclassical houses nestled directly beneath the Acropolis.", contentId: "explore_day2_plaka" },
+          { name: "Thisseion", summary: "Perched above the Ancient Agora, the Temple of Hephaestus is the best-preserved ancient Greek temple anywhere — and it lends its name to the lively Thissio district that surrounds it.", contentId: "explore_day2_thisseion" }
       ]
     }
   ]
@@ -2642,11 +2642,11 @@ function formatTime(s) {
 /* ═══════════════════════════════════════════════════
    BIBLICAL SECTION
    ═══════════════════════════════════════════════════ */
-function buildNotesCards() {
-  const container = document.getElementById('notesCards');
+function buildExploreCards() {
+  const container = document.getElementById('exploreCards');
   if (!container) return;
   container.innerHTML = '';
-  NOTES_DATA.days.forEach(day => {
+  EXPLORE_DATA.days.forEach(day => {
     const card = document.createElement('div');
     card.className = 'card biblical-card';
     card.dataset.day = day.dayNum;
@@ -4707,7 +4707,7 @@ const SCRIPT_CONTENT = {
 `
   },
 
-  note_day2_kapnikarea: {
+  explore_day2_kapnikarea: {
     title: "Church of Kapnikarea",
     html: `
 <div class="script-section">Church of Kapnikarea</div>
@@ -4721,7 +4721,7 @@ const SCRIPT_CONTENT = {
 <p class="script-note">Fun fact: Its unusual name may come from the medieval &lsquo;kapnikon,&rsquo; a hearth or &lsquo;smoke tax&rsquo; — so its founder may well have been a tax collector.</p>
 `
   },
-  note_day2_ancient_agora: {
+  explore_day2_ancient_agora: {
     title: "Ancient Agora",
     html: `
 <div class="script-section">Ancient Agora</div>
@@ -4735,7 +4735,7 @@ const SCRIPT_CONTENT = {
 <p class="script-note">Fun fact: Archaeologists dug up stacks of &lsquo;ostraka&rsquo; here — pottery shards on which citizens scratched the names of troublemakers to vote them into a 10-year exile. That's the origin of our word &lsquo;ostracism.&rsquo;</p>
 `
   },
-  note_day2_roman_agora: {
+  explore_day2_roman_agora: {
     title: "Roman Agora",
     html: `
 <div class="script-section">Roman Agora</div>
@@ -4749,7 +4749,7 @@ const SCRIPT_CONTENT = {
 <p class="script-note">Fun fact: The Tower of the Winds is often called the world's first weather station — built more than 2,000 years ago and still standing.</p>
 `
   },
-  note_day2_olympian_zeus: {
+  explore_day2_olympian_zeus: {
     title: "Temple of Olympian Zeus",
     html: `
 <div class="script-section">Temple of Olympian Zeus</div>
@@ -4763,7 +4763,7 @@ const SCRIPT_CONTENT = {
 <p class="script-note">Fun fact: Each column stands about 17 metres (56 ft) tall — roughly the height of a five-story building.</p>
 `
   },
-  note_day2_panathenaic: {
+  explore_day2_panathenaic: {
     title: "Panathenaic Stadium",
     html: `
 <div class="script-section">Panathenaic Stadium</div>
@@ -4777,7 +4777,7 @@ const SCRIPT_CONTENT = {
 <p class="script-note">Fun fact: Its tight horseshoe turn made the ancient foot races around the bends notoriously difficult — and thrilling to watch.</p>
 `
   },
-  note_day2_parliament: {
+  explore_day2_parliament: {
     title: "Hellenic Parliament",
     html: `
 <div class="script-section">Hellenic Parliament</div>
@@ -4791,7 +4791,7 @@ const SCRIPT_CONTENT = {
 <p class="script-note">Fun fact: Syntagma Square has been the symbolic center of Greek public life — celebrations and protests alike — for nearly two centuries.</p>
 `
   },
-  note_day2_lycabettus: {
+  explore_day2_lycabettus: {
     title: "Mount Lycabettus",
     html: `
 <div class="script-section">Mount Lycabettus</div>
@@ -4805,7 +4805,7 @@ const SCRIPT_CONTENT = {
 <p class="script-note">Fun fact: Legend says the hill is a giant rock the goddess Athena was carrying to build up the Acropolis — she dropped it here when a crow startled her with bad news.</p>
 `
   },
-  note_day2_academy: {
+  explore_day2_academy: {
     title: "Academy of Athens",
     html: `
 <div class="script-section">Academy of Athens</div>
@@ -4819,7 +4819,7 @@ const SCRIPT_CONTENT = {
 <p class="script-note">Fun fact: Its statues and friezes were painted in vivid color to show how ancient Greek temples actually looked — not the bare white marble we usually imagine.</p>
 `
   },
-  note_day2_cenotaph: {
+  explore_day2_cenotaph: {
     title: "Cenotaph Ceremony",
     html: `
 <div class="script-section">Cenotaph Ceremony</div>
@@ -4833,7 +4833,7 @@ const SCRIPT_CONTENT = {
 <p class="script-note">Fun fact: The guards' kilt — the &lsquo;fustanella&rsquo; — has 400 pleats, one for each year of Ottoman rule, and their red &lsquo;tsarouchia&rsquo; shoes weigh about 3 kg each, studded with 60 nails and topped with a black pom-pom.</p>
 `
   },
-  note_day2_plaka: {
+  explore_day2_plaka: {
     title: "Plaka",
     html: `
 <div class="script-section">Plaka</div>
@@ -4847,7 +4847,7 @@ const SCRIPT_CONTENT = {
 <p class="script-note">Fun fact: Ancient ruins poke up between the houses all over Plaka — you're quite literally walking on top of the ancient city.</p>
 `
   },
-  note_day2_thisseion: {
+  explore_day2_thisseion: {
     title: "Thisseion",
     html: `
 <div class="script-section">Thisseion</div>
@@ -6573,7 +6573,7 @@ function init() {
   initDaySwipe();
   setActiveDay(1);
   buildBiblicalCards();
-  buildNotesCards();
+  buildExploreCards();
   initHomeCtas();
   initHeroSlideshow();
   // Podcast cards are built lazily when the Podcasts tab is first tapped
