@@ -2670,7 +2670,7 @@ function buildExploreCards() {
             <span class="material-symbols-rounded">edit_note</span><span class="note-btn-label">${notesData['travel_day_' + day.dayNum] ? 'Edit Notes' : 'Add Notes'}</span>
           </button>
         </div>
-        <div class="biblical-intro">${esc(day.intro)}</div>
+        <div class="biblical-intro">Tap any stop below for more information.</div>
         <div class="biblical-connections">
           ${day.stops.map(st => `
             <div class="connection-item">
