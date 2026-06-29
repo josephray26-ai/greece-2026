@@ -2146,19 +2146,20 @@ const EXPLORE_DATA = {
       dayNum: 2,
       date: "Friday, July 10",
       title: "Athens \u2014 A Walk Through the Ancient City",
-      intro: "Day 2 is Athens on foot. A single guided walk threads together the city's greatest hits \u2014 Byzantine churches, the agoras where Paul preached, ancient temples, the marble Olympic stadium, and the view from Mount Lycabettus. Tap any stop below for what to look for and why it matters.",
+      intro: "Day 2 is Athens on foot. A single guided walk threads together the city's greatest hits \u2014 Byzantine churches, the agoras where Paul preached, ancient temples, the Acropolis, the marble Olympic stadium, and the view from Lykavittos. Tap any stop below for what to look for and why it matters.",
       stops: [
-          { name: "Church of Kapnikarea", summary: "A small 11th-century Byzantine church marooned in the middle of the busy Ermou shopping street — one of the oldest churches in Athens, with glittering mosaics waiting inside.", contentId: "explore_day2_kapnikarea" },
-          { name: "Ancient Agora", summary: "The civic and commercial heart of classical Athens — marketplace, courts, and meeting place where Socrates taught and where Paul reasoned daily with all who happened to be there (Acts 17:17).", contentId: "explore_day2_ancient_agora" },
-          { name: "Roman Agora", summary: "The marketplace built when Rome ruled Athens, home to the elegant Tower of the Winds — an ancient clock and weather station — and the Gate of Athena Archegetis.", contentId: "explore_day2_roman_agora" },
-          { name: "Temple of Olympian Zeus", summary: "The colossal Olympieion, begun in the 6th century BC and finished 600 years later by the emperor Hadrian — a cluster of towering Corinthian columns is all that survives of the largest temple in Greece.", contentId: "explore_day2_olympian_zeus" },
-          { name: "Panathenaic Stadium", summary: "The only stadium in the world built entirely of marble — host of the ancient Panathenaic Games and the site of the very first modern Olympics in 1896.", contentId: "explore_day2_panathenaic" },
-          { name: "Hellenic Parliament", summary: "The former Royal Palace overlooking Syntagma Square, now home to Greece's parliament — fronted by the Tomb of the Unknown Soldier and its kilted Evzone guards.", contentId: "explore_day2_parliament" },
-          { name: "Mount Lycabettus", summary: "The highest hill in central Athens — a funicular (or a steep climb) leads to a whitewashed chapel of St. George and the finest panorama in the city, stretching all the way to the sea.", contentId: "explore_day2_lycabettus" },
-          { name: "Academy of Athens", summary: "A gleaming neoclassical landmark crowned by statues of Athena and Apollo — part of the 'Athenian Trilogy' and a modern tribute to Plato's ancient Academy.", contentId: "explore_day2_academy" },
-          { name: "Cenotaph Ceremony", summary: "The Changing of the Guard at the Tomb of the Unknown Soldier — Evzones in traditional dress perform their slow, ceremonial march on the hour in front of Parliament.", contentId: "explore_day2_cenotaph" },
-          { name: "Plaka", summary: "The oldest neighborhood of Athens — a charming maze of narrow lanes, tavernas, and neoclassical houses nestled directly beneath the Acropolis.", contentId: "explore_day2_plaka" },
-          { name: "Thisseion", summary: "Perched above the Ancient Agora, the Temple of Hephaestus is the best-preserved ancient Greek temple anywhere — and it lends its name to the lively Thissio district that surrounds it.", contentId: "explore_day2_thisseion" }
+        { name: "Church of Kapnikarea", summary: "A small 11th-century Byzantine church marooned in the middle of the busy Ermou shopping street — one of the oldest churches in Athens, with glittering mosaics waiting inside.", contentId: "explore_day2_kapnikarea" },
+        { name: "Ancient Agora of Athens", summary: "The civic and commercial heart of classical Athens — marketplace, courts, and meeting place where Socrates taught and where Paul reasoned daily with all who happened to be there (Acts 17:17).", contentId: "explore_day2_ancient_agora" },
+        { name: "Roman Agora", summary: "The marketplace built when Rome ruled Athens, home to the elegant Tower of the Winds — an ancient clock and weather station — and the Gate of Athena Archegetis.", contentId: "explore_day2_roman_agora" },
+        { name: "Temple of Olympian Zeus", summary: "The colossal Olympieion, begun in the 6th century BC and finished 600 years later by the emperor Hadrian — a cluster of towering Corinthian columns is all that survives of the largest temple in Greece.", contentId: "explore_day2_olympian_zeus" },
+        { name: "Panathenaic Stadium", summary: "The only stadium in the world built entirely of marble — host of the ancient Panathenaic Games and the site of the very first modern Olympics in 1896.", contentId: "explore_day2_panathenaic" },
+        { name: "Hellenic Parliament", summary: "The former Royal Palace overlooking Syntagma Square, now home to Greece's parliament — fronted by the Tomb of the Unknown Soldier and its kilted Evzone guards.", contentId: "explore_day2_parliament" },
+        { name: "Lykavittos (Mount Lycabettus)", summary: "The highest hill in central Athens — a funicular (or a steep climb) leads to a whitewashed chapel of St. George and the finest panorama in the city, stretching all the way to the sea.", contentId: "explore_day2_lycabettus" },
+        { name: "Academy of Athens", summary: "A gleaming neoclassical landmark crowned by statues of Athena and Apollo — part of the 'Athenian Trilogy' and a modern tribute to Plato's ancient Academy.", contentId: "explore_day2_academy" },
+        { name: "Acropolis", summary: "The crowning glory of Athens — the sacred citadel of the Parthenon, Erechtheion, and Temple of Athena Nike, with the Areopagus (Mars Hill) of Paul's sermon just below.", contentId: "explore_day2_acropolis" },
+        { name: "Changing of the Guard Ceremony", summary: "The Changing of the Guard at the Tomb of the Unknown Soldier — Evzones in traditional dress perform their slow, ceremonial march on the hour in front of Parliament.", contentId: "explore_day2_changing_guard" },
+        { name: "Plaka", summary: "The oldest neighborhood of Athens — a charming maze of narrow lanes, tavernas, and neoclassical houses nestled directly beneath the Acropolis.", contentId: "explore_day2_plaka" },
+        { name: "Theodores Grill", summary: "A well-earned lunch stop — a traditional Athens grill house serving souvlaki, gyros, and char-grilled Greek classics.", contentId: "explore_day2_theodores_grill" }
       ]
     }
   ]
@@ -4722,9 +4723,9 @@ const SCRIPT_CONTENT = {
 `
   },
   explore_day2_ancient_agora: {
-    title: "Ancient Agora",
+    title: "Ancient Agora of Athens",
     html: `
-<div class="script-section">Ancient Agora</div>
+<div class="script-section">Ancient Agora of Athens</div>
 <div class="note-stats">
   <div class="note-stat"><span class="note-stat-label">Built</span><span class="note-stat-value">Developed as a public square from the 6th century BC</span></div>
   <div class="note-stat"><span class="note-stat-label">Originally Used For</span><span class="note-stat-value">The marketplace and civic heart of Athens — commerce, politics, law courts, and philosophy.</span></div>
@@ -4792,9 +4793,9 @@ const SCRIPT_CONTENT = {
 `
   },
   explore_day2_lycabettus: {
-    title: "Mount Lycabettus",
+    title: "Lykavittos (Mount Lycabettus)",
     html: `
-<div class="script-section">Mount Lycabettus</div>
+<div class="script-section">Lykavittos (Mount Lycabettus)</div>
 <div class="note-stats">
   <div class="note-stat"><span class="note-stat-label">Built</span><span class="note-stat-value">A natural limestone hill (not built); summit chapel dates to the 19th century</span></div>
   <div class="note-stat"><span class="note-stat-label">Originally Used For</span><span class="note-stat-value">A natural landmark and pine-covered hill on the edge of the ancient city.</span></div>
@@ -4819,13 +4820,28 @@ const SCRIPT_CONTENT = {
 <p class="script-note">Fun fact: Its statues and friezes were painted in vivid color to show how ancient Greek temples actually looked — not the bare white marble we usually imagine.</p>
 `
   },
-  explore_day2_cenotaph: {
-    title: "Cenotaph Ceremony",
+  explore_day2_acropolis: {
+    title: "Acropolis",
     html: `
-<div class="script-section">Cenotaph Ceremony</div>
+<div class="script-section">Acropolis</div>
+<div class="note-stats">
+  <div class="note-stat"><span class="note-stat-label">Built</span><span class="note-stat-value">Golden Age of Pericles — the Parthenon raised 447–432 BC (the citadel fortified since prehistoric times)</span></div>
+  <div class="note-stat"><span class="note-stat-label">Originally Used For</span><span class="note-stat-value">A sacred citadel and sanctuary dedicated to Athena, patron goddess of the city.</span></div>
+  <div class="note-stat"><span class="note-stat-label">In Scripture</span><span class="note-stat-value">None &mdash; though the Areopagus (Mars Hill) just below is where Paul preached (Acts 17:22&ndash;34)</span></div>
+</div>
+<p class="script-body">The crowning glory of Athens and one of the most recognizable landmarks on earth. This sacred rock has been a fortified sanctuary since prehistoric times, but its golden age came under Pericles in the 5th century BC. Its centerpiece is the Parthenon — the temple of Athena Parthenos, built 447–432 BC by the architects Iktinos and Kallikrates with the master sculptor Phidias.</p>
+<p class="script-body">Alongside it stand the Erechtheion, famous for its Porch of the Caryatids (six graceful maiden-columns), the jewel-box Temple of Athena Nike, and the monumental Propylaea gateway. Just below the Acropolis sits the Areopagus, or Mars Hill — the rocky outcrop where the Apostle Paul preached to the Athenians about their altar &lsquo;to an unknown god&rsquo; (Acts 17:22–34).</p>
+<p class="script-body"><button class="connection-ref-btn" onclick="openScriptModal('acts_17_16_34')"><span class="material-symbols-rounded" style="font-size:13px;">menu_book</span>Read Paul&rsquo;s sermon &mdash; Acts 17:22&ndash;34</button></p>
+<p class="script-note">Fun fact: The Parthenon stood nearly intact for over 2,000 years — until 1687, when a Venetian cannonball struck Ottoman gunpowder stored inside and blew the roof off in a single catastrophic explosion.</p>
+`
+  },
+  explore_day2_changing_guard: {
+    title: "Changing of the Guard Ceremony",
+    html: `
+<div class="script-section">Changing of the Guard Ceremony</div>
 <div class="note-stats">
   <div class="note-stat"><span class="note-stat-label">Built</span><span class="note-stat-value">Tomb of the Unknown Soldier, 1930–1932</span></div>
-  <div class="note-stat"><span class="note-stat-label">Originally Used For</span><span class="note-stat-value">A national cenotaph honoring Greek soldiers fallen for their country.</span></div>
+  <div class="note-stat"><span class="note-stat-label">Originally Used For</span><span class="note-stat-value">A national cenotaph honoring Greek soldiers fallen for their country, guarded ceremonially.</span></div>
   <div class="note-stat"><span class="note-stat-label">In Scripture</span><span class="note-stat-value">None</span></div>
 </div>
 <p class="script-body">In front of Parliament lies the Tomb of the Unknown Soldier — a carved relief of a dying ancient warrior, modeled on a figure from the Temple of Aphaia, flanked by the names of battlefields where Greeks have fought and died. It was created in the early 1930s.</p>
@@ -4847,18 +4863,18 @@ const SCRIPT_CONTENT = {
 <p class="script-note">Fun fact: Ancient ruins poke up between the houses all over Plaka — you're quite literally walking on top of the ancient city.</p>
 `
   },
-  explore_day2_thisseion: {
-    title: "Thisseion",
+  explore_day2_theodores_grill: {
+    title: "Theodores Grill",
     html: `
-<div class="script-section">Thisseion</div>
+<div class="script-section">Theodores Grill</div>
 <div class="note-stats">
-  <div class="note-stat"><span class="note-stat-label">Built</span><span class="note-stat-value">c. 449–415 BC</span></div>
-  <div class="note-stat"><span class="note-stat-label">Originally Used For</span><span class="note-stat-value">A Doric temple dedicated to Hephaestus (god of the forge) and Athena.</span></div>
+  <div class="note-stat"><span class="note-stat-label">Built</span><span class="note-stat-value">A present-day Athens grill house</span></div>
+  <div class="note-stat"><span class="note-stat-label">Originally Used For</span><span class="note-stat-value">A taverna serving traditional Greek grilled fare.</span></div>
   <div class="note-stat"><span class="note-stat-label">In Scripture</span><span class="note-stat-value">None</span></div>
 </div>
-<p class="script-body">Looking down over the Ancient Agora stands the Temple of Hephaestus — the best-preserved ancient Greek temple anywhere in the world. It owes its remarkable condition to serving as a Christian church (St. George) for some 1,400 years. It honored Hephaestus, god of the forge, and Athena, goddess of crafts — fitting, since this hillside was once crowded with metalworkers' and potters' workshops.</p>
-<p class="script-body">For centuries it was mistakenly called the &lsquo;Theseion&rsquo; because its carved friezes depict the heroic labors of Theseus and Heracles — and that old name stuck to the lively neighborhood, Thissio, that surrounds it today.</p>
-<p class="script-note">Fun fact: It was raised around the same time as the Parthenon, by an architect whose name is lost to history — scholars simply call him the &lsquo;Theseum Architect.&rsquo;</p>
+<p class="script-body">After a morning on your feet, this is the reward — a classic Greek grill house where the tour pauses for lunch. Expect the staples done well: charcoal-grilled souvlaki and gyros, juicy grilled meats, a fresh Greek salad crowned with a slab of feta, tzatziki, and warm pita.</p>
+<p class="script-body">Eating is a national pastime in Greece, so settle in. Meals here are meant to be unhurried and shared — order a few plates for the table, and don't be surprised when the hospitality (filoxenia, &lsquo;love of strangers&rsquo;) arrives with a little something extra on the house.</p>
+<p class="script-note">Fun fact: A traditional Greek meal often ends not with the bill, but with a complimentary dessert or a shot of tsipouro — lingering is the whole point.</p>
 `
   },
   eph_first_last: {
