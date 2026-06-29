@@ -2914,12 +2914,19 @@ function goToExplore(dayNum) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.getElementById('section-explore').classList.add('active');
   activeSection = 'explore';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  // Expand and scroll to the matching day card
+  // Expand and scroll to the matching day card, offset below the sticky header
+  // so the card's title row isn't hidden behind the top app bar.
   const card = document.querySelector('#exploreCards .biblical-card[data-day="' + dayNum + '"]');
   if (card) {
     card.classList.add('expanded');
-    setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'start' }), 120);
+    setTimeout(() => {
+      const header = document.querySelector('.top-app-bar');
+      const offset = (header ? header.offsetHeight : 0) + 8;
+      const y = card.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+    }, 120);
+  } else {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }
 
