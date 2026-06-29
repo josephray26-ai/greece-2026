@@ -2501,6 +2501,13 @@ function renderDayDetail(dayNum) {
               <span class="material-symbols-rounded" style="font-size:15px;">map</span>${m.name}
             </a>
           `).join('') : ''}
+          ${EXPLORE_DATA.days.some(d => d.dayNum === day.dayNum) ? `
+          <div style="margin-top:12px;border-top:1px solid var(--md-sys-color-outline-variant);padding-top:12px;">
+            <button class="text-btn" style="margin:0;padding:0;" onclick="goToExplore(${day.dayNum})">
+              <span class="material-symbols-rounded">explore</span>Explore the Day
+            </button>
+          </div>
+          ` : ''}
         </div>
       </div>
     `;
@@ -2780,6 +2787,22 @@ function goToBiblical(dayNum) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
   // Find and expand the matching card
   const card = document.querySelector('.biblical-card[data-day="' + dayNum + '"]');
+  if (card) {
+    card.classList.add('expanded');
+    setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'start' }), 120);
+  }
+}
+
+function goToExplore(dayNum) {
+  // Switch to the Explore tab
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector('.nav-tab[data-section="explore"]').classList.add('active');
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('section-explore').classList.add('active');
+  activeSection = 'explore';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  // Expand and scroll to the matching day card
+  const card = document.querySelector('#exploreCards .biblical-card[data-day="' + dayNum + '"]');
   if (card) {
     card.classList.add('expanded');
     setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'start' }), 120);
