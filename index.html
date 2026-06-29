@@ -1039,9 +1039,16 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
 #script-modal-body .fn-footer         { font-size: calc(12px * var(--sfs, 2)); }
 #script-modal-body .cr-name           { font-size: calc(14px * var(--sfs, 2)); }
 #script-modal-body .cr-price          { font-size: calc(13px * var(--sfs, 2)); }
+#script-modal-body .note-stat-value   { font-size: calc(14px * var(--sfs, 2)); }
+#script-modal-body .note-stat-label   { font-size: calc(10px * var(--sfs, 2)); }
 .script-verse { cursor: pointer; border-radius: 4px; padding: 1px 3px; transition: background-color 0.15s ease; }
 .script-verse.verse-selected { background-color: var(--md-sys-color-primary-container); }
 [data-theme="light"] .script-verse.verse-selected { background-color: #a3ddcd; }
+/* Notes-tab deep-dive key stats */
+.note-stats { margin: 14px 0 18px; padding: 14px 16px; background: var(--md-sys-color-surface-variant); border-radius: 12px; display: flex; flex-direction: column; gap: 12px; }
+.note-stat { display: flex; flex-direction: column; gap: 3px; }
+.note-stat-label { font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--md-sys-color-on-surface-variant); }
+.note-stat-value { color: var(--md-sys-color-on-surface); line-height: 1.45; }
 .script-verse.verse-has-note { text-decoration: underline; text-decoration-style: dotted; text-decoration-color: var(--md-sys-color-primary); text-underline-offset: 3px; }
 /* Verse options bar (Copy / Add Note) */
 #verse-options-bar {
@@ -4704,77 +4711,154 @@ const SCRIPT_CONTENT = {
     title: "Church of Kapnikarea",
     html: `
 <div class="script-section">Church of Kapnikarea</div>
-<p class="script-body">Detailed notes for this stop are coming soon \u2014 what to look for on arrival, the history and faith behind it, and how it fits the bigger story of the day.</p>
+<div class="note-stats">
+  <div class="note-stat"><span class="note-stat-label">Built</span><span class="note-stat-value">c. 1050 AD (mid-11th century, Byzantine era)</span></div>
+  <div class="note-stat"><span class="note-stat-label">Originally Used For</span><span class="note-stat-value">A Greek Orthodox church, dedicated to the Presentation of the Virgin Mary.</span></div>
+  <div class="note-stat"><span class="note-stat-label">In Scripture</span><span class="note-stat-value">None</span></div>
+</div>
+<p class="script-body">This little church sits on a sunken terrace right in the middle of Ermou, Athens' busiest shopping street — crowds and traffic flow around it on every side. It was nearly demolished in the 1800s when the modern city was being laid out, and survived only because King Ludwig I of Bavaria personally intervened to save it.</p>
+<p class="script-body">It's a classic cruciform-with-dome Byzantine design, most likely built over the ruins of an ancient temple to a goddess. Step inside for the candle-lit calm and the shimmering golden mosaic of the Virgin in the apse, painted by the celebrated 20th-century iconographer Fotis Kontoglou.</p>
+<p class="script-note">Fun fact: Its unusual name may come from the medieval &lsquo;kapnikon,&rsquo; a hearth or &lsquo;smoke tax&rsquo; — so its founder may well have been a tax collector.</p>
 `
   },
   note_day2_ancient_agora: {
     title: "Ancient Agora",
     html: `
 <div class="script-section">Ancient Agora</div>
-<p class="script-body">Detailed notes for this stop are coming soon \u2014 what to look for on arrival, the history and faith behind it, and how it fits the bigger story of the day.</p>
+<div class="note-stats">
+  <div class="note-stat"><span class="note-stat-label">Built</span><span class="note-stat-value">Developed as a public square from the 6th century BC</span></div>
+  <div class="note-stat"><span class="note-stat-label">Originally Used For</span><span class="note-stat-value">The marketplace and civic heart of Athens — commerce, politics, law courts, and philosophy.</span></div>
+  <div class="note-stat"><span class="note-stat-label">In Scripture</span><span class="note-stat-value"><button class="connection-ref-btn" style="margin-top:0;" onclick="openScriptModal('acts_17_17')"><span class="material-symbols-rounded" style="font-size:13px;">menu_book</span>Acts 17:17</button></span></div>
+</div>
+<p class="script-body">If the Acropolis was Athens' soul, the Agora was its beating heart — marketplace, courthouse, council chamber, and social hub all in one. Citizens shopped, voted, gossiped, and argued philosophy here daily. Socrates famously cornered passers-by with his questions in this very square, and was later tried in its law courts.</p>
+<p class="script-body">This is also where the Apostle Paul &lsquo;reasoned in the marketplace day by day with those who happened to be there&rsquo; (Acts 17:17) before he was taken up to the Areopagus. Don't miss the Stoa of Attalos — a complete reconstruction of a 2nd-century BC shopping arcade that now houses the site museum.</p>
+<p class="script-note">Fun fact: Archaeologists dug up stacks of &lsquo;ostraka&rsquo; here — pottery shards on which citizens scratched the names of troublemakers to vote them into a 10-year exile. That's the origin of our word &lsquo;ostracism.&rsquo;</p>
 `
   },
   note_day2_roman_agora: {
     title: "Roman Agora",
     html: `
 <div class="script-section">Roman Agora</div>
-<p class="script-body">Detailed notes for this stop are coming soon \u2014 what to look for on arrival, the history and faith behind it, and how it fits the bigger story of the day.</p>
+<div class="note-stats">
+  <div class="note-stat"><span class="note-stat-label">Built</span><span class="note-stat-value">c. 19–11 BC (funded by Julius Caesar and Augustus)</span></div>
+  <div class="note-stat"><span class="note-stat-label">Originally Used For</span><span class="note-stat-value">The commercial marketplace of Athens under Roman rule.</span></div>
+  <div class="note-stat"><span class="note-stat-label">In Scripture</span><span class="note-stat-value">None</span></div>
+</div>
+<p class="script-body">When Rome took over, Athens got a brand-new marketplace just east of the old one, paid for by Julius Caesar and the Emperor Augustus. Its star attraction is the Tower of the Winds — an octagonal marble tower that packed an entire weather station into one structure: sundials on every face, a water clock inside, and a bronze weathervane on top, ringed by carved reliefs of the eight wind gods.</p>
+<p class="script-body">You'll enter through the Gate of Athena Archegetis, a stately four-column marble gateway dedicated to the city's patron goddess.</p>
+<p class="script-note">Fun fact: The Tower of the Winds is often called the world's first weather station — built more than 2,000 years ago and still standing.</p>
 `
   },
   note_day2_olympian_zeus: {
     title: "Temple of Olympian Zeus",
     html: `
 <div class="script-section">Temple of Olympian Zeus</div>
-<p class="script-body">Detailed notes for this stop are coming soon \u2014 what to look for on arrival, the history and faith behind it, and how it fits the bigger story of the day.</p>
+<div class="note-stats">
+  <div class="note-stat"><span class="note-stat-label">Built</span><span class="note-stat-value">Begun c. 520 BC, completed AD 131 under Emperor Hadrian (~600 years)</span></div>
+  <div class="note-stat"><span class="note-stat-label">Originally Used For</span><span class="note-stat-value">A temple dedicated to Zeus, king of the Olympian gods.</span></div>
+  <div class="note-stat"><span class="note-stat-label">In Scripture</span><span class="note-stat-value">None</span></div>
+</div>
+<p class="script-body">This was meant to be the greatest temple in the Greek world — and it took roughly 600 years to finish. Begun by the tyrant Peisistratos around 520 BC, it was abandoned, restarted, and finally completed by the Roman emperor Hadrian in AD 131, who placed a colossal gold-and-ivory statue of Zeus inside — and, modestly, an equally enormous statue of himself.</p>
+<p class="script-body">Of its original 104 towering Corinthian columns, just 15 still stand. A 16th lies toppled in a neat row of giant marble drums, knocked down by a storm in 1852 — it's the best spot to grasp the sheer scale up close. The Arch of Hadrian stands right next door, marking the boundary between &lsquo;the old city of Theseus&rsquo; and &lsquo;the city of Hadrian.&rsquo;</p>
+<p class="script-note">Fun fact: Each column stands about 17 metres (56 ft) tall — roughly the height of a five-story building.</p>
 `
   },
   note_day2_panathenaic: {
     title: "Panathenaic Stadium",
     html: `
 <div class="script-section">Panathenaic Stadium</div>
-<p class="script-body">Detailed notes for this stop are coming soon \u2014 what to look for on arrival, the history and faith behind it, and how it fits the bigger story of the day.</p>
+<div class="note-stats">
+  <div class="note-stat"><span class="note-stat-label">Built</span><span class="note-stat-value">Track laid out 330 BC; rebuilt in marble c. AD 144; restored 1895</span></div>
+  <div class="note-stat"><span class="note-stat-label">Originally Used For</span><span class="note-stat-value">A stadium for the athletic games of the Panathenaic festival honoring Athena.</span></div>
+  <div class="note-stat"><span class="note-stat-label">In Scripture</span><span class="note-stat-value">None</span></div>
+</div>
+<p class="script-body">This is the only stadium on earth built entirely of marble — gleaming white Pentelic marble, from the same quarry that built the Parthenon, which is why Athenians call it &lsquo;Kallimarmaro,&rsquo; the &lsquo;beautiful marble.&rsquo; The original racing track was laid out in 330 BC; the grand marble seating was added by the wealthy benefactor Herodes Atticus around AD 144.</p>
+<p class="script-body">Excavated and restored for the very first modern Olympic Games in 1896, it still hosts the finish of the Athens Marathon and is where the Olympic flame is ceremonially handed over to each host nation before the Games.</p>
+<p class="script-note">Fun fact: Its tight horseshoe turn made the ancient foot races around the bends notoriously difficult — and thrilling to watch.</p>
 `
   },
   note_day2_parliament: {
     title: "Hellenic Parliament",
     html: `
 <div class="script-section">Hellenic Parliament</div>
-<p class="script-body">Detailed notes for this stop are coming soon \u2014 what to look for on arrival, the history and faith behind it, and how it fits the bigger story of the day.</p>
+<div class="note-stats">
+  <div class="note-stat"><span class="note-stat-label">Built</span><span class="note-stat-value">1836–1843 (as the Royal Palace, architect Friedrich von Gärtner)</span></div>
+  <div class="note-stat"><span class="note-stat-label">Originally Used For</span><span class="note-stat-value">The royal palace of Otto, the first King of modern Greece.</span></div>
+  <div class="note-stat"><span class="note-stat-label">In Scripture</span><span class="note-stat-value">None</span></div>
+</div>
+<p class="script-body">This grand building began life as the Royal Palace, built in the 1830s for Greece's first king — the teenage Bavarian prince Otto. It overlooks Syntagma (&lsquo;Constitution&rsquo;) Square, which earned its name in 1843 when a popular uprising gathered here and forced the king onto the balcony to grant Greece its first constitution.</p>
+<p class="script-body">It has housed the Greek Parliament since 1934. On the wall facing the square sits the Tomb of the Unknown Soldier, with its ever-present ceremonial guard.</p>
+<p class="script-note">Fun fact: Syntagma Square has been the symbolic center of Greek public life — celebrations and protests alike — for nearly two centuries.</p>
 `
   },
   note_day2_lycabettus: {
     title: "Mount Lycabettus",
     html: `
 <div class="script-section">Mount Lycabettus</div>
-<p class="script-body">Detailed notes for this stop are coming soon \u2014 what to look for on arrival, the history and faith behind it, and how it fits the bigger story of the day.</p>
+<div class="note-stats">
+  <div class="note-stat"><span class="note-stat-label">Built</span><span class="note-stat-value">A natural limestone hill (not built); summit chapel dates to the 19th century</span></div>
+  <div class="note-stat"><span class="note-stat-label">Originally Used For</span><span class="note-stat-value">A natural landmark and pine-covered hill on the edge of the ancient city.</span></div>
+  <div class="note-stat"><span class="note-stat-label">In Scripture</span><span class="note-stat-value">None</span></div>
+</div>
+<p class="script-body">At nearly 300 metres, this pine-covered limestone peak is the highest point in central Athens, and the view from the top — the Acropolis, the whole sprawling city, and the blue Saronic Gulf beyond — is the finest in Athens, especially at sunset. A funicular railway has whisked visitors to the summit since 1965, or you can hike the switchback trails.</p>
+<p class="script-body">At the very top sits the tiny whitewashed chapel of St. George, alongside a café and an open-air theatre that hosts summer concerts.</p>
+<p class="script-note">Fun fact: Legend says the hill is a giant rock the goddess Athena was carrying to build up the Acropolis — she dropped it here when a crow startled her with bad news.</p>
 `
   },
   note_day2_academy: {
     title: "Academy of Athens",
     html: `
 <div class="script-section">Academy of Athens</div>
-<p class="script-body">Detailed notes for this stop are coming soon \u2014 what to look for on arrival, the history and faith behind it, and how it fits the bigger story of the day.</p>
+<div class="note-stats">
+  <div class="note-stat"><span class="note-stat-label">Built</span><span class="note-stat-value">1859–1885 (designed by Theophil Hansen)</span></div>
+  <div class="note-stat"><span class="note-stat-label">Originally Used For</span><span class="note-stat-value">Built as Greece's national academy of sciences and humanities.</span></div>
+  <div class="note-stat"><span class="note-stat-label">In Scripture</span><span class="note-stat-value">None</span></div>
+</div>
+<p class="script-body">One of the most beautiful neoclassical buildings in Greece, designed by the Danish architect Theophil Hansen and completed in 1885. It's the centerpiece of the &lsquo;Athenian Trilogy&rsquo; — the Academy, the University, and the National Library — three marble landmarks standing in a row on Panepistimiou Street.</p>
+<p class="script-body">Two soaring Ionic columns out front carry statues of Athena and Apollo, while Plato and Socrates sit in marble at the entrance. It was inspired by Plato's original Academy, the philosophy school he founded around 387 BC in an olive grove across town.</p>
+<p class="script-note">Fun fact: Its statues and friezes were painted in vivid color to show how ancient Greek temples actually looked — not the bare white marble we usually imagine.</p>
 `
   },
   note_day2_cenotaph: {
     title: "Cenotaph Ceremony",
     html: `
 <div class="script-section">Cenotaph Ceremony</div>
-<p class="script-body">Detailed notes for this stop are coming soon \u2014 what to look for on arrival, the history and faith behind it, and how it fits the bigger story of the day.</p>
+<div class="note-stats">
+  <div class="note-stat"><span class="note-stat-label">Built</span><span class="note-stat-value">Tomb of the Unknown Soldier, 1930–1932</span></div>
+  <div class="note-stat"><span class="note-stat-label">Originally Used For</span><span class="note-stat-value">A national cenotaph honoring Greek soldiers fallen for their country.</span></div>
+  <div class="note-stat"><span class="note-stat-label">In Scripture</span><span class="note-stat-value">None</span></div>
+</div>
+<p class="script-body">In front of Parliament lies the Tomb of the Unknown Soldier — a carved relief of a dying ancient warrior, modeled on a figure from the Temple of Aphaia, flanked by the names of battlefields where Greeks have fought and died. It was created in the early 1930s.</p>
+<p class="script-body">It's guarded around the clock by the Evzones, the elite Presidential Guard, in their famous traditional dress. The Changing of the Guard takes place on the hour, with a larger, full-ceremony version every Sunday at 11am — a must-see.</p>
+<p class="script-note">Fun fact: The guards' kilt — the &lsquo;fustanella&rsquo; — has 400 pleats, one for each year of Ottoman rule, and their red &lsquo;tsarouchia&rsquo; shoes weigh about 3 kg each, studded with 60 nails and topped with a black pom-pom.</p>
 `
   },
   note_day2_plaka: {
     title: "Plaka",
     html: `
 <div class="script-section">Plaka</div>
-<p class="script-body">Detailed notes for this stop are coming soon \u2014 what to look for on arrival, the history and faith behind it, and how it fits the bigger story of the day.</p>
+<div class="note-stats">
+  <div class="note-stat"><span class="note-stat-label">Built</span><span class="note-stat-value">Continuously inhabited since antiquity; most surviving houses are 19th-century</span></div>
+  <div class="note-stat"><span class="note-stat-label">Originally Used For</span><span class="note-stat-value">A residential neighborhood on the slopes of the Acropolis — the heart of old Athens.</span></div>
+  <div class="note-stat"><span class="note-stat-label">In Scripture</span><span class="note-stat-value">None</span></div>
+</div>
+<p class="script-body">Tucked beneath the north slope of the Acropolis, Plaka is the oldest continuously inhabited neighborhood in Athens — people have lived on this spot for thousands of years. Today it's a car-light maze of narrow lanes, bougainvillea, neoclassical houses, tavernas, and shops, nicknamed the &lsquo;Neighborhood of the Gods.&rsquo;</p>
+<p class="script-body">Climb its upper edge to find Anafiotika, a pocket of tiny whitewashed, blue-shuttered houses built by island craftsmen from Anafi in the 1800s — it feels like a Cycladic village dropped into the middle of the capital.</p>
+<p class="script-note">Fun fact: Ancient ruins poke up between the houses all over Plaka — you're quite literally walking on top of the ancient city.</p>
 `
   },
   note_day2_thisseion: {
     title: "Thisseion",
     html: `
 <div class="script-section">Thisseion</div>
-<p class="script-body">Detailed notes for this stop are coming soon \u2014 what to look for on arrival, the history and faith behind it, and how it fits the bigger story of the day.</p>
+<div class="note-stats">
+  <div class="note-stat"><span class="note-stat-label">Built</span><span class="note-stat-value">c. 449–415 BC</span></div>
+  <div class="note-stat"><span class="note-stat-label">Originally Used For</span><span class="note-stat-value">A Doric temple dedicated to Hephaestus (god of the forge) and Athena.</span></div>
+  <div class="note-stat"><span class="note-stat-label">In Scripture</span><span class="note-stat-value">None</span></div>
+</div>
+<p class="script-body">Looking down over the Ancient Agora stands the Temple of Hephaestus — the best-preserved ancient Greek temple anywhere in the world. It owes its remarkable condition to serving as a Christian church (St. George) for some 1,400 years. It honored Hephaestus, god of the forge, and Athena, goddess of crafts — fitting, since this hillside was once crowded with metalworkers' and potters' workshops.</p>
+<p class="script-body">For centuries it was mistakenly called the &lsquo;Theseion&rsquo; because its carved friezes depict the heroic labors of Theseus and Heracles — and that old name stuck to the lively neighborhood, Thissio, that surrounds it today.</p>
+<p class="script-note">Fun fact: It was raised around the same time as the Parthenon, by an architect whose name is lost to history — scholars simply call him the &lsquo;Theseum Architect.&rsquo;</p>
 `
   },
   eph_first_last: {
