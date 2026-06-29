@@ -2145,6 +2145,22 @@ const TRIP_DATA = {
 const EXPLORE_DATA = {
   days: [
     {
+      dayNum: 0,
+      date: "Wednesday, July 8",
+      title: "Greece Through the Ages",
+      intro: "Tap any stop below for more information.",
+      stops: [
+        { name: "Athens", summary: "The cradle of democracy and the thread tying the whole journey together — through Greece's rise, fall, and rebirth.", contentId: "explore_day0_athens" },
+        { name: "Piraeus", summary: "Athens' great port and a window into Greece's seafaring soul, from ancient navies to modern shipping fortunes.", contentId: "explore_day0_piraeus" },
+        { name: "Santorini", summary: "A lesson in how geology shaped history — from a world-changing eruption to today's tourism boom.", contentId: "explore_day0_santorini" },
+        { name: "Rhodes", summary: "A crossroads of empires — ancient maritime republic, crusader fortress, Ottoman, Italian, and finally Greek.", contentId: "explore_day0_rhodes" },
+        { name: "Ephesus", summary: "The New Testament world reaching into Asia Minor — a great Roman city in what is now Turkey.", contentId: "explore_day0_ephesus" },
+        { name: "Mykonos", summary: "The modern Greek tourism miracle in miniature — from a poor island to a global playground.", contentId: "explore_day0_mykonos" },
+        { name: "Thessaloniki", summary: "The story of Macedonia — Alexander's homeland, a Roman and Byzantine powerhouse, Greece's vibrant second city.", contentId: "explore_day0_thessaloniki" },
+        { name: "Philippi", summary: "Where Greek conquest, Roman power, and the birth of European Christianity meet.", contentId: "explore_day0_philippi" }
+      ]
+    },
+    {
       dayNum: 1,
       date: "Thursday, July 9",
       title: "Athens City Walk",
@@ -2213,7 +2229,8 @@ const EXPLORE_DATA = {
         { name: "Archaeological Museum of Piraeus", summary: "Home to rare ancient bronzes, including the celebrated Piraeus Apollo.", contentId: "explore_day3_piraeus_museum" },
         { name: "Hellenic Maritime Museum", summary: "Greece's seafaring story, from ancient triremes to a real submarine.", contentId: "explore_day3_piraeus_maritime" },
         { name: "Kastella (Profitis Ilias Hill)", summary: "A hill of neoclassical mansions with sweeping views over the Saronic Gulf.", contentId: "explore_day3_piraeus_kastella" },
-        { name: "Municipal Theatre of Piraeus", summary: "An elegant 19th-century neoclassical theatre, one of the finest in Greece.", contentId: "explore_day3_piraeus_theatre" }
+        { name: "Municipal Theatre of Piraeus", summary: "An elegant 19th-century neoclassical theatre, one of the finest in Greece.", contentId: "explore_day3_piraeus_theatre" },
+        { name: "National Archaeological Museum", summary: "Greece's greatest museum — Mycenaean gold, monumental bronzes, and the astonishing 2,000-year-old Antikythera Mechanism.", contentId: "explore_day3_national_museum" }
       ]
     },
     {
@@ -5803,9 +5820,11 @@ const SCRIPT_CONTENT = {
   <div class="note-stat"><span class="note-stat-label">Originally Used For</span><span class="note-stat-value">A triumphal arch and a grand domed rotunda</span></div>
   <div class="note-stat"><span class="note-stat-label">In Scripture</span><span class="note-stat-value"><button class="connection-ref-btn" style="margin-top:0;" onclick="openScriptModal('acts_17_1_9')"><span class="material-symbols-rounded" style="font-size:13px;">menu_book</span>Acts 17:1-9</button></span></div>
 </div>
-<p class="script-body">Two of Thessaloniki's grandest Roman monuments stand together. The Arch of Galerius (the &lsquo;Kamara&rsquo;) once spanned the Via Egnatia, carved with reliefs of the emperor's victories. Steps away rises the massive Rotunda, a domed cylinder later turned into a church and then a mosque.</p>
-<p class="script-body">The Via Egnatia that ran beneath this arch is the very road the Apostle Paul traveled into Thessalonica (Acts 17:1), where he preached in the synagogue for three Sabbaths.</p>
-<p class="script-note">Fun fact: The Rotunda's walls are over 6 m thick &mdash; one reason this 1,700-year-old domed giant still stands.</p>
+<p class="script-body">Two of Thessaloniki's grandest Roman monuments stand together at the top of the lively Kamara district. The Arch of Galerius &mdash; locals just call it the &lsquo;Kamara&rsquo; &mdash; was raised around AD 298–305 to celebrate the emperor Galerius's victories over the Persians, its surviving piers carved with vivid scenes of battle and triumph.</p>
+<p class="script-body">The arch once spanned the Via Egnatia, the great Roman road running from the Adriatic all the way to Constantinople. This is the very road the Apostle Paul traveled to reach Thessalonica (Acts 17:1), where he preached in the synagogue for three Sabbaths and founded one of the earliest churches in Europe &mdash; later writing them the letters of 1 and 2 Thessalonians.</p>
+<p class="script-body">A short walk up the hill stands the Rotunda, a colossal domed cylinder that Galerius probably intended as his own mausoleum. With walls over six metres thick, it has shrugged off earthquakes for 1,700 years &mdash; one of the oldest religious buildings still standing anywhere.</p>
+<p class="script-body">Converted into a Christian church around AD 400 and adorned with brilliant gold mosaics, it later became a mosque under the Ottomans &mdash; you can still see its lone surviving minaret outside. Today it serves again as a church and monument, a living layer-cake of the city's Roman, Christian, and Ottoman past.</p>
+<p class="script-note">Fun fact: The Rotunda's walls are over 6 m thick &mdash; one reason this 1,700-year-old domed giant has outlasted countless earthquakes.</p>
 `
   },
   explore_day8_st_demetrius: {
@@ -5817,9 +5836,11 @@ const SCRIPT_CONTENT = {
   <div class="note-stat"><span class="note-stat-label">Originally Used For</span><span class="note-stat-value">A basilica honoring the city's patron saint and martyr</span></div>
   <div class="note-stat"><span class="note-stat-label">In Scripture</span><span class="note-stat-value">None</span></div>
 </div>
-<p class="script-body">The largest church in Greece and the spiritual heart of Thessaloniki, dedicated to St. Demetrius, a Roman soldier martyred for his Christian faith around AD 306. It rises over the site of his imprisonment and the old Roman baths.</p>
-<p class="script-body">Descend to the crypt to see where, by tradition, the saint was held and killed. The church preserves rare early Christian mosaics that survived a devastating fire in 1917.</p>
-<p class="script-note">Fun fact: Galerius &mdash; whose arch and rotunda you just saw &mdash; is the same emperor who, by tradition, ordered Demetrius put to death.</p>
+<p class="script-body">The largest church in Greece and the spiritual heart of Thessaloniki, dedicated to St. Demetrius (Agios Dimitrios), the city's beloved patron. A Roman soldier and secret Christian, he was martyred around AD 306 for encouraging his faith &mdash; by tradition on the orders of the emperor Galerius himself.</p>
+<p class="script-body">The great five-aisled basilica rises directly over the spot of his imprisonment and death, beside the ancient Roman baths. Pilgrims have venerated him here for some 1,600 years; he is honored as a &lsquo;myrrh-streaming&rsquo; saint and protector who, legend says, has defended the city in times of siege.</p>
+<p class="script-body">Descend into the crypt to see the Roman-era remains and the place tradition marks as his martyrdom &mdash; a quiet, moving space beneath the bustle of the church above.</p>
+<p class="script-body">The basilica was gutted by the catastrophic fire that swept Thessaloniki in 1917 and carefully rebuilt, but several precious 7th-century mosaics survived and still glint beside the altar &mdash; rare treasures of early Christian art.</p>
+<p class="script-note">Fun fact: Galerius &mdash; whose arch and rotunda you just visited &mdash; is, by tradition, the very emperor who ordered Demetrius put to death.</p>
 `
   },
   explore_day8_thessaloniki_forum: {
@@ -5831,9 +5852,11 @@ const SCRIPT_CONTENT = {
   <div class="note-stat"><span class="note-stat-label">Originally Used For</span><span class="note-stat-value">The administrative and commercial heart of Roman Thessaloniki</span></div>
   <div class="note-stat"><span class="note-stat-label">In Scripture</span><span class="note-stat-value"><button class="connection-ref-btn" style="margin-top:0;" onclick="openScriptModal('acts_17_1_9')"><span class="material-symbols-rounded" style="font-size:13px;">menu_book</span>Acts 17:1-9</button></span></div>
 </div>
-<p class="script-body">The ancient marketplace and civic center of Roman Thessalonica, with a restored odeon (small theatre), colonnaded squares, and an underground cryptoporticus &mdash; now an open archaeological park in the middle of the modern city.</p>
-<p class="script-body">This was the bustling public heart of the city where Paul ministered (Acts 17), turning, as his critics charged, &lsquo;the world upside down.&rsquo;</p>
-<p class="script-note">Fun fact: A small museum beneath the forum lets you walk along the original Roman shopping arcade.</p>
+<p class="script-body">In the middle of the modern city lies the ancient Forum &mdash; the marketplace and civic center of Roman Thessalonica. A double-level square ringed by colonnades, it held law courts, shops, public offices, and a small marble theatre (odeon) that has been beautifully restored and still hosts summer performances.</p>
+<p class="script-body">Beneath the square runs a cryptoporticus &mdash; a vaulted underground gallery of shops &mdash; now an atmospheric little museum where you can walk the original Roman arcade.</p>
+<p class="script-body">This public square was the beating heart of the city Paul visited around AD 50 (Acts 17). His preaching stirred such an uproar that a mob dragged believers before the city authorities, complaining that &lsquo;these men who have turned the world upside down have come here also.&rsquo;</p>
+<p class="script-body">The forum was lost for centuries and only rediscovered in the 1960s, when the site was being cleared for a new courthouse &mdash; one of many places in Thessaloniki where the ancient city surfaces right in the middle of the modern one.</p>
+<p class="script-note">Fun fact: The forum was rediscovered by accident in the 1960s during construction &mdash; the planned courthouse was scrapped to save the ruins.</p>
 `
   },
   explore_day8_lion_amphipolis: {
@@ -5845,9 +5868,11 @@ const SCRIPT_CONTENT = {
   <div class="note-stat"><span class="note-stat-label">Originally Used For</span><span class="note-stat-value">A funerary monument, likely for a general of Alexander</span></div>
   <div class="note-stat"><span class="note-stat-label">In Scripture</span><span class="note-stat-value"><button class="connection-ref-btn" style="margin-top:0;" onclick="openScriptModal('acts_17_1_9')"><span class="material-symbols-rounded" style="font-size:13px;">menu_book</span>Acts 17:1</button></span></div>
 </div>
-<p class="script-body">A magnificent 4th-century BC marble lion set up beside the ancient Via Egnatia near Amphipolis, reassembled from fragments in the 1930s. It likely marked the tomb of an important figure from the era of Alexander the Great.</p>
-<p class="script-body">Paul passed through Amphipolis on the road from Philippi to Thessalonica (Acts 17:1), so this very lion would have watched him walk by.</p>
-<p class="script-note">Fun fact: The lion may be linked to the nearby Kasta Tomb &mdash; the largest ancient burial mound ever found in Greece, unearthed in 2012.</p>
+<p class="script-body">About halfway between Philippi and Thessalonica, beside the old Via Egnatia, sits a magnificent marble lion nearly six metres tall on its pedestal &mdash; a striking roadside monument. It dates to the late 4th century BC, the age of Alexander the Great.</p>
+<p class="script-body">The lion was found in shattered fragments in the early 20th century &mdash; some pieces had been reused as building material and in a riverbed dam &mdash; and was painstakingly reassembled by archaeologists in the 1930s. It likely crowned the tomb of an important Macedonian, possibly one of Alexander's admirals.</p>
+<p class="script-body">For the biblical traveler, it's a tangible companion to Paul's journey: Acts 17:1 records that Paul and Silas &lsquo;passed through Amphipolis and Apollonia&rsquo; on the road from Philippi to Thessalonica &mdash; so this very monument stood watch over the road as they walked it.</p>
+<p class="script-body">It's a quick but worthwhile pull-off, free and open-air, with the reassembled giant standing proud against the green countryside.</p>
+<p class="script-note">Fun fact: The lion may be linked to the nearby Kasta Tomb &mdash; the largest ancient burial mound ever found in Greece, unearthed amid great excitement in 2012.</p>
 `
   },
   explore_day8_st_lydia: {
@@ -5859,9 +5884,11 @@ const SCRIPT_CONTENT = {
   <div class="note-stat"><span class="note-stat-label">Originally Used For</span><span class="note-stat-value">A baptistery marking Europe's first conversion</span></div>
   <div class="note-stat"><span class="note-stat-label">In Scripture</span><span class="note-stat-value"><button class="connection-ref-btn" style="margin-top:0;" onclick="openScriptModal('acts_16_13_15')"><span class="material-symbols-rounded" style="font-size:13px;">menu_book</span>Acts 16:14-15</button></span></div>
 </div>
-<p class="script-body">A serene riverside spot just outside Philippi where, by the River Gangites, the Apostle Paul met Lydia, a dealer in purple cloth. She believed and was baptized &mdash; becoming the first recorded Christian convert in Europe (Acts 16:14&ndash;15).</p>
-<p class="script-body">A striking modern octagonal church honors her, and an open-air baptistery by the river is still used for baptisms today. Pilgrims often call it the most moving stop in all of Greece.</p>
-<p class="script-note">Fun fact: Lydia traded in &lsquo;purple&rsquo; &mdash; the rare, costly dye only the wealthy could afford &mdash; marking her as a successful businesswoman of her day.</p>
+<p class="script-body">Just outside Philippi, in a peaceful grove by the River Gangites, is one of the most moving stops in all of Greece. Here, by the riverside, Paul met a group of women gathered at a place of prayer &mdash; among them Lydia, a dealer in costly purple cloth from the city of Thyatira.</p>
+<p class="script-body">As Scripture records, &lsquo;the Lord opened her heart to respond to Paul's message,&rsquo; and she and her household were baptized (Acts 16:14&ndash;15) &mdash; making Lydia the first recorded Christian convert on European soil. She then opened her home to Paul, hosting what became the first house-church in Europe.</p>
+<p class="script-body">A beautiful modern octagonal church dedicated to St. Lydia stands nearby, its interior glowing with mosaics and stained glass that tell her story. At the river itself, an open-air marble baptistery with steps down into the water is still used for baptisms today, especially by visiting pilgrim groups.</p>
+<p class="script-body">It's a quiet, green, contemplative place &mdash; a favorite spot for reading Acts 16 aloud and reflecting on how the gospel first took root in Europe.</p>
+<p class="script-note">Fun fact: Lydia traded in &lsquo;purple&rsquo; &mdash; a dye so rare and costly that only royalty and the wealthy could afford it &mdash; marking her as a successful businesswoman of her day.</p>
 `
   },
   explore_day8_philippi_site: {
@@ -5873,9 +5900,11 @@ const SCRIPT_CONTENT = {
   <div class="note-stat"><span class="note-stat-label">Originally Used For</span><span class="note-stat-value">A Greek and Roman city; cradle of European Christianity</span></div>
   <div class="note-stat"><span class="note-stat-label">In Scripture</span><span class="note-stat-value"><button class="connection-ref-btn" style="margin-top:0;" onclick="openScriptModal('acts_16_16_34')"><span class="material-symbols-rounded" style="font-size:13px;">menu_book</span>Acts 16:16-40</button></span></div>
 </div>
-<p class="script-body">A UNESCO World Heritage city where Paul founded the first Christian church on European soil. Walk the Roman forum, the marble-paved Via Egnatia, and the remains of grand early Christian basilicas, with the theatre rising against the hillside.</p>
-<p class="script-body">Here Paul cast a spirit out of a slave girl, was beaten and thrown into prison, and at midnight sang hymns until an earthquake shook the doors open and the jailer believed (Acts 16:16&ndash;34). A site shown as &lsquo;Paul's Prison&rsquo; marks the story.</p>
-<p class="script-note">Fun fact: Philippi was named for King Philip II of Macedon &mdash; father of Alexander the Great &mdash; who seized it for its nearby gold mines in 356 BC.</p>
+<p class="script-body">A UNESCO World Heritage city and the cradle of Christianity in Europe. Founded by colonists in 360 BC and seized by Philip II of Macedon for its gold mines, Philippi later became a proud Roman colony, settled with army veterans after the decisive Battle of Philippi in 42 BC.</p>
+<p class="script-body">Wander the grand Roman forum, the marble-paved Via Egnatia running straight through town, a theatre built into the hillside, and the soaring ruins of two great early Christian basilicas &mdash; testament to how quickly the faith Paul planted here flourished.</p>
+<p class="script-body">This is where Paul made his first European converts. After casting a spirit of divination out of a slave girl, he and Silas were stripped, beaten, and thrown into prison &mdash; yet at midnight they were &lsquo;praying and singing hymns to God&rsquo; when an earthquake shook the doors open. The astonished jailer and his whole household believed and were baptized (Acts 16:16&ndash;34).</p>
+<p class="script-body">A crypt traditionally shown as &lsquo;Paul's Prison&rsquo; marks the story on site. Years later, from another prison, Paul would write the Philippians the warmest of all his letters &mdash; &lsquo;Rejoice in the Lord always&rsquo; &mdash; to this beloved first European church.</p>
+<p class="script-note">Fun fact: Philippi is named for King Philip II of Macedon &mdash; father of Alexander the Great &mdash; who took it in 356 BC for the gold mines in the surrounding hills.</p>
 `
   },
   explore_day8_white_tower: {
@@ -5887,8 +5916,11 @@ const SCRIPT_CONTENT = {
   <div class="note-stat"><span class="note-stat-label">Originally Used For</span><span class="note-stat-value">A waterfront fortress tower and prison</span></div>
   <div class="note-stat"><span class="note-stat-label">In Scripture</span><span class="note-stat-value">None</span></div>
 </div>
-<p class="script-body">The cylindrical White Tower is the symbol of Thessaloniki, standing guard on the seafront promenade. Built by the Ottomans, it later served as a prison and place of execution; today it houses a museum of the city's history, with rooftop views.</p>
-<p class="script-note">Fun fact: Once nicknamed the &lsquo;Tower of Blood&rsquo; for its grim past, it was whitewashed by a prisoner in exchange for his freedom &mdash; and the name &lsquo;White Tower&rsquo; stuck.</p>
+<p class="script-body">The cylindrical White Tower is the great symbol of Thessaloniki, standing where the seafront promenade meets the line of the old city walls. The Ottomans built it in the early 1500s, probably over an earlier Byzantine tower, to anchor the city's harbor defenses.</p>
+<p class="script-body">For much of the Ottoman era it served as a garrison and a notorious prison and place of execution &mdash; earning the grim nickname the &lsquo;Tower of Blood.&rsquo;</p>
+<p class="script-body">The story goes that it was whitewashed in the 19th century &mdash; by a prisoner in exchange for his freedom, according to legend &mdash; and the cheerier name &lsquo;White Tower&rsquo; stuck ever after.</p>
+<p class="script-body">Today it houses an engaging museum on the history of Thessaloniki, spiraling up six floors, with a rooftop that rewards the climb with sweeping views over the waterfront and the Thermaic Gulf.</p>
+<p class="script-note">Fun fact: Once called the &lsquo;Tower of Blood&rsquo; for its grim past, it was whitewashed into the &lsquo;White Tower&rsquo; &mdash; and the new name stuck.</p>
 `
   },
   explore_day8_aristotelous: {
@@ -5900,8 +5932,11 @@ const SCRIPT_CONTENT = {
   <div class="note-stat"><span class="note-stat-label">Originally Used For</span><span class="note-stat-value">The grand central square of the city</span></div>
   <div class="note-stat"><span class="note-stat-label">In Scripture</span><span class="note-stat-value">None</span></div>
 </div>
-<p class="script-body">Thessaloniki's monumental main square, opening grandly onto the waterfront. Designed by the French architect Ernest Hébrard after the great fire of 1917, its sweeping arcades and cafés are the city's favorite gathering place.</p>
-<p class="script-note">Fun fact: The square is named for the philosopher Aristotle, who was born in nearby Stagira in northern Greece.</p>
+<p class="script-body">Thessaloniki's monumental main square opens grandly from the city onto the waterfront. It was designed by the French architect Ernest Hébrard as the centerpiece of the visionary plan to rebuild the city after the catastrophic fire of 1917 destroyed much of the center.</p>
+<p class="script-body">Its sweeping, arcaded buildings and symmetrical curves frame a magnificent view out over the sea &mdash; with Mount Olympus, the mythical home of the gods, visible on the horizon on a clear day.</p>
+<p class="script-body">Lined with historic cafés and landmarks like the Electra Palace hotel and the Olympion cinema, it is the city's living room &mdash; where locals gather for coffee, celebrations, concerts, and the occasional rally.</p>
+<p class="script-body">It's the natural starting point for a stroll along the seafront promenade toward the White Tower, one of the finest waterfront walks in Greece.</p>
+<p class="script-note">Fun fact: The square is named for Aristotle, born in nearby Stagira; his seated statue sits at the top, one toe polished gold by visitors who rub it for wisdom and luck.</p>
 `
   },
   explore_day8_thess_museum: {
@@ -5913,8 +5948,11 @@ const SCRIPT_CONTENT = {
   <div class="note-stat"><span class="note-stat-label">Originally Used For</span><span class="note-stat-value">To display the finds of ancient Macedonia</span></div>
   <div class="note-stat"><span class="note-stat-label">In Scripture</span><span class="note-stat-value">None</span></div>
 </div>
-<p class="script-body">A superb museum showcasing the treasures of ancient Macedonia, including dazzling gold wreaths, jewelry, and artifacts from royal tombs &mdash; a glimpse of the wealth of Alexander the Great's homeland.</p>
-<p class="script-note">Fun fact: Its gold collection rivals any in Greece, reflecting the riches of the Macedonian kings.</p>
+<p class="script-body">A superb modern museum telling the story of Macedonia from prehistory through the Roman age &mdash; the ideal companion to a day spent among the region's ruins.</p>
+<p class="script-body">Its star attractions are the dazzling gold treasures of the Macedonian kingdom: delicate wreaths of golden oak and myrtle leaves, jewelry, and grave goods that reveal the staggering wealth of Alexander the Great's homeland.</p>
+<p class="script-body">Among its highlights are the famous Derveni Krater &mdash; an elaborate gilded-bronze wine-mixing vessel from the 4th century BC &mdash; and the Derveni Papyrus, the oldest surviving manuscript in Europe.</p>
+<p class="script-body">Together with the nearby Museum of Byzantine Culture, it offers a full sweep of the north's history &mdash; and a welcome, air-conditioned break from the summer heat.</p>
+<p class="script-note">Fun fact: Its gold collection rivals any in Greece, reflecting the immense riches of the Macedonian kings who, under Alexander, conquered the known world.</p>
 `
   },
   explore_day8_ano_poli: {
@@ -5926,8 +5964,11 @@ const SCRIPT_CONTENT = {
   <div class="note-stat"><span class="note-stat-label">Originally Used For</span><span class="note-stat-value">The old upper town, within the city walls</span></div>
   <div class="note-stat"><span class="note-stat-label">In Scripture</span><span class="note-stat-value">None</span></div>
 </div>
-<p class="script-body">The atmospheric old Upper Town climbs the hillside above the modern city &mdash; the one quarter that survived the 1917 fire. Wander steep lanes of timber-framed Ottoman houses and Byzantine churches up to the old city walls and the Heptapyrgion fortress.</p>
-<p class="script-note">Fun fact: From the Byzantine walls of Ano Poli you get the finest panorama over the whole city and the Thermaic Gulf.</p>
+<p class="script-body">High on the hillside above the modern city, Ano Poli (the &lsquo;Upper Town&rsquo;) is the one quarter that largely escaped the great fire of 1917 &mdash; so it still preserves the look and feel of old Thessaloniki.</p>
+<p class="script-body">Wander a tangle of steep, narrow lanes lined with timber-framed Ottoman houses, tiny Byzantine churches, hidden courtyards, and cats sunning on whitewashed steps. It feels like a village tucked inside the city.</p>
+<p class="script-body">Crowning the hill are the impressive Byzantine city walls and the Heptapyrgion (Yedi Kule), a sprawling fortress that served as a prison into the 20th century, along with the Trigonion Tower.</p>
+<p class="script-body">Most of all, come for the view: from the ramparts you get the finest panorama in the city, out over the rooftops, the harbor, and the whole sweep of the Thermaic Gulf &mdash; unforgettable at sunset.</p>
+<p class="script-note">Fun fact: From the Byzantine walls of Ano Poli you get the best panorama over the entire city and gulf &mdash; a favorite sunset spot for locals.</p>
 `
   },
   explore_day8_thess_hagia_sophia: {
@@ -5939,8 +5980,11 @@ const SCRIPT_CONTENT = {
   <div class="note-stat"><span class="note-stat-label">Originally Used For</span><span class="note-stat-value">A major Byzantine church (Holy Wisdom)</span></div>
   <div class="note-stat"><span class="note-stat-label">In Scripture</span><span class="note-stat-value">None</span></div>
 </div>
-<p class="script-body">A UNESCO-listed Byzantine church modeled on its great namesake in Constantinople, famous for the gold mosaic of the Ascension of Christ in its dome. It has served as both church and mosque across its 1,200-year life.</p>
-<p class="script-note">Fun fact: It's one of the oldest churches still standing in Thessaloniki and one of 15 of the city's Byzantine monuments on the UNESCO World Heritage list.</p>
+<p class="script-body">One of the oldest churches still standing in Thessaloniki, the Hagia Sophia (&lsquo;Holy Wisdom&rsquo;) was built in the 8th century AD, modeled on its mighty namesake in Constantinople and dedicated, like it, to the Wisdom of God.</p>
+<p class="script-body">Its great dome is crowned by a shimmering gold mosaic of the Ascension of Christ, encircled by the Virgin, angels, and the apostles &mdash; a masterpiece of Byzantine art that has gazed down on worshippers for over a thousand years.</p>
+<p class="script-body">Like so many of the city's churches, it was converted into a mosque during the long Ottoman period and then restored as a church &mdash; its layered history written into its very walls.</p>
+<p class="script-body">It is one of fifteen Paleochristian and Byzantine monuments in Thessaloniki collectively inscribed on the UNESCO World Heritage list &mdash; a reminder that this was one of the great cities of the Christian Byzantine world.</p>
+<p class="script-note">Fun fact: It's one of 15 of the city's early-Christian and Byzantine monuments collectively honored on the UNESCO World Heritage list.</p>
 `
   },
   explore_day1_city_walk: {
@@ -6203,6 +6247,162 @@ const SCRIPT_CONTENT = {
 </div>
 <p class="script-body">The walk ends at Monastiraki metro station, where two lines meet. During its reconstruction, builders uncovered the ancient bed of the Eridanos river and Roman-era ruins &mdash; now preserved and on display behind glass right inside the station.</p>
 <p class="script-note">Fun fact: You can see a 2,500-year-old riverbed and ancient water channels preserved inside the station &mdash; a free archaeological exhibit on your way to the train.</p>
+`
+  },
+  explore_day3_national_museum: {
+    title: "National Archaeological Museum",
+    html: `
+<div class="script-section">National Archaeological Museum</div>
+<div class="note-stats">
+  <div class="note-stat"><span class="note-stat-label">Built</span><span class="note-stat-value">Building completed 1889 (neoclassical design)</span></div>
+  <div class="note-stat"><span class="note-stat-label">Originally Used For</span><span class="note-stat-value">Built to gather and protect Greece's most important antiquities.</span></div>
+  <div class="note-stat"><span class="note-stat-label">In Scripture</span><span class="note-stat-value">None</span></div>
+</div>
+<p class="script-body">The largest museum in Greece and one of the world's great collections of ancient art, a little north of the city center. Its galleries span 5,000 years &mdash; from delicate Cycladic figurines to Mycenaean treasure to monumental classical bronzes.</p>
+<p class="script-body">Don't miss the gold &lsquo;Mask of Agamemnon&rsquo; from the royal graves of Mycenae, the magnificent bronze of Zeus (or Poseidon) poised to hurl a thunderbolt, and the Antikythera Mechanism &mdash; an astonishing 2,000-year-old geared device that tracked the movements of the sun, moon, and planets.</p>
+<div class="script-section">Your Self-Guided Tour &mdash; Stops 1&ndash;20</div>
+<p class="script-body">The galleries run roughly in chronological order. Follow the numbered highlights from the prehistoric treasures near the entrance through the great age of bronze and marble sculpture. Here's what to look for at each stop:</p>
+<p class="script-body"><strong>1. Nat'l Archaeological Museum</strong> &mdash; Greece's largest and greatest museum, holding the finest collection of ancient Greek art in the world. Its galleries run roughly in chronological order &mdash; from prehistoric Cycladic art and Mycenaean gold through the great age of sculpture to Roman times.</p>
+<p class="script-body"><strong>2. Tour Begins: History</strong> &mdash; Start in the prehistoric galleries near the entrance. The museum opened in the late 1800s to gather Greece's scattered antiquities under one roof, and it has been growing ever since.</p>
+<p class="script-body"><strong>3. Cycladic Figurines</strong> &mdash; Strikingly modern-looking marble figures from the Cycladic islands, around 5,000 years old. Their pure, abstract forms &mdash; often folded-arm female figures &mdash; inspired 20th-century artists like Picasso and Modigliani.</p>
+<p class="script-body"><strong>4. Mask of Agamemnon</strong> &mdash; The museum's most famous treasure: a gold funerary mask unearthed by Heinrich Schliemann at Mycenae in 1876. He declared &lsquo;I have gazed upon the face of Agamemnon&rsquo; &mdash; though it actually predates the legendary king by some 300 years. It's surrounded by dazzling Mycenaean gold.</p>
+<p class="script-body"><strong>5. More Mycenaean Artifacts</strong> &mdash; Gold cups, inlaid daggers, jewelry, and the exquisite Vapheio Cups &mdash; two gold cups embossed with scenes of bull-catching &mdash; from the warrior civilization Homer immortalized.</p>
+<p class="script-body"><strong>6. Dipylon Vase</strong> &mdash; A monumental 8th-century BC funerary vase, taller than a person, covered in precise geometric patterns and a scene of mourners. A masterpiece of the Geometric period, it once marked a grave in the Kerameikos cemetery.</p>
+<p class="script-body"><strong>7. Kore & Kouros Statues (Rooms 7-11)</strong> &mdash; Rooms of Archaic statues: rigid, forward-striding nude young men (kouroi) and draped maidens (korai) from the 6th century BC, many wearing the mysterious &lsquo;Archaic smile.&rsquo;</p>
+<p class="script-body"><strong>8. More Kouroi & Bases</strong> &mdash; More towering kouros statues and their inscribed bases &mdash; grave markers and offerings to the gods that show Greek sculptors steadily moving toward lifelike form.</p>
+<p class="script-body"><strong>9. Artemision Bronze</strong> &mdash; A magnificent over-life-size bronze of a bearded god &mdash; Zeus hurling a thunderbolt, or Poseidon his trident &mdash; poised mid-throw. Recovered from an ancient shipwreck off Cape Artemision, around 460 BC.</p>
+<p class="script-body"><strong>10. Athena Varvakeion Replica</strong> &mdash; A small marble copy that is our best surviving record of the lost Athena Parthenos &mdash; the colossal gold-and-ivory statue by Phidias that once stood inside the Parthenon.</p>
+<p class="script-body"><strong>11. Funeral Steles</strong> &mdash; Beautifully carved grave markers showing the deceased in tender farewell scenes with their families &mdash; among the most moving and human works of classical art.</p>
+<p class="script-body"><strong>12. Horse & Jockey of Artemision</strong> &mdash; A dramatic bronze of a young jockey, face straining, urging on a galloping racehorse &mdash; a rare and lively survival from antiquity, found in the same shipwreck as the Artemision god.</p>
+<p class="script-body"><strong>13. Grave Relief of a Horse</strong> &mdash; A spirited marble relief of a groom with a powerful horse &mdash; a fine example of the animal sculpture the Greeks excelled at.</p>
+<p class="script-body"><strong>14. Bronze Statue of a Youth</strong> &mdash; An elegant bronze of a young man (the &lsquo;Antikythera Youth&rsquo;), reaching out as if holding a now-lost object &mdash; recovered from the famous Antikythera shipwreck.</p>
+<p class="script-body"><strong>15. Philosopher Portrait Head</strong> &mdash; A craggy, intensely realistic bronze head of an elderly thinker, also from the Antikythera wreck &mdash; a striking turn from idealized youth toward true-to-life portraiture.</p>
+<p class="script-body"><strong>16. Fighting Gaul</strong> &mdash; A dynamic statue of a wounded warrior, capturing the movement and raw emotion the Hellenistic age loved.</p>
+<p class="script-body"><strong>17. Aphrodite, Pan & Eros</strong> &mdash; A playful marble group: the goddess Aphrodite fends off the goat-legged god Pan with her sandal while a winged Eros looks on &mdash; a charming, almost comic scene.</p>
+<p class="script-body"><strong>18. Emperor Augustus</strong> &mdash; A commanding bronze portrait of Rome's first emperor &mdash; a reminder of the age when Greece had become part of the Roman world.</p>
+<p class="script-body"><strong>19. Sleeping Maenad, Antinous & Asklepios</strong> &mdash; A trio of fine sculptures &mdash; a slumbering follower of Dionysus, a celebrated portrait of Hadrian's beloved Antinous, and the healing god Asklepios.</p>
+<p class="script-body"><strong>20. Busts of the Late Empire</strong> &mdash; Realistic Roman portrait busts closing the collection &mdash; emperors and citizens whose careworn faces carry the weight of the empire's final centuries.</p>
+<p class="script-note">Fun fact: The Antikythera Mechanism displayed here is so sophisticated it's often called the world's first analog computer &mdash; nothing as complex appears again for over a thousand years.</p>
+`
+  },
+  explore_day0_athens: {
+    title: "Athens",
+    html: `
+<div class="script-section">Athens</div>
+<div class="note-stats">
+  <div class="note-stat"><span class="note-stat-label">Ruled By</span><span class="note-stat-value">Mycenaean kings, then a democratic city-state; Macedon, Rome, Byzantium, the Ottomans, and modern Greece.</span></div>
+  <div class="note-stat"><span class="note-stat-label">Ancient Economy</span><span class="note-stat-value">Silver from the Laurion mines, olive oil, and fine pottery — funding its navy and golden age.</span></div>
+  <div class="note-stat"><span class="note-stat-label">Economy Today</span><span class="note-stat-value">Capital of Greece: government, services, shipping wealth, and tourism.</span></div>
+</div>
+<p class="script-body">Athens is the thread that ties this whole journey together. In the 5th century BC it became the world's first democracy and the cultural capital of the ancient world &mdash; the city of Socrates and Plato, the Parthenon, and the Apostle Paul's sermon on Mars Hill.</p>
+<p class="script-body">After its golden age it was absorbed by Philip and Alexander's Macedon, then by Rome (which admired and preserved it), ruled for centuries from Byzantine Constantinople, and finally held for nearly 400 years by the Ottoman Turks. It became capital of a free Greek kingdom only in 1834.</p>
+<p class="script-body">Its ancient wealth flowed from the silver mines at Laurion, prized olive oil, painted pottery, and command of the Aegean trade routes through its port at Piraeus. Today it is the political and economic heart of modern Greece, powered by services, shipping fortunes, and tourism.</p>
+<p class="script-note">Fun fact: Athens has been continuously inhabited for over 5,000 years &mdash; one of the oldest cities on Earth.</p>
+`
+  },
+  explore_day0_piraeus: {
+    title: "Piraeus",
+    html: `
+<div class="script-section">Piraeus</div>
+<div class="note-stats">
+  <div class="note-stat"><span class="note-stat-label">Ruled By</span><span class="note-stat-value">Classical Athens, Macedon, Rome, Byzantium, the Ottomans, and modern Greece.</span></div>
+  <div class="note-stat"><span class="note-stat-label">Ancient Economy</span><span class="note-stat-value">The naval base and trading port of Athens — grain imports and the silver-funded fleet.</span></div>
+  <div class="note-stat"><span class="note-stat-label">Economy Today</span><span class="note-stat-value">The largest passenger port in Europe and a major shipping and commercial hub.</span></div>
+</div>
+<p class="script-body">Piraeus is the maritime engine of Athens and a window into the Greek soul. Designed as a planned port-city by Themistocles in the 5th century BC, it housed the navy that built the Athenian empire.</p>
+<p class="script-body">Greece has always lived from the sea. With little fertile land and a thousand islands, it became one of history's great maritime trading nations &mdash; and Greek shipowners still command one of the largest merchant fleets on Earth.</p>
+<p class="script-body">Through every era &mdash; Athenian, Roman, Byzantine, Ottoman, and modern &mdash; whoever controlled this harbor controlled Athens' lifeline of grain and trade.</p>
+<p class="script-note">Fun fact: Greek-owned ships still carry a huge share of the world's cargo &mdash; shipping remains one of modern Greece's biggest industries, much of it run from Piraeus.</p>
+`
+  },
+  explore_day0_santorini: {
+    title: "Santorini",
+    html: `
+<div class="script-section">Santorini</div>
+<div class="note-stats">
+  <div class="note-stat"><span class="note-stat-label">Ruled By</span><span class="note-stat-value">Minoans, then Dorian Greeks; Rome, Byzantium, Venetian dukes, the Ottomans, and modern Greece.</span></div>
+  <div class="note-stat"><span class="note-stat-label">Ancient Economy</span><span class="note-stat-value">Farming and Aegean trade — until a colossal eruption reshaped everything around 1600 BC.</span></div>
+  <div class="note-stat"><span class="note-stat-label">Economy Today</span><span class="note-stat-value">One of the world's premier tourist destinations; prized volcanic-soil wine.</span></div>
+</div>
+<p class="script-body">Santorini is a lesson in how geology shapes history. Around 1600 BC one of the largest volcanic eruptions in human history blew the island apart, burying the Bronze Age town of Akrotiri and perhaps inspiring the legend of Atlantis.</p>
+<p class="script-body">Over the centuries it passed through Dorian Greek, Roman, and Byzantine hands, became a prized Venetian duchy in the Middle Ages, and spent centuries under Ottoman rule before joining modern Greece.</p>
+<p class="script-body">Once a modest economy of farming and wine on volcanic soil, today Santorini is one of the most visited places on the planet &mdash; tourism is overwhelmingly its economy, a story echoing across the Greek islands.</p>
+<p class="script-note">Fun fact: The eruption that shaped Santorini may lie behind Plato's tale of the lost civilization of Atlantis.</p>
+`
+  },
+  explore_day0_rhodes: {
+    title: "Rhodes",
+    html: `
+<div class="script-section">Rhodes</div>
+<div class="note-stats">
+  <div class="note-stat"><span class="note-stat-label">Ruled By</span><span class="note-stat-value">Ancient Greek city-states, the Knights of St. John, the Ottomans, briefly Italy, and modern Greece.</span></div>
+  <div class="note-stat"><span class="note-stat-label">Ancient Economy</span><span class="note-stat-value">A wealthy maritime and trading power — famed for its harbor and the Colossus.</span></div>
+  <div class="note-stat"><span class="note-stat-label">Economy Today</span><span class="note-stat-value">A major tourism island, with agriculture and trade.</span></div>
+</div>
+<p class="script-body">Rhodes shows how Greece sat at the crossroads of empires. In antiquity it was a rich, independent maritime republic &mdash; wealthy enough to raise the Colossus, a 30-metre bronze that was one of the Seven Wonders of the World.</p>
+<p class="script-body">In the Middle Ages the Knights of St. John turned it into a Christian fortress against the Ottomans, who finally took it in 1522. It then spent centuries under Ottoman rule, was held by Italy in the early 20th century, and only joined Greece in 1947.</p>
+<p class="script-body">Long a hub of Mediterranean commerce thanks to its position between Europe, Asia, and Africa, Rhodes today lives largely on tourism drawn to its beaches and its medieval old town.</p>
+<p class="script-note">Fun fact: Rhodes joined Greece only in 1947 &mdash; one of the most recent additions to the modern Greek state.</p>
+`
+  },
+  explore_day0_ephesus: {
+    title: "Ephesus",
+    html: `
+<div class="script-section">Ephesus</div>
+<div class="note-stats">
+  <div class="note-stat"><span class="note-stat-label">Ruled By</span><span class="note-stat-value">Greeks, Lydians, Persians, Alexander's successors, Rome, Byzantium, the Seljuks and Ottomans, and modern Turkey.</span></div>
+  <div class="note-stat"><span class="note-stat-label">Ancient Economy</span><span class="note-stat-value">A great trading port and banking center — capital of the Roman province of Asia.</span></div>
+  <div class="note-stat"><span class="note-stat-label">Economy Today</span><span class="note-stat-value">A premier archaeological tourism site in modern Turkey.</span></div>
+</div>
+<p class="script-body">Ephesus is a reminder that the world of the New Testament stretched across the sea into Asia Minor &mdash; today's Turkey. Founded by Greeks, it grew into one of the greatest cities of the ancient Mediterranean.</p>
+<p class="script-body">It passed from Greek to Lydian (the kingdom that invented coined money) to Persian rule, was freed by Alexander the Great, and flourished under Rome as the capital of the province of Asia &mdash; a city of more than 200,000 and a major banking and trade center, home to the Temple of Artemis.</p>
+<p class="script-body">As its harbor silted up the city declined; the region passed to Byzantium, then to the Seljuk and Ottoman Turks, and lies today in the Republic of Turkey, where its spectacular ruins draw millions of visitors a year.</p>
+<p class="script-note">Fun fact: Neighboring Lydia is where coined money was invented around 600 BC &mdash; one of history's great economic turning points.</p>
+`
+  },
+  explore_day0_mykonos: {
+    title: "Mykonos",
+    html: `
+<div class="script-section">Mykonos</div>
+<div class="note-stats">
+  <div class="note-stat"><span class="note-stat-label">Ruled By</span><span class="note-stat-value">Ancient Greeks (beside sacred Delos), Rome, Byzantium, Venetians, the Ottomans, and modern Greece.</span></div>
+  <div class="note-stat"><span class="note-stat-label">Ancient Economy</span><span class="note-stat-value">A modest island living from the sea, beside the great trade center of Delos.</span></div>
+  <div class="note-stat"><span class="note-stat-label">Economy Today</span><span class="note-stat-value">A world-famous luxury tourism destination.</span></div>
+</div>
+<p class="script-body">Mykonos shows the modern Greek economic miracle in miniature. In antiquity it was a poor, rocky island overshadowed by neighboring Delos &mdash; the sacred birthplace of Apollo and one of the busiest trade markets of the ancient Aegean.</p>
+<p class="script-body">Like the rest of the Cyclades it passed through Roman, Byzantine, Venetian, and Ottoman hands before joining the new Greek state in the 1830s. For most of its history it scraped by on fishing, farming, and sailing.</p>
+<p class="script-body">Then came tourism. From the 1960s, Mykonos transformed into one of the most glamorous and expensive holiday islands in the world &mdash; a vivid example of how tourism reshaped the modern Greek economy.</p>
+<p class="script-note">Fun fact: Sacred Delos next door was so important that ancient Athens once kept the treasury of its entire alliance there.</p>
+`
+  },
+  explore_day0_thessaloniki: {
+    title: "Thessaloniki",
+    html: `
+<div class="script-section">Thessaloniki</div>
+<div class="note-stats">
+  <div class="note-stat"><span class="note-stat-label">Ruled By</span><span class="note-stat-value">Macedonian kings, Rome, Byzantium (its 'second city'), the Ottomans, and modern Greece.</span></div>
+  <div class="note-stat"><span class="note-stat-label">Ancient Economy</span><span class="note-stat-value">A great port on the Via Egnatia, the trade road linking Rome to the East.</span></div>
+  <div class="note-stat"><span class="note-stat-label">Economy Today</span><span class="note-stat-value">Greece's second city — a port, university, and commercial hub of the north.</span></div>
+</div>
+<p class="script-body">Thessaloniki carries the story of Macedonia &mdash; the kingdom of Philip II and Alexander the Great that once conquered the known world. Founded in 315 BC and named for Alexander's half-sister, it became one of the most important cities of the Greek world.</p>
+<p class="script-body">Under Rome it thrived as a key stop on the Via Egnatia, the highway linking the Adriatic to Constantinople &mdash; the very road Paul traveled. As the Byzantine Empire's 'second city' it was a great Christian center, before nearly five centuries of Ottoman rule. It became Greek only in 1912.</p>
+<p class="script-body">For most of its life it has been a thriving, multicultural port &mdash; Greek, Roman, Jewish, and Ottoman &mdash; and remains today Greece's bustling second city and its northern commercial gateway.</p>
+<p class="script-note">Fun fact: Thessaloniki was one of the most important Jewish cities in the world for centuries, nicknamed the &lsquo;Mother of Israel.&rsquo;</p>
+`
+  },
+  explore_day0_philippi: {
+    title: "Philippi",
+    html: `
+<div class="script-section">Philippi</div>
+<div class="note-stats">
+  <div class="note-stat"><span class="note-stat-label">Ruled By</span><span class="note-stat-value">King Philip II of Macedon, Rome, Byzantium, and the Ottomans; the site lies in modern Greece.</span></div>
+  <div class="note-stat"><span class="note-stat-label">Ancient Economy</span><span class="note-stat-value">Gold mines and rich farmland; a road-town on the Via Egnatia.</span></div>
+  <div class="note-stat"><span class="note-stat-label">Economy Today</span><span class="note-stat-value">An archaeological site and UNESCO World Heritage destination.</span></div>
+</div>
+<p class="script-body">Philippi ties together Greek conquest, Roman power, and the birth of European Christianity. King Philip II of Macedon &mdash; Alexander's father &mdash; seized the town in 356 BC for the gold in its hills, and gave it his name.</p>
+<p class="script-body">In 42 BC the plains here saw one of history's decisive battles, where Mark Antony and Octavian (the future Augustus) defeated Caesar's assassins. Rome then made Philippi a veterans' colony on the Via Egnatia &mdash; which is why Paul, arriving around AD 50, found a proud Roman city and founded Europe's first church here.</p>
+<p class="script-body">The city faded under the Byzantines and Ottomans and was eventually abandoned. Today its silent ruins, in modern Greece's far north, form a UNESCO World Heritage Site and a major stop for Christian pilgrims.</p>
+<p class="script-note">Fun fact: The Battle of Philippi in 42 BC effectively ended the Roman Republic, clearing the way for Augustus to become Rome's first emperor.</p>
 `
   },
   eph_first_last: {
