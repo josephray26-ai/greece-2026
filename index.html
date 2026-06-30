@@ -150,6 +150,23 @@ a { color: var(--md-sys-color-primary); }
 .nav-tab .material-symbols-rounded { font-size: 24px; position: relative; z-index: 1; }
 .nav-tab .nav-label { font-size: 12px; font-weight: 500; letter-spacing: 0.5px; }
 .nav-tab.active { color: var(--md-sys-color-primary); }
+/* Explore — elevated "notch" nav button (prominent center action; light + dark) */
+.nav-tab--explore .nav-indicator { display: none; }
+.nav-tab--explore .material-symbols-rounded {
+  width: 58px; height: 58px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 30px;
+  margin: -17px 0;                 /* keep flow height ~24px so siblings/labels don't shift */
+  transform: translateY(-20px);    /* bump the icon up out of the bar */
+  background: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  box-shadow: 0 8px 18px -6px rgba(0,0,0,0.45), 0 0 0 6px var(--md-sys-color-nav-bg);
+  transition: background 0.2s, box-shadow 0.3s, transform 0.12s;
+  z-index: 3;
+}
+.nav-tab--explore:active .material-symbols-rounded { transform: translateY(-20px) scale(0.94); }
+.nav-tab--explore .nav-label { font-weight: 600; }
 
 /* ── Main Content ── */
 main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
@@ -806,6 +823,79 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
 .biblical-connections { padding: 0 16px 8px; }
 .explore-extra-header { padding: 18px 16px 2px; margin-top: 6px; border-top: 1px solid var(--md-sys-color-outline-variant); font-family: 'Roboto Serif', Georgia, serif; font-size: 16px; font-weight: 600; color: var(--md-sys-color-on-surface); }
 .explore-extra-sub { padding: 0 16px 4px; font-size: 13px; font-style: italic; color: var(--md-sys-color-on-surface-variant); }
+/* ── Explore tab: reimagined day cards (2-column tappable stop tiles) ── */
+.explore-day-highlight {
+  margin: 18px 16px 6px;
+  padding: 12px 14px;
+  background: var(--md-sys-color-primary-container, rgba(26,103,89,0.10));
+  border-left: 3px solid var(--md-sys-color-primary);
+  border-radius: 10px;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--md-sys-color-on-surface);
+}
+.explore-preview { background: var(--md-sys-color-surface); border-top: 1px solid var(--md-sys-color-outline-variant); cursor: pointer; padding-bottom: 4px; -webkit-tap-highlight-color: transparent; }
+.explore-stops-callout {
+  display: flex; align-items: center; gap: 7px;
+  margin: 16px 16px 10px;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+  color: var(--md-sys-color-primary);
+}
+.explore-stops-callout .material-symbols-rounded { font-size: 18px; }
+.explore-tile-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  padding: 14px 16px 8px;
+  align-items: start;
+}
+.explore-tile {
+  background: var(--md-sys-color-surface-variant, rgba(128,128,128,0.10));
+  border: 1.5px solid transparent;
+  border-radius: 14px;
+  padding: 11px 12px;
+  cursor: pointer;
+  display: flex; flex-direction: column;
+  transition: border-color 0.2s, background 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+.explore-tile:not(.expanded) { height: 60px; justify-content: center; }
+.explore-tile.expanded {
+  grid-column: 1 / -1;
+  border-color: var(--md-sys-color-primary);
+  background: var(--md-sys-color-surface);
+}
+.explore-tile-head { display: flex; align-items: center; gap: 9px; }
+.explore-tile-dot {
+  width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary);
+  font-size: 13px; font-weight: 700;
+}
+.explore-tile-dot .material-symbols-rounded { font-size: 16px; }
+.explore-tile-name {
+  flex: 1; font-size: 14px; font-weight: 600; line-height: 17px;
+  color: var(--md-sys-color-on-surface);
+}
+.explore-tile-chev {
+  font-size: 20px; color: var(--md-sys-color-on-surface-variant);
+  transition: transform 0.2s; flex-shrink: 0;
+}
+.explore-tile.expanded .explore-tile-chev { transform: rotate(180deg); }
+.explore-tile-detail { display: none; margin-top: 11px; }
+.explore-tile.expanded .explore-tile-detail { display: block; }
+.explore-tile-summary { font-size: 13px; line-height: 1.55; color: var(--md-sys-color-on-surface); }
+.explore-learn { margin-top: 11px; display: flex; flex-direction: column; gap: 8px; }
+.explore-learn-row { display: flex; gap: 8px; align-items: flex-start; font-size: 12.5px; line-height: 1.5; color: var(--md-sys-color-on-surface-variant); }
+.explore-learn-row .material-symbols-rounded { font-size: 17px; color: var(--md-sys-color-primary); flex-shrink: 0; margin-top: 1px; }
+.explore-learn-label { font-weight: 700; color: var(--md-sys-color-on-surface); }
+.explore-dive-btn {
+  display: inline-flex; align-items: center; gap: 6px; margin-top: 13px;
+  padding: 9px 16px; border-radius: 100px; border: none; cursor: pointer;
+  background: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary);
+  font-family: inherit; font-size: 12.5px; font-weight: 700;
+}
+.explore-dive-btn .material-symbols-rounded { font-size: 17px; }
 .connection-item {
   padding: 12px 0;
   border-bottom: 1px solid var(--md-sys-color-outline-variant);
@@ -1825,7 +1915,7 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
     <span class="material-symbols-rounded">map</span>
     <span class="nav-label">Itinerary</span>
   </button>
-  <button class="nav-tab" data-section="explore">
+  <button class="nav-tab nav-tab--explore" data-section="explore">
     <div class="nav-indicator"></div>
     <span class="material-symbols-rounded">explore</span>
     <span class="nav-label">Explore</span>
@@ -2350,7 +2440,7 @@ const EXPLORE_DATA = {
         { name: "Adrianou Street", summary: "Athens' oldest street, running through Plaka with postcard views up to the Parthenon.", contentId: "explore_day1_adrianou" },
         { name: "Arch of Hadrian & Temple of Olympian Zeus", summary: "A Roman gateway marking old vs. new Athens, beside the towering columns of Greece's largest temple.", contentId: "explore_day1_hadrian_arch_zeus" },
         { name: "Lysicrates Monument", summary: "A graceful 334 BC marble monument in a leafy Plaka square.", contentId: "explore_day1_lysicrates" },
-        { name: "Acropolis", summary: "The marble promenade skirting the Sacred Rock, past the ancient theatres.", contentId: "explore_day1_circling_acropolis" },
+        { name: "Acropolis", summary: "The crowning glory of Athens — the sacred citadel of the Parthenon, Erechtheion, and Temple of Athena Nike, with the Areopagus (Mars Hill) of Paul's sermon just below.", contentId: "explore_day2_acropolis" },
         { name: "Anafiotika", summary: "A dreamlike Cycladic-style village of whitewashed houses on the Acropolis slope.", contentId: "explore_day1_anafiotika" },
         { name: "Roman Forum & Tower of the Winds", summary: "The Roman marketplace and its octagonal ancient weather station.", contentId: "explore_day1_roman_forum_winds" },
         { name: "Agora Square & Library of Hadrian", summary: "The ruins of Hadrian's grand library complex, near a café-filled square.", contentId: "explore_day1_library_hadrian" },
@@ -3131,6 +3221,92 @@ function fitCardTitles() {
     }
   });
 }
+// Brief, captivating day overviews — distilled from the Day 0 "Through the Ages" content.
+const EXPLORE_DAY_HIGHLIGHTS = {
+  0: "Before we set sail, a sweep through three thousand years of Greek history — the people, ports, and empires whose stories thread through every stop on this voyage.",
+  1: "Athens is the cradle of democracy and the thread tying this whole journey together. Today is a flat, walkable loop linking Syntagma, Plaka, the Acropolis, and Monastiraki — the perfect first taste of the ancient city.",
+  2: "A deeper plunge into classical Athens — the Acropolis crowning the skyline, the Agora where democracy was argued into being, and the great museum holding the civilization's finest treasures.",
+  3: "Athens' great port and a window into Greece's seafaring soul — from the war fleets that won at Salamis to the shipping fortunes that built modern Greece, this is where the voyage takes to the water.",
+  4: "A lesson in how geology shapes history: one of the largest volcanic eruptions in human memory blew the island's heart into the sea, leaving the cliff-top caldera and blue-domed villages the world now flocks to see.",
+  5: "A crossroads of empires — ancient maritime republic, crusader stronghold, Ottoman and Italian possession, and finally Greek. Few places stack so many civilizations behind one set of medieval walls.",
+  6: "The New Testament world steps into Asia Minor. One of the greatest cities of the Roman east, Ephesus is where Paul spent years preaching — its marble streets and great theater still standing in what is now Turkey.",
+  7: "The modern Greek tourism miracle in miniature — a once-poor, wind-scoured island turned global playground of whitewashed lanes, hilltop windmills, and the chapel-dotted shore of Little Venice.",
+  8: "Macedonia — Alexander's homeland and a Roman and Byzantine powerhouse. In Thessaloniki and nearby Philippi, where Paul founded the first Christian church on European soil, Greek conquest, Roman power, and the birth of European Christianity meet."
+};
+
+// Strip tags + common entities from a deep-dive HTML fragment.
+function _exStrip(h) {
+  return h.replace(/<[^>]+>/g, '')
+    .replace(/&mdash;/g, '—').replace(/&ndash;/g, '–')
+    .replace(/&lsquo;|&rsquo;/g, "'").replace(/&ldquo;|&rdquo;/g, '"')
+    .replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ')
+    .replace(/\s+/g, ' ').trim();
+}
+function _exClip(s, n) { return s.length > n ? s.slice(0, n - 1).replace(/\s+\S*$/, '') + '…' : s; }
+
+// "What you'll learn" teaser pulled from the stop's own deep dive (when it was built + a fun fact).
+function exploreTeaser(contentId) {
+  const sc = (typeof SCRIPT_CONTENT !== 'undefined') && SCRIPT_CONTENT[contentId];
+  if (!sc || !sc.html) return '';
+  const html = sc.html;
+  let rows = '';
+  const built = html.match(/note-stat-label">Built<\/span>\s*<span class="note-stat-value">([\s\S]*?)<\/span>/);
+  if (built) {
+    rows += `<div class="explore-learn-row"><span class="material-symbols-rounded">schedule</span><span><span class="explore-learn-label">When:</span> ${esc(_exClip(_exStrip(built[1]), 150))}</span></div>`;
+  }
+  const fun = html.match(/script-note">\s*Fun fact[^:]*:?\s*([\s\S]*?)<\/p>/i);
+  if (fun) {
+    rows += `<div class="explore-learn-row"><span class="material-symbols-rounded">lightbulb</span><span><span class="explore-learn-label">Fun fact:</span> ${esc(_exClip(_exStrip(fun[1]), 190))}</span></div>`;
+  }
+  return rows ? `<div class="explore-learn">${rows}</div>` : '';
+}
+
+// Tap a tile to expand it; the teaser is filled lazily on first open.
+// Keep every collapsed stop tile the same height by shrinking long names to fit two lines.
+function fitExploreTiles() {
+  document.querySelectorAll('#exploreCards .explore-tile').forEach(tile => {
+    const name = tile.querySelector('.explore-tile-name');
+    if (!name) return;
+    name.style.fontSize = '';
+    if (!name.offsetParent || tile.classList.contains('expanded')) return;
+    const maxH = 35;            // two lines at 17px line-height
+    let size = 14, guard = 0;
+    while (name.scrollHeight > maxH && size > 10 && guard++ < 24) {
+      size -= 0.5;
+      name.style.fontSize = size + 'px';
+    }
+  });
+}
+
+function toggleExploreTile(el) {
+  const opening = !el.classList.contains('expanded');
+  el.classList.toggle('expanded');
+  if (opening) {
+    const slot = el.querySelector('.explore-tile-learn-slot');
+    if (slot && !slot.dataset.filled) {
+      slot.innerHTML = exploreTeaser(el.dataset.content);
+      slot.dataset.filled = '1';
+    }
+  }
+  requestAnimationFrame(fitExploreTiles);
+}
+
+function exploreTile(st, badge) {
+  return `
+    <div class="explore-tile" data-content="${st.contentId}" onclick="toggleExploreTile(this)">
+      <div class="explore-tile-head">
+        <span class="explore-tile-dot">${badge}</span>
+        <span class="explore-tile-name">${esc(st.name)}</span>
+        <span class="material-symbols-rounded explore-tile-chev">expand_more</span>
+      </div>
+      <div class="explore-tile-detail">
+        <div class="explore-tile-summary">${esc(st.summary)}</div>
+        <div class="explore-tile-learn-slot"></div>
+        <button class="explore-dive-btn" onclick="event.stopPropagation(); openScriptModal('${st.contentId}')"><span class="material-symbols-rounded">menu_book</span>Dive Deeper</button>
+      </div>
+    </div>`;
+}
+
 function buildExploreCards() {
   const container = document.getElementById('exploreCards');
   if (!container) return;
@@ -3139,6 +3315,10 @@ function buildExploreCards() {
     const card = document.createElement('div');
     card.className = 'card biblical-card';
     card.dataset.day = day.dayNum;
+    const highlight = EXPLORE_DAY_HIGHLIGHTS[day.dayNum] || '';
+    const stops = day.stops.slice().sort((a, b) => a.name.localeCompare(b.name));
+    const additional = (day.additional || []).slice().sort((a, b) => a.name.localeCompare(b.name));
+    const n = stops.length;
     card.innerHTML = `
       <div class="biblical-card-header" onclick="toggleBiblicalCard(this.parentElement)">
         <div class="biblical-header-left">
@@ -3150,36 +3330,28 @@ function buildExploreCards() {
         </div>
         <span class="material-symbols-rounded biblical-chevron">expand_more</span>
       </div>
+      <div class="explore-preview" onclick="toggleBiblicalCard(this.closest('.biblical-card'))">
+        ${highlight ? `<div class="explore-day-highlight">${highlight}</div>` : ''}
+        <div class="explore-stops-callout"><span class="material-symbols-rounded">explore</span>${n} Stop${n === 1 ? '' : 's'} to Explore</div>
+      </div>
       <div class="biblical-body">
-        <div style="display:flex;flex-wrap:wrap;gap:6px 20px;margin:20px 0 14px 16px;">
+        <div class="explore-tile-grid">
+          ${stops.map((st, i) => exploreTile(st, i + 1)).join('')}
+        </div>
+        ${additional.length ? `
+          <div class="explore-extra-header">Additional Sites</div>
+          <div class="explore-extra-sub">Other stops you may consider making at this location.</div>
+          <div class="explore-tile-grid">
+            ${additional.map(st => exploreTile(st, '<span class="material-symbols-rounded">place</span>')).join('')}
+          </div>
+        ` : ''}
+        <div style="display:flex;flex-wrap:wrap;gap:6px 20px;margin:14px 16px 16px;">
           <button class="text-btn" style="margin:0;padding:0;"
             data-note-key="travel_day_${day.dayNum}"
             onclick="openNotesModal('travel_day_${day.dayNum}', '${esc(day.title)}')">
             <span class="material-symbols-rounded">edit_note</span><span class="note-btn-label">${notesData['travel_day_' + day.dayNum] ? 'Edit Notes' : 'Add Notes'}</span>
           </button>
         </div>
-        <div class="biblical-connections">
-          ${day.stops.map(st => `
-            <div class="connection-item">
-              <div class="connection-title">${esc(st.name)}</div>
-              <div class="connection-detail">${esc(st.summary)}</div>
-              <button class="connection-ref-btn" onclick="openScriptModal('${st.contentId}')"><span class="material-symbols-rounded" style="font-size:13px;">menu_book</span>Read the deep dive</button>
-            </div>
-          `).join('')}
-        </div>
-        ${day.additional && day.additional.length ? `
-          <div class="explore-extra-header">Additional Sites</div>
-          <div class="explore-extra-sub">Other stops you may consider making at this location.</div>
-          <div class="biblical-connections">
-            ${day.additional.map(st => `
-              <div class="connection-item">
-                <div class="connection-title">${esc(st.name)}</div>
-                <div class="connection-detail">${esc(st.summary)}</div>
-                <button class="connection-ref-btn" onclick="openScriptModal('${st.contentId}')"><span class="material-symbols-rounded" style="font-size:13px;">menu_book</span>Read the deep dive</button>
-              </div>
-            `).join('')}
-          </div>
-        ` : ''}
       </div>
     `;
     container.appendChild(card);
@@ -3245,6 +3417,7 @@ function buildBiblicalCards() {
 
 function toggleBiblicalCard(card) {
   card.classList.toggle('expanded');
+  if (card.classList.contains('expanded')) requestAnimationFrame(fitExploreTiles);
 }
 
 function goToBiblical(dayNum) {
@@ -8682,7 +8855,7 @@ function init() {
   requestAnimationFrame(fitCardTitles);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitCardTitles);
   let _fitT;
-  window.addEventListener('resize', () => { clearTimeout(_fitT); _fitT = setTimeout(fitCardTitles, 150); });
+  window.addEventListener('resize', () => { clearTimeout(_fitT); _fitT = setTimeout(() => { fitCardTitles(); fitExploreTiles(); }, 150); });
   initHomeCtas();
   initHeroSlideshow();
   // Podcast cards are built lazily when the Podcasts tab is first tapped
