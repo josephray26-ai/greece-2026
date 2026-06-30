@@ -2,7 +2,7 @@
 // Precaches the app shell + displayed images so the app works offline after
 // the first online visit. Audio/video stream (not precached). The unused
 // full-size day itinerary PNGs are intentionally excluded.
-const CACHE = 'greece-2026-v98';
+const CACHE = 'greece-2026-v99';
 const PRECACHE = [
   "./",
   "index.html",
@@ -66,7 +66,7 @@ self.addEventListener('fetch', (e) => {
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
-  if (/\.(m4a|mp4|mov)$/i.test(url.pathname)) return;
+  if (/\.(m4a|mp3|mp4|mov)$/i.test(url.pathname)) return;
 
   e.respondWith(
     caches.match(req).then((cached) => {

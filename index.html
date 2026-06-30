@@ -2346,7 +2346,13 @@ const EXPLORE_DATA = {
 let activeSection = 'home';
 let activeDay = 1;
 let audioPlayers = {}; // track active audio elements
-let podcastSrcs   = {}; // src map for lazy audio init
+let podcastSrcs   = {
+  'tour-ephesus':   'audio/turkey-ancient-ephesus.mp3',
+  'tour-acropolis': 'audio/athens-acropolis.mp3',
+  'tour-agora':     'audio/athens-agora.mp3',
+  'tour-citywalk':  'audio/athens-city-walk.mp3',
+  'tour-museum':    'audio/athens-national-archaeological-museum.mp3'
+}; // src map for lazy audio init
 let podcastsBuilt = false; // defer podcast card build until tab is tapped
 
 // Theme
@@ -5002,6 +5008,28 @@ const SCRIPT_CONTENT = {
 <p class="script-body"><strong>15. Church of the Holy Apostles</strong> &mdash; This charming little church with a lantern-like dome marks the Agora's revival. It was built around the year 1000, while Athens was under the protection of the Byzantine Empire, ruled from Constantinople (modern-day Istanbul), as the city slowly recovered from centuries of invasions and neglect. Like many churches of the period, it was built atop the ruins of a pagan religious site &mdash; here a nymphaeum, or temple over a sacred spring &mdash; and it commemorated St. Paul, who taught in the Agora. It became the prototype for later Athenian churches: a central dome with four equal arms radiating out to form a Greek cross, tall horseshoe-shaped Byzantine windows, and large rectangular blocks of ashlar stone, with a decorative band of bricks shaped into Arabic letters added later during the Ottoman occupation (when Christian churches were tolerated but taxed). The narthex (entrance hall) was also added later, spoiling the original four equal arms. Inside are flower- and diamond-shaped windows and interesting 18th-century Byzantine frescoes (their uniform chipping was done to roughen the surface so a new coat of whitewash would adhere), and a marble altar screen with wide empty frames that once held icons. Stand in the center and look up: at the top of the dome is Jesus as Pantokrator, ruler of all &mdash; an image that must have given Athenians a sense of security in troubled times.</p>
 <p class="script-body"><strong>16. Legacy of the Agora</strong> &mdash; Climbing toward the South Gate gives a fine vantage point back over the Agora and modern Athens. By the 18th century, under Turkish rule, the Agora had become a flourishing residential district, with houses and churches standing atop a treasure trove of ancient ruins; in the early 20th century outdoor movies were even shown here. Then in the 1930s Greece got serious about preserving its classical heritage, forcing everyone out, demolishing the buildings (the Church of the Holy Apostles was the only structure left standing), and beginning the excavation that has continued for some eight decades. The Agora's old functions have moved elsewhere: the government center is now Syntagma Square, the marketplace is at the Athens Central Market, nightlife has shifted to the Plaka, Psyrri, and beyond, and Monastiraki and a dozen other squares have become the new social centers &mdash; the new agoras &mdash; while the metro system has replaced the Panathenaic Way as the city's main artery. Looking out from here, consider that Athens has been continuously inhabited for nearly 3,000 years, and that it was this city &mdash; and this small stretch of land where its people gathered &mdash; that set the tone for all Western civilization to follow.</p>
 <p class="script-note">Fun fact: Archaeologists dug up stacks of &lsquo;ostraka&rsquo; here — pottery shards on which citizens scratched the names of troublemakers to vote them into a 10-year exile. That's the origin of our word &lsquo;ostracism.&rsquo;</p>
+<div style="border-top:1px solid var(--md-sys-color-outline-variant);margin-top:18px;padding-top:14px;">
+  <div style="display:flex;align-items:center;gap:8px;margin:0 0 8px;">
+    <span class="material-symbols-rounded" style="color:var(--md-sys-color-primary);font-size:20px;">headphones</span>
+    <span style="font-size:14px;font-weight:600;color:var(--md-sys-color-on-surface);">Listen to the audio tour</span>
+  </div>
+  <div class="podcast-player" style="border-top:none;padding:0;">
+    <div class="audio-controls">
+      <button class="play-btn" id="playBtn-tour-agora" onclick="togglePlay('tour-agora')">
+        <span class="material-symbols-rounded" id="playIcon-tour-agora">play_arrow</span>
+      </button>
+      <div class="audio-progress-wrap">
+        <div class="progress-bar-track" id="track-tour-agora" onclick="seekAudio(event,'tour-agora')">
+          <div class="progress-bar-fill" id="fill-tour-agora"></div>
+        </div>
+        <div class="time-display">
+          <span id="elapsed-tour-agora">0:00</span>
+          <span id="duration-tour-agora">&mdash;</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 `
   },
   explore_day2_roman_agora: {
@@ -5122,6 +5150,28 @@ const SCRIPT_CONTENT = {
 <p class="script-body"><strong>17. Legacy of the Acropolis</strong> &mdash; The Acropolis has been the center of Athens since the beginning of time, reaching its peak in the Golden Age around 450 BC, when the Parthenon, Erechtheion, and Propylaea rose as symbols of the city's recovery from destruction. For nearly a thousand years these monuments survived intact, inspiring generations of Greeks and the Romans who became great admirers of Greek culture. As the Roman Empire declined and Christianity took over, in the fifth century the emperor Theodosius the Great outlawed pagan worship and closed the temples; the Parthenon became a Christian church, its interior stripped of pagan images and redecorated with Christian frescoes, its west end made the main entrance, and for a thousand years of the medieval period it was an important stop on the Christian pilgrimage circuit. Then in 1456 the Turks arrived, converting the Parthenon into a mosque complete with minaret and using the Propylaea as a palace &mdash; at that point the Parthenon was nearly 2,000 years old but still basically intact. In 1687 a Venetian army attacked the city; the Turks hunkered down on the Acropolis and stored their gunpowder in the Parthenon, and when a Venetian mortar shell scored a lucky hit, the massive explosion ripped the guts out of the temple, rattled the Propylaea, and wiped out the Turkish defenders, with huge pieces toppling to the ground (many carried off by soldiers as souvenirs of war). Then in 1801 the British ambassador Lord Elgin got permission to take sculptures &mdash; gathering pieces off the ground, buying them from locals, and even sawing them off the building &mdash; and carted half of the Parthenon's frieze, metopes, and pediment sculptures to London, the so-called Elgin Marbles still displayed in the British Museum (Greece maintains they were stolen by an occupying power and continues to negotiate their return). In the 19th century, newly independent Greece tore down the Parthenon's minaret and turned the Acropolis into an archaeological zone, excavated and renovated ever since. For 2,500 years these buildings &mdash; some of the most influential ever created by humankind &mdash; have inspired architects, sculptors, painters, and engineers, and today visitors from across the globe stand here awestruck by the wonders of classical Greece.</p>
 <p class="script-note">Fun fact: The Parthenon stood nearly intact for over 2,000 years — until 1687, when a Venetian cannonball struck Ottoman gunpowder stored inside and blew the roof off in a single catastrophic explosion.</p>
 <p class="script-note">Fun fact 2: Visitors can now see the Parthenon&rsquo;s western side looking whole for the first time in about 220 years. Officially unveiled June 24th, 2026, restorers have slotted two new marble blocks into long-empty gaps high on the temple&rsquo;s western end &mdash; the view visitors see when they first enter the ancient monument.</p>
+<div style="border-top:1px solid var(--md-sys-color-outline-variant);margin-top:18px;padding-top:14px;">
+  <div style="display:flex;align-items:center;gap:8px;margin:0 0 8px;">
+    <span class="material-symbols-rounded" style="color:var(--md-sys-color-primary);font-size:20px;">headphones</span>
+    <span style="font-size:14px;font-weight:600;color:var(--md-sys-color-on-surface);">Listen to the audio tour</span>
+  </div>
+  <div class="podcast-player" style="border-top:none;padding:0;">
+    <div class="audio-controls">
+      <button class="play-btn" id="playBtn-tour-acropolis" onclick="togglePlay('tour-acropolis')">
+        <span class="material-symbols-rounded" id="playIcon-tour-acropolis">play_arrow</span>
+      </button>
+      <div class="audio-progress-wrap">
+        <div class="progress-bar-track" id="track-tour-acropolis" onclick="seekAudio(event,'tour-acropolis')">
+          <div class="progress-bar-fill" id="fill-tour-acropolis"></div>
+        </div>
+        <div class="time-display">
+          <span id="elapsed-tour-acropolis">0:00</span>
+          <span id="duration-tour-acropolis">&mdash;</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 `
   },
   explore_day2_changing_guard: {
@@ -5230,6 +5280,28 @@ const SCRIPT_CONTENT = {
 <p class="script-body"><strong>19. Sleeping Maenad, Antinous & Asklepios</strong> &mdash; In the center of Room 32, a beautiful woman lies asleep on a rock: a Maenad, a female follower of the god Dionysus, exposed atop the soft skin of a panther. She seems to be mooning a neighboring statue, a bust of the Roman Emperor Hadrian &mdash; this Maenad is a Roman copy of a Greek original made during Hadrian's reign, around 120 AD. Hadrian adored Greek culture and even wore a Greek-style beard; he was a Grecophile in two senses, loving Greek culture and having a young Greek boyfriend. Just to Hadrian's left is a fine portrait bust of that young man, Antinous &mdash; look into his disarmingly beautiful eyes; after he drowned in the Nile in 130 AD, the grief-stricken Hadrian had him deified and commissioned statues of him throughout the empire. At the foot of the Maenad stands the Greek god of medicine, Asklepios, from the famous sanctuary of Epidaurus, with his staff and a snake winding around it &mdash; back then a snake's venom was thought to have mysterious healing powers, and the staff and snake later became the symbol of modern medicine. This too is a Roman copy of a 4th-century-BC Greek original, dating from around 160 AD. Again, it's largely thanks to the Romans and their respect for Greek culture that so much ancient art survives today.</p>
 <p class="script-body"><strong>20. Busts of the Late Empire</strong> &mdash; A row of portrait busts in Room 33, ranging from 300 to 500 AD, captures the generic features and somber expressions of the late Roman Empire. By 476 AD, Rome had decayed and fallen to the barbarians, plunging Western Europe into a thousand years of darkness, poverty, and ignorance. But while the West fell, the eastern half carried on: the so-called Byzantine Empire, which included Greece and had its capital at Constantinople (modern-day Istanbul), thrived for the next thousand years &mdash; enlightened, Christian, and Greek-speaking. While Greek culture survived in the East, it was lost to the West &mdash; until around the year 1500, when the wonders of classical Greece were rediscovered during the Renaissance, its sites unearthed and its statues cleaned up and repaired, reviving Greek culture in all its glory and inspiring us to this day. (If you have more time and energy, head upstairs for much more: the sumptuous wall paintings from Akrotiri in Room 48, the world-class ceramics collection starting in Room 49, and the amazing 2,000-year-old proto-computer, the Antikythera Mechanism, in Room 38.)</p>
 <p class="script-note">Fun fact: The Antikythera Mechanism displayed here is so sophisticated it's often called the world's first analog computer &mdash; nothing as complex appears again for over a thousand years.</p>
+<div style="border-top:1px solid var(--md-sys-color-outline-variant);margin-top:18px;padding-top:14px;">
+  <div style="display:flex;align-items:center;gap:8px;margin:0 0 8px;">
+    <span class="material-symbols-rounded" style="color:var(--md-sys-color-primary);font-size:20px;">headphones</span>
+    <span style="font-size:14px;font-weight:600;color:var(--md-sys-color-on-surface);">Listen to the audio tour</span>
+  </div>
+  <div class="podcast-player" style="border-top:none;padding:0;">
+    <div class="audio-controls">
+      <button class="play-btn" id="playBtn-tour-museum" onclick="togglePlay('tour-museum')">
+        <span class="material-symbols-rounded" id="playIcon-tour-museum">play_arrow</span>
+      </button>
+      <div class="audio-progress-wrap">
+        <div class="progress-bar-track" id="track-tour-museum" onclick="seekAudio(event,'tour-museum')">
+          <div class="progress-bar-fill" id="fill-tour-museum"></div>
+        </div>
+        <div class="time-display">
+          <span id="elapsed-tour-museum">0:00</span>
+          <span id="duration-tour-museum">&mdash;</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 `
   },
   explore_day2_monastiraki: {
@@ -5656,6 +5728,28 @@ const SCRIPT_CONTENT = {
 <p class="script-body"><strong>Harbour Road</strong> &mdash; From the top of the theater steps, look down the big road that once led to the sea. In ancient times most visitors entered Ephesus on this Harbour Road, which linked the city to its port and made a powerful first impression: marble-paved, 35 feet wide, lined with covered sidewalks, and lit by 50 street lamps &mdash; a luxury rare in the ancient world. Like the Strip in today's Las Vegas, this was the city's glitzy main drag, its shops selling a dazzling array of goods from around the world. As the western end of the famous Silk Road trade route to Asia, it was hugely important in its day. Even now the boulevard is in great condition, without the usual ruts made by wagon wheels, because it was reserved for ceremonial processions and the evening promenade that families all around the Mediterranean still enjoy. The original harbor lay a third of a mile away, on an inlet of the now-distant Aegean.</p>
 <p class="script-body"><strong>The Fall &amp; Rediscovery of Ephesus</strong> &mdash; Ephesus peaked around 100 AD under the Romans, and as the Roman Empire fell, so fell Ephesus. In the year 263 a horde of barbarians invaded and looted the city, which never really recovered. Under the Byzantine Empire &mdash; the Christian empire ruled from Constantinople, today's Istanbul &mdash; the old problem persisted: the harbor kept silting up, and by the seventh century it closed for good. Trade dried up along with the harbor, the area became marshland that bred mosquito-borne malaria, and the survivors relocated to the nearby town of Sel&ccedil;uk. The impressive buildings were scavenged for their conveniently pre-cut stones, earthquakes further leveled the monuments, and once-great Ephesus was literally buried and forgotten &mdash; today's waterfront is three miles away. In the 1860s, British, German, and Austrian archaeologists began excavating Ephesus; it is now one of the largest excavated areas in the world, yet only about 15% of the city has been unearthed.</p>
 <p class="script-note">Fun fact: The Great Theatre is where the crowd shouted &lsquo;Great is Artemis of the Ephesians!&rsquo; for about two hours during the riot against Paul (Acts 19:28&ndash;34).</p>
+<div style="border-top:1px solid var(--md-sys-color-outline-variant);margin-top:18px;padding-top:14px;">
+  <div style="display:flex;align-items:center;gap:8px;margin:0 0 8px;">
+    <span class="material-symbols-rounded" style="color:var(--md-sys-color-primary);font-size:20px;">headphones</span>
+    <span style="font-size:14px;font-weight:600;color:var(--md-sys-color-on-surface);">Listen to the audio tour</span>
+  </div>
+  <div class="podcast-player" style="border-top:none;padding:0;">
+    <div class="audio-controls">
+      <button class="play-btn" id="playBtn-tour-ephesus" onclick="togglePlay('tour-ephesus')">
+        <span class="material-symbols-rounded" id="playIcon-tour-ephesus">play_arrow</span>
+      </button>
+      <div class="audio-progress-wrap">
+        <div class="progress-bar-track" id="track-tour-ephesus" onclick="seekAudio(event,'tour-ephesus')">
+          <div class="progress-bar-fill" id="fill-tour-ephesus"></div>
+        </div>
+        <div class="time-display">
+          <span id="elapsed-tour-ephesus">0:00</span>
+          <span id="duration-tour-ephesus">&mdash;</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 `
   },
   explore_day6_house_virgin_mary: {
@@ -6071,6 +6165,28 @@ const SCRIPT_CONTENT = {
 <p class="script-body">In effect the walk travels through 2,500 years of Athenian history in reverse: modern Athens at Syntagma and Ermou, then medieval Athens in the Orthodox churches and winding lanes of the Plaka, and finally the ancient Greek and Roman ruins beneath the Acropolis. It's mostly flat and very walkable, and best in the morning or evening, since many historic churches close from about 1 to 5pm. Tap any stop below for what to look for.</p>
 <p class="script-note">Fun fact: Almost the whole route is pedestrian-friendly &mdash; Athens has one of the longest connected pedestrian zones of any European capital.</p>
 <p class="script-note">Fun fact 2: Athens is called City of the Violet Crown due to a natural, atmospheric phenomenon that turns the skies and mountains purple at sunset, mixed with the praises of ancient lyric poets.</p>
+<div style="border-top:1px solid var(--md-sys-color-outline-variant);margin-top:18px;padding-top:14px;">
+  <div style="display:flex;align-items:center;gap:8px;margin:0 0 8px;">
+    <span class="material-symbols-rounded" style="color:var(--md-sys-color-primary);font-size:20px;">headphones</span>
+    <span style="font-size:14px;font-weight:600;color:var(--md-sys-color-on-surface);">Listen to the audio tour</span>
+  </div>
+  <div class="podcast-player" style="border-top:none;padding:0;">
+    <div class="audio-controls">
+      <button class="play-btn" id="playBtn-tour-citywalk" onclick="togglePlay('tour-citywalk')">
+        <span class="material-symbols-rounded" id="playIcon-tour-citywalk">play_arrow</span>
+      </button>
+      <div class="audio-progress-wrap">
+        <div class="progress-bar-track" id="track-tour-citywalk" onclick="seekAudio(event,'tour-citywalk')">
+          <div class="progress-bar-fill" id="fill-tour-citywalk"></div>
+        </div>
+        <div class="time-display">
+          <span id="elapsed-tour-citywalk">0:00</span>
+          <span id="duration-tour-citywalk">&mdash;</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 `
   },
   explore_day1_syntagma_begins: {
@@ -6413,6 +6529,28 @@ const SCRIPT_CONTENT = {
 <p class="script-body"><strong>19. Sleeping Maenad, Antinous & Asklepios</strong> &mdash; In the center of Room 32, a beautiful woman lies asleep on a rock: a Maenad, a female follower of the god Dionysus, exposed atop the soft skin of a panther. She seems to be mooning a neighboring statue, a bust of the Roman Emperor Hadrian &mdash; this Maenad is a Roman copy of a Greek original made during Hadrian's reign, around 120 AD. Hadrian adored Greek culture and even wore a Greek-style beard; he was a Grecophile in two senses, loving Greek culture and having a young Greek boyfriend. Just to Hadrian's left is a fine portrait bust of that young man, Antinous &mdash; look into his disarmingly beautiful eyes; after he drowned in the Nile in 130 AD, the grief-stricken Hadrian had him deified and commissioned statues of him throughout the empire. At the foot of the Maenad stands the Greek god of medicine, Asklepios, from the famous sanctuary of Epidaurus, with his staff and a snake winding around it &mdash; back then a snake's venom was thought to have mysterious healing powers, and the staff and snake later became the symbol of modern medicine. This too is a Roman copy of a 4th-century-BC Greek original, dating from around 160 AD. Again, it's largely thanks to the Romans and their respect for Greek culture that so much ancient art survives today.</p>
 <p class="script-body"><strong>20. Busts of the Late Empire</strong> &mdash; A row of portrait busts in Room 33, ranging from 300 to 500 AD, captures the generic features and somber expressions of the late Roman Empire. By 476 AD, Rome had decayed and fallen to the barbarians, plunging Western Europe into a thousand years of darkness, poverty, and ignorance. But while the West fell, the eastern half carried on: the so-called Byzantine Empire, which included Greece and had its capital at Constantinople (modern-day Istanbul), thrived for the next thousand years &mdash; enlightened, Christian, and Greek-speaking. While Greek culture survived in the East, it was lost to the West &mdash; until around the year 1500, when the wonders of classical Greece were rediscovered during the Renaissance, its sites unearthed and its statues cleaned up and repaired, reviving Greek culture in all its glory and inspiring us to this day. (If you have more time and energy, head upstairs for much more: the sumptuous wall paintings from Akrotiri in Room 48, the world-class ceramics collection starting in Room 49, and the amazing 2,000-year-old proto-computer, the Antikythera Mechanism, in Room 38.)</p>
 <p class="script-note">Fun fact: The Antikythera Mechanism displayed here is so sophisticated it's often called the world's first analog computer &mdash; nothing as complex appears again for over a thousand years.</p>
+<div style="border-top:1px solid var(--md-sys-color-outline-variant);margin-top:18px;padding-top:14px;">
+  <div style="display:flex;align-items:center;gap:8px;margin:0 0 8px;">
+    <span class="material-symbols-rounded" style="color:var(--md-sys-color-primary);font-size:20px;">headphones</span>
+    <span style="font-size:14px;font-weight:600;color:var(--md-sys-color-on-surface);">Listen to the audio tour</span>
+  </div>
+  <div class="podcast-player" style="border-top:none;padding:0;">
+    <div class="audio-controls">
+      <button class="play-btn" id="playBtn-tour-museum" onclick="togglePlay('tour-museum')">
+        <span class="material-symbols-rounded" id="playIcon-tour-museum">play_arrow</span>
+      </button>
+      <div class="audio-progress-wrap">
+        <div class="progress-bar-track" id="track-tour-museum" onclick="seekAudio(event,'tour-museum')">
+          <div class="progress-bar-fill" id="fill-tour-museum"></div>
+        </div>
+        <div class="time-display">
+          <span id="elapsed-tour-museum">0:00</span>
+          <span id="duration-tour-museum">&mdash;</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 `
   },
   explore_day0_athens: {
