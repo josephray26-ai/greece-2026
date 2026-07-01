@@ -31,6 +31,10 @@
   --md-sys-color-shadow: rgba(0,0,0,0.5);
   --md-sys-color-nav-bg: #0A1628;
   --md-sys-color-nav-indicator: #1a6759;
+  --devotion-gold: #E7B85C;
+  --devotion-gold-strong: #F0C97A;
+  --devotion-gold-bg: rgba(231,184,92,0.12);
+  --devotion-gold-border: #E7B85C;
   --md-sys-elevation-1: 0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
   --md-sys-elevation-2: 0 3px 6px rgba(0,0,0,0.4), 0 2px 4px rgba(0,0,0,0.3);
   --md-sys-elevation-3: 0 6px 12px rgba(0,0,0,0.4), 0 4px 8px rgba(0,0,0,0.3);
@@ -56,6 +60,10 @@
   --md-sys-color-shadow: rgba(0,0,0,0.15);
   --md-sys-color-nav-bg: #FFFFFF;
   --md-sys-color-nav-indicator: #e8f9f5;
+  --devotion-gold: #A9791E;
+  --devotion-gold-strong: #8A6214;
+  --devotion-gold-bg: rgba(200,150,55,0.13);
+  --devotion-gold-border: #C79A3B;
   --md-sys-elevation-1: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08);
   --md-sys-elevation-2: 0 3px 6px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);
   --md-sys-elevation-3: 0 6px 12px rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.08);
@@ -439,14 +447,35 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   position: absolute; left: 50%; top: 50%;
   width: 40vmax; height: 40vmax; margin-left: -20vmax; margin-top: -20vmax;
   border-radius: 50%;
-  background: radial-gradient(circle, #ffe9a8 0%, #f3d074 20%, #E7B85C 44%, #d7a63f 70%, #c6902d 100%);
-  transform: scale(0); opacity: 0; pointer-events: none; z-index: 1; filter: blur(2px);
+  background: radial-gradient(circle, #fff2cf 0%, #ffe9a8 22%, #E7B85C 48%, #d7a63f 72%, #c6902d 100%);
+  transform: scale(0); opacity: 0; pointer-events: none; z-index: 1; filter: blur(3px);
 }
 .splash.burst .splash-burst { animation: splashBurst 0.5s cubic-bezier(0.42, 0, 1, 1) forwards; }
 @keyframes splashBurst {
   0%   { transform: scale(0.12); opacity: 0; }
-  10%  { opacity: 1; }
-  100% { transform: scale(3.7);  opacity: 1; }
+  8%   { opacity: 0.5; }
+  60%  { opacity: 0.82; }
+  100% { transform: scale(4.2);  opacity: 1; }
+}
+/* Sunburst rays — streaks of light of varying widths breaking out from behind the logo */
+.splash-rays {
+  position: absolute; left: 50%; top: 50%;
+  width: 72vmax; height: 72vmax; margin-left: -36vmax; margin-top: -36vmax;
+  border-radius: 50%;
+  background:
+    repeating-conic-gradient(from 0deg,   rgba(255,248,225,0.95) 0deg 1.3deg, rgba(255,248,225,0) 1.3deg 9deg),
+    repeating-conic-gradient(from 5deg,   rgba(240,201,122,0.90) 0deg 3deg,   rgba(240,201,122,0) 3deg 18deg),
+    repeating-conic-gradient(from 11deg,  rgba(255,233,168,0.80) 0deg 0.7deg, rgba(255,233,168,0) 0.7deg 6deg);
+  -webkit-mask: radial-gradient(circle, transparent 6%, #000 22%, #000 40%, transparent 70%);
+          mask: radial-gradient(circle, transparent 6%, #000 22%, #000 40%, transparent 70%);
+  transform: scale(0); opacity: 0; pointer-events: none; z-index: 1;
+}
+.splash.burst .splash-rays { animation: splashRays 0.5s cubic-bezier(0.33, 0, 0.2, 1) forwards; }
+@keyframes splashRays {
+  0%   { transform: scale(0.2) rotate(-6deg); opacity: 0; }
+  14%  { opacity: 1; }
+  70%  { opacity: 1; }
+  100% { transform: scale(3.6) rotate(5deg); opacity: 0.9; }
 }
 .splash-logo {
   width: 148px; height: 148px; object-fit: contain; position: relative; z-index: 2;
@@ -928,6 +957,37 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   color: var(--md-sys-color-primary);
 }
 .explore-stops-callout .material-symbols-rounded { font-size: 18px; }
+/* ── Devotion tab: collapsed preview — Greek "Word of the Day" (gold accent) ── */
+.devotion-preview { background: var(--md-sys-color-surface); border-top: 1px solid var(--md-sys-color-outline-variant); cursor: pointer; padding-bottom: 4px; -webkit-tap-highlight-color: transparent; }
+.biblical-card.expanded .devotion-preview { display: none; }
+.word-of-day {
+  margin: 18px 16px 6px;
+  padding: 13px 15px;
+  background: var(--devotion-gold-bg);
+  border-left: 3px solid var(--devotion-gold-border);
+  border-radius: 10px;
+}
+.word-of-day-eyebrow {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.7px; text-transform: uppercase;
+  color: var(--devotion-gold); margin-bottom: 8px;
+}
+.word-of-day-eyebrow .material-symbols-rounded { font-size: 15px; }
+.word-of-day-term {
+  font-family: 'Roboto Serif', Georgia, serif;
+  font-size: 21px; font-weight: 600; line-height: 1.2;
+  color: var(--md-sys-color-on-surface);
+}
+.word-of-day-translit { font-style: italic; font-weight: 400; font-size: 15px; color: var(--devotion-gold); }
+.word-of-day-meaning { font-size: 13.5px; line-height: 1.55; color: var(--md-sys-color-on-surface); margin-top: 8px; }
+.devotion-topics-callout {
+  display: flex; align-items: center; gap: 7px;
+  margin: 14px 16px 12px;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+  color: var(--devotion-gold);
+}
+.devotion-topics-callout .material-symbols-rounded { font-size: 18px; }
+.devotion-topics-icon { color: var(--md-sys-color-primary); }
 .explore-tile-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1787,6 +1847,7 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
 <div id="splash" class="splash" role="presentation" aria-hidden="true">
   <div class="splash-logo-wrap">
     <div class="splash-burst"></div>
+    <div class="splash-rays"></div>
     <div class="splash-glow"></div>
     <img class="splash-logo" src="assets/hero-logo.png" alt="">
   </div>
@@ -3497,11 +3558,26 @@ function buildExploreCards() {
   });
 }
 
+// Greek "Word of the Day" for the Devotion tab collapsed preview (keyed by dayNum)
+const WORD_OF_DAY = {
+  1: { greek: "Θεός", translit: "Theos", meaning: `"God." It appears roughly 1,300 times throughout the New Testament. In the pagan Roman world, theos was a generic label used for a crowded pantheon of deities (Zeus, Apollo, Caesar).` },
+  2: { greek: "Κύριος", translit: "Kyrios", meaning: `"Lord" or "master." This word denotes supreme authority, legal ownership, and absolute guardianship. A slave called their master Kyrios. Roman citizens were required to proclaim "Kaisar Kyrios" (Caesar is Lord) to prove their political loyalty.` },
+  3: { greek: "Χριστός", translit: "Christos", meaning: `"Christ" or "Messiah." It appears over 500 times. This is not Jesus' last name; it is His royal title — the Greek translation of the Hebrew Mashiach. To call Jesus Christos is to declare Him the long-awaited King who has finally arrived.` },
+  4: { greek: "Λόγος", translit: "Logos", meaning: `"Word" or "message." In Greek philosophy, Logos was the invisible, rational force that kept the universe from spinning into chaotic madness. It was the "logic" behind existence.` },
+  5: { greek: "Ἀγάπη", translit: "Agape", meaning: `The primary Greek word for "love" in a divine, unconditional sense. The ancient world preferred eros (romantic), philia (brotherly friendship), or storge (natural family affection) — all three of those common loves are reactive, not unconditional.` },
+  6: { greek: "Ποίημα", translit: "Poiema", meaning: `"Workmanship" or "masterpiece." Used in Ephesians 2:10, it is the root of the English word poem. It carries the idea of a creator investing intense creative energy into a custom work of art.` },
+  7: { greek: "Κοινωνία", translit: "Koinonia", meaning: `"Fellowship" or "communion." It describes a joint-participation or deep partnership — not just socializing over coffee, but a shared, radical stake in one another's lives and missions.` },
+  8: { greek: "Παράκλητος", translit: "Parakletos", meaning: `"Advocate," "Helper," or "Comforter" — "one called alongside to help." In Greek courts, if you were on trial you would call a parakletos: a trusted, influential friend who would speak to the judge on your behalf to defend your character.` },
+  9: { greek: "Σπλαγχνίζομαι", translit: "Splanchnizomai", meaning: `"To be moved with deep compassion." The Greeks believed deep emotion came from the stomach, not the heart. When Jesus heals or feels for the crowds, His gut physically wrenched with love.` }
+};
+
 function buildBiblicalCards() {
   const container = document.getElementById('biblicalCards');
   const daysWithBible = TRIP_DATA.days.filter(d => d.bibleKnowledge);
   daysWithBible.forEach(day => {
     const bk = day.bibleKnowledge;
+    const wod = WORD_OF_DAY[day.dayNum];
+    const topicCount = (bk.connections || []).length;
     const card = document.createElement('div');
     card.className = 'card biblical-card';
     card.dataset.day = day.dayNum;
@@ -3515,6 +3591,14 @@ function buildBiblicalCards() {
           </div>
         </div>
         <span class="material-symbols-rounded biblical-chevron">expand_more</span>
+      </div>
+      <div class="devotion-preview" onclick="toggleBiblicalCard(this.closest('.biblical-card'))">
+        ${wod ? `<div class="word-of-day">
+          <div class="word-of-day-eyebrow"><span class="material-symbols-rounded">translate</span>Word of the Day</div>
+          <div class="word-of-day-term">${esc(wod.greek)} <span class="word-of-day-translit">· ${esc(wod.translit)}</span></div>
+          <div class="word-of-day-meaning">${esc(wod.meaning)}</div>
+        </div>` : ''}
+        <div class="devotion-topics-callout"><span class="material-symbols-rounded devotion-topics-icon">auto_stories</span>${topicCount} Quiet Time Topic${topicCount === 1 ? '' : 's'} to Meditate On</div>
       </div>
       <div class="biblical-body">
         <div style="display:flex;flex-wrap:wrap;gap:6px 20px;margin:20px 0 14px 16px;">
