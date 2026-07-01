@@ -166,7 +166,6 @@ a { color: var(--md-sys-color-primary); }
   z-index: 3;
 }
 .nav-tab--explore:active .material-symbols-rounded { transform: translateY(-20px) scale(0.94); }
-.nav-tab--explore .nav-label { font-weight: 600; }
 
 /* ── Main Content ── */
 main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
@@ -779,7 +778,7 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   background: var(--md-sys-color-surface);
   transition: background 0.2s;
 }
-.biblical-card-header:hover { background: var(--md-sys-color-surface-variant); }
+@media (hover: hover) { .biblical-card-header:hover { background: var(--md-sys-color-surface-variant); } }
 .biblical-header-left { display: flex; flex-direction: column; gap: 4px; }
 .biblical-location {
   font-family: 'Roboto Serif', Georgia, serif;
@@ -896,6 +895,17 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   font-family: inherit; font-size: 12.5px; font-weight: 700;
 }
 .explore-dive-btn .material-symbols-rounded { font-size: 17px; }
+/* Cinematic staggered entrance for Explore day cards */
+@keyframes exploreRise {
+  from { opacity: 0; transform: translateY(64px); }
+  to   { opacity: 1; transform: none; }
+}
+#exploreCards .biblical-card.explore-rise {
+  animation: exploreRise 0.62s cubic-bezier(0.22, 0.68, 0.28, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  #exploreCards .biblical-card.explore-rise { animation: none; }
+}
 .connection-item {
   padding: 12px 0;
   border-bottom: 1px solid var(--md-sys-color-outline-variant);
@@ -1837,6 +1847,16 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
     </div>
 
     <div class="cta-band">
+      <div class="cta-bg"><img loading="lazy" src="assets/cta-explore.jpg" alt="Exploring the Greek landscape"></div>
+      <div class="cta-content">
+        <div class="cta-eyebrow reveal-item">Discover Every Stop</div>
+        <h2 class="cta-title reveal-item">Explore</h2>
+        <p class="cta-text reveal-item">Dig into the sites at every port &mdash; ancient wonders, hidden corners, and the stories behind them, from the Acropolis to Ephesus.</p>
+        <button class="cta-btn reveal-item" type="button" onclick="goToTab('explore')">Start Exploring <span class="material-symbols-rounded">arrow_forward</span></button>
+      </div>
+    </div>
+
+    <div class="cta-band">
       <div class="cta-bg"><img loading="lazy" src="assets/cta-athens.jpg" alt="The Parthenon atop the Acropolis in Athens"></div>
       <div class="cta-content">
         <div class="cta-eyebrow reveal-item">Walk Where Paul Walked</div>
@@ -2668,6 +2688,9 @@ document.querySelectorAll('.nav-tab').forEach(tab => {
     if (section === 'itinerary') {
       setActiveDay(getCurrentTripDay());
     }
+    if (section === 'explore') {
+      requestAnimationFrame(playExploreIntro);
+    }
   });
 });
 
@@ -3310,6 +3333,16 @@ function exploreTile(st, badge) {
     </div>`;
 }
 
+function playExploreIntro() {
+  const cards = document.querySelectorAll('#exploreCards .biblical-card');
+  cards.forEach((c, i) => {
+    c.classList.remove('explore-rise');
+    void c.offsetWidth;                 // reflow so the animation restarts each visit
+    c.style.animationDelay = (i * 0.09) + 's';
+    c.classList.add('explore-rise');
+  });
+}
+
 function buildExploreCards() {
   const container = document.getElementById('exploreCards');
   if (!container) return;
@@ -3420,7 +3453,11 @@ function buildBiblicalCards() {
 
 function toggleBiblicalCard(card) {
   card.classList.toggle('expanded');
-  if (card.classList.contains('expanded')) requestAnimationFrame(fitExploreTiles);
+  if (card.classList.contains('expanded')) {
+    requestAnimationFrame(fitExploreTiles);
+  } else {
+    card.querySelectorAll('.explore-tile.expanded').forEach(t => t.classList.remove('expanded'));
+  }
 }
 
 function goToBiblical(dayNum) {
