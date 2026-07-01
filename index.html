@@ -428,15 +428,28 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   transition: opacity 0.85s ease;
 }
 .splash.hide { opacity: 0; pointer-events: none; }
-.splash-logo-wrap { position: relative; display: flex; align-items: center; justify-content: center; }
+.splash-logo-wrap { position: relative; z-index: 5; display: flex; align-items: center; justify-content: center; }
 .splash-glow {
   position: absolute; width: 220px; height: 220px; border-radius: 50%;
   background: radial-gradient(circle, rgba(231,184,92,0.38) 0%, rgba(231,184,92,0) 68%);
   animation: splashGlow 2.4s ease-in-out infinite;
 }
 @keyframes splashGlow { 0%,100% { transform: scale(0.85); opacity: 0.5; } 50% { transform: scale(1.15); opacity: 1; } }
+.splash-burst {
+  position: absolute; left: 50%; top: 50%;
+  width: 40vmax; height: 40vmax; margin-left: -20vmax; margin-top: -20vmax;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffe9a8 0%, #f3d074 20%, #E7B85C 44%, #d7a63f 70%, #c6902d 100%);
+  transform: scale(0); opacity: 0; pointer-events: none; z-index: 1; filter: blur(2px);
+}
+.splash.burst .splash-burst { animation: splashBurst 0.5s cubic-bezier(0.42, 0, 1, 1) forwards; }
+@keyframes splashBurst {
+  0%   { transform: scale(0.12); opacity: 0; }
+  10%  { opacity: 1; }
+  100% { transform: scale(3.7);  opacity: 1; }
+}
 .splash-logo {
-  width: 148px; height: 148px; object-fit: contain; position: relative;
+  width: 148px; height: 148px; object-fit: contain; position: relative; z-index: 2;
   filter: drop-shadow(0 10px 30px rgba(0,0,0,0.55));
   animation: splashSpin 5s cubic-bezier(0.45, 0.05, 0.2, 1) both;
 }
@@ -1773,6 +1786,7 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
 <!-- Cinematic entry splash -->
 <div id="splash" class="splash" role="presentation" aria-hidden="true">
   <div class="splash-logo-wrap">
+    <div class="splash-burst"></div>
     <div class="splash-glow"></div>
     <img class="splash-logo" src="assets/hero-logo.png" alt="">
   </div>
@@ -1819,7 +1833,12 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   for (var k=0;k<cells.length;k++){                 // freeze left-to-right every 0.75s
     (function(idx){ setTimeout(function(){ frozen[idx] = true; cells[idx].textContent = targets[idx]; }, 750 * (idx + 1)); })(k);
   }
-  setTimeout(function(){ running = false; done(); }, DURATION);
+  setTimeout(function(){
+    running = false;
+    splash.classList.add('burst');                                   // gold explodes from behind the logo
+    setTimeout(function(){ splash.classList.add('hide'); document.body.style.overflow = ''; }, 500);  // fade once the gold has taken over the screen
+    setTimeout(function(){ if (splash && splash.parentNode) splash.parentNode.removeChild(splash); }, 1400);
+  }, DURATION);
 })();
 </script>
 
