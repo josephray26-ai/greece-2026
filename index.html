@@ -458,11 +458,8 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   opacity: 0; animation: splashFadeUp 1s ease 0.5s both;
 }
 @keyframes splashFadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
-.splash-bar { width: 150px; height: 3px; border-radius: 3px; background: rgba(255,255,255,0.14); overflow: hidden; margin-top: -12px; }
-.splash-bar span { display: block; height: 100%; width: 0; border-radius: 3px; background: linear-gradient(90deg, #E7B85C, #f2d493); animation: splashProgress 5s ease-in-out both; }
-@keyframes splashProgress { to { width: 100%; } }
 @media (prefers-reduced-motion: reduce) {
-  .splash-logo, .splash-glow, .splash-bar span, .splash-title { animation: none; opacity: 1; }
+  .splash-logo, .splash-glow, .splash-title { animation: none; opacity: 1; }
 }
 .destinations-scroll::-webkit-scrollbar { display: none; }
 .dest-chip {
@@ -1787,7 +1784,6 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
     <span class="splash-sym">&#931;</span>
   </div>
   <div class="splash-title">Greece 2026 &middot; T&amp;T</div>
-  <div class="splash-bar"><span></span></div>
 </div>
 <script>
 (function(){
