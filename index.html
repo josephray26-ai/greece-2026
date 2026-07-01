@@ -1049,11 +1049,11 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   from { opacity: 0; transform: translateY(64px); }
   to   { opacity: 1; transform: none; }
 }
-#exploreCards .biblical-card.explore-rise {
-  animation: exploreRise 0.62s cubic-bezier(0.22, 0.68, 0.28, 1) both;
+.explore-rise {
+  animation: exploreRise 1.24s cubic-bezier(0.22, 0.68, 0.28, 1) both;
 }
 @media (prefers-reduced-motion: reduce) {
-  #exploreCards .biblical-card.explore-rise { animation: none; }
+  .explore-rise { animation: none; }
 }
 .connection-item {
   padding: 12px 0;
@@ -2857,6 +2857,12 @@ document.querySelectorAll('.nav-tab').forEach(tab => {
     if (section === 'explore') {
       requestAnimationFrame(playExploreIntro);
     }
+    if (section === 'biblical') {
+      requestAnimationFrame(() => playCardIntro('biblicalCards'));
+    }
+    if (section === 'podcasts') {
+      requestAnimationFrame(() => playCardIntro('podcastCards'));
+    }
   });
 });
 
@@ -3500,15 +3506,16 @@ function exploreTile(st, badge) {
     </div>`;
 }
 
-function playExploreIntro() {
-  const cards = document.querySelectorAll('#exploreCards .biblical-card');
+function playCardIntro(containerId) {
+  const cards = document.querySelectorAll('#' + containerId + ' > .card');
   cards.forEach((c, i) => {
     c.classList.remove('explore-rise');
     void c.offsetWidth;                 // reflow so the animation restarts each visit
-    c.style.animationDelay = (i * 0.09) + 's';
+    c.style.animationDelay = (i * 0.18) + 's';
     c.classList.add('explore-rise');
   });
 }
+function playExploreIntro() { playCardIntro('exploreCards'); }
 
 function buildExploreCards() {
   const container = document.getElementById('exploreCards');
