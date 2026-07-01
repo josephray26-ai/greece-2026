@@ -1974,8 +1974,6 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
         <div class="hero-tagline fade-up delay-2">July 8–18, 2026 &nbsp;&middot;&nbsp; Athens → Greek Islands</div>
         <div class="hero-meta-row fade-up delay-3">
           <span class="hero-pill accent" id="heroCountdownPill">— days away</span>
-          <span class="hero-pill">🛳 Biblical Sites</span>
-          <span class="hero-pill">10 Days</span>
         </div>
         <div class="hero-scroll-caret fade-up delay-4">
           <span class="material-symbols-rounded">expand_more</span>
@@ -2927,10 +2925,12 @@ function updateCountdown() {
   // Sync hero countdown pill
   const pill = document.getElementById('heroCountdownPill');
   if (pill) {
-    if (diff > 0) pill.textContent = diff + (diff === 1 ? ' day away' : ' days away');
-    else if (diff === 0) pill.textContent = 'Departs today!';
-    else if (diff > -10) pill.textContent = 'Trip in progress';
-    else pill.textContent = 'Trip complete';
+    if (diff > 0) {
+      pill.textContent = diff + (diff === 1 ? ' day away' : ' days away');
+      pill.style.display = '';
+    } else {
+      pill.style.display = 'none';   // at 0 days (departure) and beyond, the countdown pill goes away
+    }
   }
 }
 
