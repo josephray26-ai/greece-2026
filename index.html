@@ -420,6 +420,50 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
 @media (prefers-reduced-motion: reduce) {
   .stop-word { opacity: 1; transform: none; filter: none; transition: none; }
 }
+/* ── Cinematic entry splash / loading screen ── */
+.splash {
+  position: fixed; inset: 0; z-index: 5000;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 26px;
+  background: radial-gradient(120% 90% at 50% 38%, #16345c 0%, #0A1628 62%);
+  transition: opacity 0.85s ease;
+}
+.splash.hide { opacity: 0; pointer-events: none; }
+.splash-logo-wrap { position: relative; display: flex; align-items: center; justify-content: center; }
+.splash-glow {
+  position: absolute; width: 220px; height: 220px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(231,184,92,0.38) 0%, rgba(231,184,92,0) 68%);
+  animation: splashGlow 2.4s ease-in-out infinite;
+}
+@keyframes splashGlow { 0%,100% { transform: scale(0.85); opacity: 0.5; } 50% { transform: scale(1.15); opacity: 1; } }
+.splash-logo {
+  width: 148px; height: 148px; object-fit: contain; position: relative;
+  filter: drop-shadow(0 10px 30px rgba(0,0,0,0.55));
+  animation: splashSpin 5s cubic-bezier(0.45, 0.05, 0.2, 1) both;
+}
+@keyframes splashSpin {
+  0%   { transform: rotate(0deg) scale(0.55); opacity: 0; }
+  12%  { opacity: 1; }
+  85%  { transform: rotate(690deg) scale(1.05); }
+  100% { transform: rotate(720deg) scale(1); opacity: 1; }
+}
+.splash-symbols { display: flex; gap: 10px; }
+.splash-sym {
+  font-family: 'Fraunces', 'Roboto Serif', Georgia, serif;
+  font-size: 30px; font-weight: 600; color: #E7B85C; width: 30px; text-align: center;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+}
+.splash-title {
+  font-family: 'Fraunces', 'Roboto Serif', Georgia, serif;
+  font-size: 16px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.9);
+  opacity: 0; animation: splashFadeUp 1s ease 0.5s both;
+}
+@keyframes splashFadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+.splash-bar { width: 150px; height: 3px; border-radius: 3px; background: rgba(255,255,255,0.14); overflow: hidden; margin-top: -12px; }
+.splash-bar span { display: block; height: 100%; width: 0; border-radius: 3px; background: linear-gradient(90deg, #E7B85C, #f2d493); animation: splashProgress 5s ease-in-out both; }
+@keyframes splashProgress { to { width: 100%; } }
+@media (prefers-reduced-motion: reduce) {
+  .splash-logo, .splash-glow, .splash-bar span, .splash-title { animation: none; opacity: 1; }
+}
 .destinations-scroll::-webkit-scrollbar { display: none; }
 .dest-chip {
   flex-shrink: 0;
@@ -1728,6 +1772,60 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
 <link rel="apple-touch-icon" href="assets/icon-192.png">
 </head>
 <body>
+
+<!-- Cinematic entry splash -->
+<div id="splash" class="splash" role="presentation" aria-hidden="true">
+  <div class="splash-logo-wrap">
+    <div class="splash-glow"></div>
+    <img class="splash-logo" src="assets/hero-logo.png" alt="">
+  </div>
+  <div class="splash-symbols" id="splashSymbols">
+    <span class="splash-sym">&#913;</span>
+    <span class="splash-sym">&#916;</span>
+    <span class="splash-sym">&#937;</span>
+    <span class="splash-sym">&#920;</span>
+    <span class="splash-sym">&#931;</span>
+  </div>
+  <div class="splash-title">Greece 2026 &middot; T&amp;T</div>
+  <div class="splash-bar"><span></span></div>
+</div>
+<script>
+(function(){
+  var splash = document.getElementById('splash');
+  if (!splash) return;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.body.style.overflow = 'hidden';
+  function done(){
+    splash.classList.add('hide');
+    document.body.style.overflow = '';
+    setTimeout(function(){ if (splash && splash.parentNode) splash.parentNode.removeChild(splash); }, 900);
+  }
+  var cells = splash.querySelectorAll('.splash-sym');
+  var targets = ['\u039B','\u03CC','\u03B3','\u03BF','\u03C2'];               // spells \u039B\u03CC\u03B3\u03BF\u03C2 (Logos)
+  var pool = ['\u0394','\u039E','\u03A6','\u03A8','\u0398','\u03A3','\u0393','\u0391','\u03A0','\u03A9','\u039B','\u03CC','\u03B3','\u03BF','\u03C2'];
+  var frozen = [false,false,false,false,false];
+  if (reduce) {
+    for (var r=0;r<cells.length;r++) cells[r].textContent = targets[r] || '';
+    setTimeout(done, 1200);
+    return;
+  }
+  var DURATION = 5000;
+  var t0 = (window.performance && performance.now) ? performance.now() : Date.now();
+  var running = true;
+  function elapsed(){ return ((window.performance && performance.now) ? performance.now() : Date.now()) - t0; }
+  function tick(){
+    if (!running) return;
+    for (var i=0;i<cells.length;i++){ if (!frozen[i]) cells[i].textContent = pool[Math.floor(Math.random()*pool.length)]; }
+    var p = Math.min(elapsed()/DURATION, 1);
+    setTimeout(tick, 40 + 520 * p * p);            // shuffle decelerates toward the end
+  }
+  tick();
+  for (var k=0;k<cells.length;k++){                 // freeze left-to-right every 0.75s
+    (function(idx){ setTimeout(function(){ frozen[idx] = true; cells[idx].textContent = targets[idx]; }, 750 * (idx + 1)); })(k);
+  }
+  setTimeout(function(){ running = false; done(); }, DURATION);
+})();
+</script>
 
 <!-- Top App Bar -->
 <header class="top-app-bar">
