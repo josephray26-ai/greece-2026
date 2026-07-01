@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
-<script>(function(){try{var t=localStorage.getItem('greece-theme')||'light';document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
+<script>(function(){try{var t=localStorage.getItem('greece-theme')||'light';document.documentElement.setAttribute('data-theme',t);}catch(e){}document.documentElement.classList.add('pre-splash');})();</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Greece 2026 — T&amp;T Mediterranean Adventure</title>
@@ -337,6 +337,8 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
 .delay-3 { animation-delay: 1.35s; }
 .delay-4 { animation-delay: 1.8s; }
 .delay-5 { animation-delay: 2.25s; }
+/* Hold the hero entrance until the splash finishes (released by startHomeIntro) */
+.pre-splash .home-hero .fade-up { animation-play-state: paused; }
 
 /* ── COUNTDOWN (below hero) ── */
 .countdown-card {
@@ -1869,6 +1871,7 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   function done(){
     splash.classList.add('hide');
     document.body.style.overflow = '';
+    if (window.startHomeIntro) window.startHomeIntro();
     setTimeout(function(){ if (splash && splash.parentNode) splash.parentNode.removeChild(splash); }, 900);
   }
   var cells = splash.querySelectorAll('.splash-sym');
@@ -1897,7 +1900,7 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   setTimeout(function(){
     running = false;
     splash.classList.add('burst');                                   // gold explodes from behind the logo
-    setTimeout(function(){ splash.classList.add('hide'); document.body.style.overflow = ''; }, 500);  // fade once the gold has taken over the screen
+    setTimeout(function(){ splash.classList.add('hide'); document.body.style.overflow = ''; if (window.startHomeIntro) window.startHomeIntro(); }, 500);  // reveal + play the hero in sync with the fade
     setTimeout(function(){ if (splash && splash.parentNode) splash.parentNode.removeChild(splash); }, 1400);
   }, DURATION);
 })();
@@ -9084,7 +9087,9 @@ function init() {
   let _fitT;
   window.addEventListener('resize', () => { clearTimeout(_fitT); _fitT = setTimeout(() => { fitCardTitles(); fitExploreTiles(); }, 150); });
   initHomeCtas();
-  initHeroSlideshow();
+  // Hero slideshow + entrance are held until the splash completes (startHomeIntro).
+  // Failsafe: never leave the hero hidden if the splash is missing or interrupted.
+  setTimeout(function(){ if (document.documentElement.classList.contains('pre-splash')) startHomeIntro(); }, 8000);
   // Podcast cards are built lazily when the Podcasts tab is first tapped
 }
 
@@ -9144,6 +9149,14 @@ function goToTab(name) {
   const tab = document.querySelector('.nav-tab[data-section="' + name + '"]');
   if (tab) tab.click();
 }
+
+function startHomeIntro() {
+  if (window._homeIntroStarted) return;   // run once
+  window._homeIntroStarted = true;
+  document.documentElement.classList.remove('pre-splash');   // release the paused hero entrance
+  initHeroSlideshow();
+}
+window.startHomeIntro = startHomeIntro;
 
 function initHeroSlideshow() {
   const slides = document.querySelectorAll('#heroSlideshow .hero-slide');
