@@ -387,6 +387,39 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
 }
+/* Home: cinematic "eight stops" showcase (words load one at a time, two columns) */
+.stops-showcase {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 18px;
+  padding: 16px 20px 44px;
+}
+.stop-word {
+  font-family: 'Fraunces', 'Roboto Serif', Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(1.35rem, 6.4vw, 2.05rem);
+  line-height: 1.08;
+  color: rgba(255,255,255,0.94);
+  text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+  opacity: 0;
+  transform: translateY(22px);
+  filter: blur(8px);
+  transition: opacity 0.85s ease, transform 0.85s cubic-bezier(0.2,0.7,0.2,1), filter 0.85s ease;
+  will-change: opacity, transform, filter;
+}
+.stops-showcase.in-view .stop-word { opacity: 1; transform: none; filter: blur(0); }
+.stops-showcase.in-view .stop-word:nth-child(1) { transition-delay: 0.10s; }
+.stops-showcase.in-view .stop-word:nth-child(2) { transition-delay: 0.40s; }
+.stops-showcase.in-view .stop-word:nth-child(3) { transition-delay: 0.70s; }
+.stops-showcase.in-view .stop-word:nth-child(4) { transition-delay: 1.00s; }
+.stops-showcase.in-view .stop-word:nth-child(5) { transition-delay: 1.30s; }
+.stops-showcase.in-view .stop-word:nth-child(6) { transition-delay: 1.60s; }
+.stops-showcase.in-view .stop-word:nth-child(7) { transition-delay: 1.90s; }
+.stops-showcase.in-view .stop-word:nth-child(8) { transition-delay: 2.20s; }
+@media (prefers-reduced-motion: reduce) {
+  .stop-word { opacity: 1; transform: none; filter: none; transition: none; }
+}
 .destinations-scroll::-webkit-scrollbar { display: none; }
 .dest-chip {
   flex-shrink: 0;
@@ -1774,65 +1807,21 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
       <img class="hero-logo-float fade-up delay-4" src="assets/hero-logo.png" alt="Greece 2026 logo">
     </div>
 
-    <!-- IMMERSIVE: countdown + destinations + journey over aerial Athens -->
+    <!-- IMMERSIVE: the eight stops over aerial Athens -->
     <div class="home-immersive">
       <div class="home-immersive-bg"><img loading="lazy" src="assets/home-aerial.jpg" alt="Aerial view of Athens"></div>
       <div class="home-immersive-inner">
-    <!-- DESTINATIONS -->
-    <div class="section-label">Destinations</div>
-    <div class="destinations-scroll" id="destinationsScroll"></div>
-
-    <!-- THE JOURNEY -->
-    <div class="home-journey">
-    <div class="section-label" style="position:relative;z-index:1;">The Journey</div>
-    <div style="position:relative;z-index:1;padding: 0 16px 16px; display: flex; flex-direction: column; gap: 10px;">
-      <div class="card">
-        <div class="card-content" style="display:flex;gap:12px;align-items:flex-start;">
-          <span class="material-symbols-rounded" style="color:var(--md-sys-color-primary);font-size:28px;flex-shrink:0;margin-top:2px;">flight_takeoff</span>
-          <div>
-            <div style="font-weight:600;font-size:15px;color:var(--md-sys-color-on-surface);margin-bottom:4px;">Depart Fayetteville</div>
-            <div style="font-size:13px;color:var(--md-sys-color-on-surface-variant);line-height:1.5;">Tuesday, July 8 &nbsp;·&nbsp; XNA → DFW → Athens (ATH)</div>
-            <a href="https://www.aa.com" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:4px;margin-top:8px;font-size:12px;font-weight:600;color:var(--md-sys-color-primary);text-decoration:none;">
-              <span class="material-symbols-rounded" style="font-size:14px;">flight</span>Open American Airlines App
-            </a>
-          </div>
+        <div class="section-label">The Eight Stops</div>
+        <div class="stops-showcase" id="stopsShowcase">
+          <div class="stop-word">Athens</div>
+          <div class="stop-word">Piraeus</div>
+          <div class="stop-word">Santorini</div>
+          <div class="stop-word">Rhodes</div>
+          <div class="stop-word">Ephesus</div>
+          <div class="stop-word">Mykonos</div>
+          <div class="stop-word">Thessaloniki</div>
+          <div class="stop-word">Philippi</div>
         </div>
-      </div>
-      <div class="card">
-        <div class="card-content" style="display:flex;gap:12px;align-items:flex-start;">
-          <span class="material-symbols-rounded" style="color:var(--md-sys-color-secondary);font-size:28px;flex-shrink:0;margin-top:2px;">anchor</span>
-          <div>
-            <div style="font-weight:600;font-size:15px;color:var(--md-sys-color-on-surface);margin-bottom:4px;">Cruise Departs Piraeus</div>
-            <div style="font-size:13px;color:var(--md-sys-color-on-surface-variant);line-height:1.5;">Saturday, July 11 &nbsp;&bull;&nbsp; Rooms: Ray’s 7044 &nbsp;|&nbsp; Hill’s 2222 &nbsp;|&nbsp; Travis’ 3333</div>
-            <a href="https://www.celebritycruises.com" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:4px;margin-top:8px;font-size:12px;font-weight:600;color:var(--md-sys-color-primary);text-decoration:none;">
-              <span class="material-symbols-rounded" style="font-size:14px;">directions_boat</span>Open Celebrity Cruises App
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-content" style="display:flex;gap:12px;align-items:flex-start;">
-          <span class="material-symbols-rounded" style="color:var(--md-sys-color-tertiary);font-size:28px;flex-shrink:0;margin-top:2px;">church</span>
-          <div>
-            <div style="font-weight:600;font-size:15px;color:var(--md-sys-color-on-surface);margin-bottom:4px;">Biblical Sites</div>
-            <div style="font-size:13px;color:var(--md-sys-color-on-surface-variant);line-height:1.5;">Athens · Piraeus · Santorini · Rhodes · Ephesus · Thessaloniki · Philippi</div>
-            <a href="https://translate.google.com" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:4px;margin-top:8px;font-size:12px;font-weight:600;color:var(--md-sys-color-primary);text-decoration:none;">
-              <span class="material-symbols-rounded" style="font-size:14px;">translate</span>Open Google Translate
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-content" style="display:flex;gap:12px;align-items:flex-start;">
-          <span class="material-symbols-rounded" style="color:var(--md-sys-color-error);font-size:28px;flex-shrink:0;margin-top:2px;">flight_land</span>
-          <div>
-            <div style="font-weight:600;font-size:15px;color:var(--md-sys-color-on-surface);margin-bottom:4px;">Return to Fayetteville</div>
-            <div style="font-size:13px;color:var(--md-sys-color-on-surface-variant);line-height:1.5;">Saturday, July 18 &nbsp;·&nbsp; ATH → ORD → XNA</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    </div>
       </div>
     </div>
 
@@ -2767,6 +2756,7 @@ function updateCountdown() {
    ═══════════════════════════════════════════════════ */
 function buildDestinationChips() {
   const container = document.getElementById('destinationsScroll');
+  if (!container) return;
   TRIP_DATA.days.forEach(day => {
     const chip = document.createElement('div');
     chip.className = 'dest-chip';
@@ -8995,8 +8985,19 @@ function initHomeCtas() {
       const trigger = b.querySelector('.cta-title') || b;
       io.observe(trigger);
     });
+    const _showcase = document.getElementById('stopsShowcase');
+    if (_showcase) {
+      const sio = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          if (e.isIntersecting) { e.target.classList.add('in-view'); sio.unobserve(e.target); }
+        });
+      }, { threshold: 0.3 });
+      sio.observe(_showcase);
+    }
   } else {
     bands.forEach(function(b) { b.classList.add('in-view'); });
+    const _sc = document.getElementById('stopsShowcase');
+    if (_sc) _sc.classList.add('in-view');
   }
   // Lightweight parallax (skipped when reduced-motion is requested)
   const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
