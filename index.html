@@ -1298,18 +1298,22 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   border: 1.5px solid transparent; font-family: inherit;
   color: var(--md-sys-color-on-surface);
   transition: background 0.2s, border-color 0.2s, transform 0.1s;
+  position: relative; overflow: hidden;
 }
 .listen-track-btn + .listen-track-btn { margin-top: 8px; }
 .listen-track-btn:active { transform: scale(0.99); }
-.listen-track-btn.is-current { border-color: var(--md-sys-color-primary); background: var(--md-sys-color-primary-container, rgba(46,93,76,0.12)); }
+.listen-track-btn.is-playing { border-color: var(--md-sys-color-primary); background: var(--md-sys-color-primary-container, rgba(46,93,76,0.12)); }
+.listen-track-btn.ltb-has-progress { border-color: var(--md-sys-color-primary); }
+.ltb-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; z-index: 0; pointer-events: none; background: var(--md-sys-color-primary-container, rgba(46,93,76,0.12)); transition: width 0.35s ease; }
 .ltb-icon {
   width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
   background: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary);
   box-shadow: var(--md-sys-elevation-1);
+  position: relative; z-index: 1;
 }
 .ltb-icon .material-symbols-rounded { font-size: 24px; }
-.ltb-text { flex: 1; min-width: 0; }
+.ltb-text { flex: 1; min-width: 0; position: relative; z-index: 1; }
 .ltb-title { font-size: 14px; font-weight: 600; display: block; line-height: 1.25; }
 .ltb-sub { font-size: 12px; color: var(--md-sys-color-on-surface-variant); display: block; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
@@ -2554,7 +2558,7 @@ const TRIP_DATA = {
       ],
       bibleKnowledge: {
         title: "Letters of Encouragement \u2014 Ephesus, Thessalonica & Philippi",
-        intro: "On this last day at sea, we look back over three short letters Paul wrote to churches in places this journey has touched \u2014 Ephesus, Thessalonica, and Philippi. Written from prison and from the road, they overflow not with complaint but with thanksgiving, encouragement, and joy. Read the first and last chapter of each, and listen for how Paul lifts up these young churches \u2014 and us.",
+        intro: "On this last day at sea, we look back over three short letters Paul wrote to churches in places this journey has touched \u2014 Ephesus, Thessalonica, and Philippi.",
         connections: [
           { title: "To the Ephesians \u2014 Blessed in Christ, Strong in His Armor", detail: "Paul opens by reminding the Ephesians of every spiritual blessing they already have in Christ \u2014 chosen, adopted, and sealed with the Spirit (chapter 1). He closes by arming them for the long stand of faith: be strong in the Lord and in his mighty power, and put on the full armor of God (chapter 6). Encouragement bookended by grace and strength.", ref: "Ephesians 1 & 6", scriptId: "eph_first_last" },
           { title: "To the Thessalonians \u2014 Stand Firm, Encourage One Another", detail: "To a young church under pressure, Paul gives thanks that their faith has become known everywhere (chapter 1). He ends with rapid encouragement for everyday life: rejoice always, pray continually, give thanks in all circumstances \u2014 and encourage one another and build each other up (chapter 5).", ref: "1 Thessalonians 1 & 5", scriptId: "thess_first_last" },
@@ -3193,7 +3197,9 @@ function renderDayDetail(dayNum) {
     </div>
   `;
 
-  if (day.bibleKnowledge) {
+  const _bibleCtx = day.bibleKnowledge || day.bibleContext;
+  const _bibleCtxDay = day.bibleKnowledge ? day.dayNum : day.bibleContextDay;
+  if (_bibleCtx) {
     html += `
       <div class="card" style="margin-bottom:16px;">
         <div class="card-content">
@@ -3201,8 +3207,8 @@ function renderDayDetail(dayNum) {
             <span class="material-symbols-rounded" style="color:var(--md-sys-color-secondary);font-size:20px;">auto_stories</span>
             <span style="font-size:14px;font-weight:600;color:var(--md-sys-color-on-surface);">Biblical Context</span>
           </div>
-          <button onclick="goToBiblical(${day.dayNum})" style="background:none;border:none;padding:0;margin:0 0 6px 0;font-size:15px;font-weight:600;color:var(--md-sys-color-primary);cursor:pointer;text-align:left;display:flex;align-items:center;gap:4px;">${esc(day.bibleKnowledge.title)}<span class="material-symbols-rounded" style="font-size:16px;">arrow_forward</span></button>
-          <div style="font-size:13px;color:var(--md-sys-color-on-surface-variant);line-height:1.6;">${esc(day.bibleKnowledge.intro)}</div>
+          <button onclick="goToBiblical(${_bibleCtxDay})" style="background:none;border:none;padding:0;margin:0 0 6px 0;font-size:15px;font-weight:600;color:var(--md-sys-color-primary);cursor:pointer;text-align:left;display:flex;align-items:center;gap:4px;">${esc(_bibleCtx.title)}<span class="material-symbols-rounded" style="font-size:16px;">arrow_forward</span></button>
+          <div style="font-size:13px;color:var(--md-sys-color-on-surface-variant);line-height:1.6;">${esc(_bibleCtx.intro)}</div>
         </div>
       </div>
     `;
@@ -3225,13 +3231,6 @@ function renderDayDetail(dayNum) {
               <span class="material-symbols-rounded" style="font-size:15px;">map</span>${m.name}
             </a>
           `).join('') : ''}
-          ${EXPLORE_DATA.days.some(d => d.dayNum === day.dayNum) ? `
-          <div style="margin-top:12px;border-top:1px solid var(--md-sys-color-outline-variant);padding-top:12px;">
-            <button class="text-btn" style="margin:0;padding:0;" onclick="goToExplore(${day.dayNum})">
-              <span class="material-symbols-rounded">explore</span>Explore the Day
-            </button>
-          </div>
-          ` : ''}
         </div>
       </div>
     `;
@@ -3256,6 +3255,25 @@ function renderDayDetail(dayNum) {
       </div>
     </div>
   `;
+
+  const _exploreDay = EXPLORE_DATA.days.find(d => d.dayNum === day.dayNum);
+  if (_exploreDay) {
+    const _stopCount = _exploreDay.stops.length;
+    html += `
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-content">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+            <span class="material-symbols-rounded" style="color:var(--md-sys-color-tertiary);font-size:20px;">explore</span>
+            <span style="font-size:14px;font-weight:600;color:var(--md-sys-color-on-surface);">Explore the Day</span>
+          </div>
+          <div style="font-size:13px;color:var(--md-sys-color-on-surface-variant);line-height:1.55;margin-bottom:12px;">Ancient wonders, hidden corners, and the stories behind them.</div>
+          <button class="text-btn" style="margin:0;padding:0;" onclick="goToExplore(${day.dayNum})">
+            <span class="material-symbols-rounded">explore</span>${_stopCount} Stop${_stopCount === 1 ? '' : 's'} to Explore
+          </button>
+        </div>
+      </div>
+    `;
+  }
 
   if (day.infoImage) {
     html += `
@@ -3360,12 +3378,16 @@ function renderTrack(id) {
    Stored per browser in localStorage, keyed by track id. ── */
 const AUDIO_PROGRESS_KEY = 'greece-listen-progress';
 function loadAudioProgress() { try { return JSON.parse(localStorage.getItem(AUDIO_PROGRESS_KEY) || '{}') || {}; } catch (e) { return {}; } }
-function getAudioPos(id) { const v = loadAudioProgress()[id]; return (typeof v === 'number' && v > 0) ? v : 0; }
+function getAudioPos(id) { const v = loadAudioProgress()[id]; const p = (v && typeof v === 'object') ? v.p : v; return (typeof p === 'number' && p > 0) ? p : 0; }
 function saveAudioPos(id, t) {
   if (!id || !isFinite(t)) return;
   const map = loadAudioProgress();
+  const a = audioPlayers[id];
+  const prev = map[id];
+  const dur = (a && isFinite(a.duration) && a.duration > 0) ? Math.round(a.duration)
+            : (prev && typeof prev === 'object' ? prev.d : 0);
   if (t < 5) delete map[id];          // too near the start to bother remembering
-  else map[id] = Math.floor(t);
+  else map[id] = { p: Math.floor(t), d: dur };   // keep duration so we can draw progress without loading the audio
   try { localStorage.setItem(AUDIO_PROGRESS_KEY, JSON.stringify(map)); } catch (e) {}
 }
 function clearAudioPos(id) {
@@ -3374,6 +3396,36 @@ function clearAudioPos(id) {
 }
 function saveAllAudioPositions() {
   Object.keys(audioPlayers).forEach(function (id) { const a = audioPlayers[id]; if (a && a.currentTime > 0) saveAudioPos(id, a.currentTime); });
+}
+// Fill each Listen row with the light-green highlight up to the user's progress,
+// but only for a paused (not actively playing) file that has been started.
+function updateTrackButtons() {
+  const btns = document.querySelectorAll('.listen-track-btn');
+  if (!btns.length) return;
+  const map = loadAudioProgress();
+  btns.forEach(function (btn) {
+    const id = btn.getAttribute('data-track-id');
+    const a = audioPlayers[id];
+    const playing = !!(a && !a.paused && !a.ended);
+    btn.classList.toggle('is-playing', playing);
+    let pct = 0;
+    if (!playing) {
+      const v = map[id];
+      const p = (v && typeof v === 'object') ? v.p : v;
+      let d = (v && typeof v === 'object') ? v.d : 0;
+      if (!d && a && isFinite(a.duration)) d = a.duration;
+      if (p > 0 && d > 0) pct = Math.max(0, Math.min(1, p / d));
+    }
+    let fill = btn.querySelector('.ltb-fill');
+    if (pct > 0.005) {
+      if (!fill) { fill = document.createElement('span'); fill.className = 'ltb-fill'; btn.insertBefore(fill, btn.firstChild); }
+      fill.style.width = (pct * 100).toFixed(2) + '%';
+      btn.classList.add('ltb-has-progress');
+    } else {
+      if (fill) fill.style.width = '0%';
+      btn.classList.remove('ltb-has-progress');
+    }
+  });
 }
 // Catch the case where the user closes/backgrounds the tab mid-play
 window.addEventListener('pagehide', saveAllAudioPositions);
@@ -3401,9 +3453,9 @@ function initAudioPlayer(id, src) {
     }
     renderTrack(id);
   });
-  audio.addEventListener('play', () => { setCurrentAudio(id); renderTrack(id); });
-  audio.addEventListener('pause', () => { renderTrack(id); saveAudioPos(id, audio.currentTime); if (id === currentAudioId) startNowPlayingTimeout(); });
-  audio.addEventListener('ended', () => { renderTrack(id); clearAudioPos(id); if (id === currentAudioId) startNowPlayingTimeout(); });
+  audio.addEventListener('play', () => { setCurrentAudio(id); renderTrack(id); updateTrackButtons(); });
+  audio.addEventListener('pause', () => { renderTrack(id); saveAudioPos(id, audio.currentTime); updateTrackButtons(); if (id === currentAudioId) startNowPlayingTimeout(); });
+  audio.addEventListener('ended', () => { renderTrack(id); clearAudioPos(id); updateTrackButtons(); if (id === currentAudioId) startNowPlayingTimeout(); });
   audio.addEventListener('error', () => renderTrack(id));
 }
 
@@ -3432,6 +3484,7 @@ function jumpAudio(id, delta) {
   audio.currentTime = Math.max(0, Math.min(max, target));
   saveAudioPos(id, audio.currentTime);
   renderTrack(id);
+  updateTrackButtons();
 }
 
 function setRate(id, rate) {
@@ -3450,6 +3503,7 @@ function seekAudio(e, id) {
   audio.currentTime = Math.max(0, Math.min(1, pct)) * audio.duration;
   saveAudioPos(id, audio.currentTime);
   renderTrack(id);
+  updateTrackButtons();
 }
 
 /* ── Now-playing surfaces: header button/popover + persistent Listen player ── */
@@ -3874,6 +3928,7 @@ function buildPodcastCards() {
     card.innerHTML = html;
     container.appendChild(card);
   });
+  updateTrackButtons();   // show saved-progress fills for any previously-paused files
 }
 
 /* ═══════════════════════════════════════════════════
@@ -9204,6 +9259,13 @@ let _ctaParallaxEls = [];
 let _ctaRaf = null;
 
 function init() {
+  // Day 0 / Day 10 reuse the Biblical Context from Day 1 / Day 9 (itinerary card only)
+  (function () {
+    const byNum = n => TRIP_DATA.days.find(d => d.dayNum === n);
+    const d0 = byNum(0), d1 = byNum(1), d9 = byNum(9), d10 = byNum(10);
+    if (d0 && d1 && d1.bibleKnowledge) { d0.bibleContext = d1.bibleKnowledge; d0.bibleContextDay = 1; }
+    if (d10 && d9 && d9.bibleKnowledge) { d10.bibleContext = d9.bibleKnowledge; d10.bibleContextDay = 9; }
+  })();
   initTheme();
   updateCountdown();
   buildDestinationChips();
