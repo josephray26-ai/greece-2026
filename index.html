@@ -772,6 +772,20 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   color: var(--md-sys-color-on-surface);
 }
 .day-title-row .day-date { font-size: 14px; color: var(--md-sys-color-secondary); font-weight: 500; margin-top: 2px; }
+/* Day header: title on the left, day's forecast parallel on the right */
+.day-title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; }
+.day-title-main { flex: 1; min-width: 0; }
+.day-forecast {
+  flex-shrink: 0; display: flex; align-items: center; gap: 9px;
+  color: var(--md-sys-color-secondary); opacity: 0; transition: opacity 0.5s ease;
+  min-height: 38px; padding-top: 2px;
+}
+.day-forecast.fc-ready { opacity: 1; }
+.day-forecast .fc-icon { font-size: 34px; line-height: 1; color: var(--md-sys-color-secondary); }
+.day-forecast .fc-temps { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.22; }
+.day-forecast .fc-row { white-space: nowrap; font-size: 14px; font-weight: 700; color: var(--md-sys-color-secondary); }
+.day-forecast .fc-lbl { font-size: 10px; font-weight: 600; letter-spacing: 0.04em; opacity: 0.7; margin-right: 3px; }
+.day-forecast .fc-lo { opacity: 0.72; }
 
 .schedule-card { margin-bottom: 16px; }
 .schedule-card .card-header {
@@ -3031,6 +3045,71 @@ function setActiveDay(num) {
   if (dd) { dd.classList.remove('day-fade'); void dd.offsetWidth; dd.classList.add('day-fade'); }
 }
 
+/* ═══════════════════════════════════════════════════
+   DAILY FORECAST  (Open-Meteo — free, no API key)
+   Per-day source location is stored locally; results are cached in
+   localStorage so they persist and are ready to fetch.
+   ═══════════════════════════════════════════════════ */
+const DAY_WEATHER_LOC = {
+  0:  { city: 'Dallas, Texas',        lat: 32.7767, lon: -96.7970, date: '2026-07-08' },
+  1:  { city: 'Athens, Greece',       lat: 37.9838, lon: 23.7275,  date: '2026-07-09' },
+  2:  { city: 'Athens, Greece',       lat: 37.9838, lon: 23.7275,  date: '2026-07-10' },
+  3:  { city: 'Piraeus, Greece',      lat: 37.9420, lon: 23.6465,  date: '2026-07-11' },
+  4:  { city: 'Santorini, Greece',    lat: 36.4072, lon: 25.4565,  date: '2026-07-12' },
+  5:  { city: 'Rhodes, Greece',       lat: 36.4341, lon: 28.2176,  date: '2026-07-13' },
+  6:  { city: 'Kusadasi, Turkey',     lat: 37.8600, lon: 27.2611,  date: '2026-07-14' },
+  7:  { city: 'Mykonos, Greece',      lat: 37.4467, lon: 25.3289,  date: '2026-07-15' },
+  8:  { city: 'Thessaloniki, Greece', lat: 40.6401, lon: 22.9444,  date: '2026-07-16' },
+  9:  { city: 'Aegean Sea',           lat: 37.2000, lon: 25.3000,  date: '2026-07-17' },
+  10: { city: 'Athens, Greece',       lat: 37.9838, lon: 23.7275,  date: '2026-07-18' }
+};
+
+// WMO weather code -> condition (icon is a Material Symbol, never an emoji)
+function wxCategory(code) {
+  if (code === 0 || code === 1) return { icon: 'sunny', label: 'Sunny' };
+  if (code === 2) return { icon: 'partly_cloudy_day', label: 'Sun & Cloud' };
+  if (code === 3 || code === 45 || code === 48) return { icon: 'cloud', label: 'Cloudy' };
+  return { icon: 'rainy', label: 'Rainy' };   // 51+ : drizzle / rain / showers / storms / snow
+}
+
+function renderForecast(el, d) {
+  const cat = wxCategory(d.code);
+  el.innerHTML =
+    '<span class="material-symbols-rounded fc-icon" role="img" aria-label="' + cat.label + '" title="' + cat.label + '">' + cat.icon + '</span>' +
+    '<div class="fc-temps">' +
+      '<span class="fc-row"><span class="fc-lbl">HI</span>' + d.hi + '°</span>' +
+      '<span class="fc-row fc-lo"><span class="fc-lbl">LO</span>' + d.lo + '°</span>' +
+    '</div>';
+  el.classList.add('fc-ready');
+}
+
+function loadForecast(dayNum) {
+  const el = document.querySelector('.day-forecast[data-daynum="' + dayNum + '"]');
+  if (!el) return;
+  const loc = DAY_WEATHER_LOC[dayNum];
+  if (!loc) return;
+  const cacheKey = 'greece-wx-' + dayNum + '-' + loc.date;
+  try {
+    const c = JSON.parse(localStorage.getItem(cacheKey) || 'null');
+    if (c && c.d && (Date.now() - c.t < 3 * 3600 * 1000)) { renderForecast(el, c.d); return; }
+  } catch (e) {}
+  const url = 'https://api.open-meteo.com/v1/forecast?latitude=' + loc.lat + '&longitude=' + loc.lon +
+    '&daily=temperature_2m_max,temperature_2m_min,weather_code&temperature_unit=fahrenheit&timezone=auto&forecast_days=16';
+  fetch(url).then(function(r){ return r.ok ? r.json() : Promise.reject(r.status); }).then(function(j){
+    const times = (j && j.daily && j.daily.time) || [];
+    const idx = times.indexOf(loc.date);
+    if (idx < 0) return;   // date is beyond the 16-day forecast window — leave it blank
+    const d = {
+      hi: Math.round(j.daily.temperature_2m_max[idx]),
+      lo: Math.round(j.daily.temperature_2m_min[idx]),
+      code: j.daily.weather_code[idx]
+    };
+    try { localStorage.setItem(cacheKey, JSON.stringify({ t: Date.now(), d: d })); } catch (e) {}
+    const cur = document.querySelector('.day-forecast[data-daynum="' + dayNum + '"]');
+    if (cur) renderForecast(cur, d);
+  }).catch(function(){ /* offline / rate-limited: leave the slot empty */ });
+}
+
 function renderDayDetail(dayNum) {
   const day = TRIP_DATA.days.find(d => d.dayNum === dayNum);
   if (!day) return;
@@ -3063,8 +3142,11 @@ function renderDayDetail(dayNum) {
 
   let html = `
     <div class="day-title-row">
-      <h2>${esc(day.title)}</h2>
-      <div class="day-date">${esc(day.date)} &nbsp;·&nbsp; ${esc(day.location)}</div>
+      <div class="day-title-main">
+        <h2>${esc(day.title)}</h2>
+        <div class="day-date">${esc(day.date)} &nbsp;·&nbsp; ${esc(day.location)}</div>
+      </div>
+      <div class="day-forecast" data-daynum="${dayNum}" aria-live="polite"></div>
     </div>
     <div class="card schedule-card">
       <div class="card-header">
@@ -3185,6 +3267,9 @@ function renderDayDetail(dayNum) {
   }
 
   container.innerHTML = html;
+  // Lazy-load the day's forecast once the page is idle (after initial content is up)
+  if (window.requestIdleCallback) requestIdleCallback(function(){ loadForecast(dayNum); }, { timeout: 1500 });
+  else setTimeout(function(){ loadForecast(dayNum); }, 300);
 }
 
 /* ═══════════════════════════════════════════════════
@@ -3271,17 +3356,54 @@ function renderTrack(id) {
   });
 }
 
+/* ── Per-user playback progress: resume each Listen file where you left off.
+   Stored per browser in localStorage, keyed by track id. ── */
+const AUDIO_PROGRESS_KEY = 'greece-listen-progress';
+function loadAudioProgress() { try { return JSON.parse(localStorage.getItem(AUDIO_PROGRESS_KEY) || '{}') || {}; } catch (e) { return {}; } }
+function getAudioPos(id) { const v = loadAudioProgress()[id]; return (typeof v === 'number' && v > 0) ? v : 0; }
+function saveAudioPos(id, t) {
+  if (!id || !isFinite(t)) return;
+  const map = loadAudioProgress();
+  if (t < 5) delete map[id];          // too near the start to bother remembering
+  else map[id] = Math.floor(t);
+  try { localStorage.setItem(AUDIO_PROGRESS_KEY, JSON.stringify(map)); } catch (e) {}
+}
+function clearAudioPos(id) {
+  const map = loadAudioProgress();
+  if (map[id] != null) { delete map[id]; try { localStorage.setItem(AUDIO_PROGRESS_KEY, JSON.stringify(map)); } catch (e) {} }
+}
+function saveAllAudioPositions() {
+  Object.keys(audioPlayers).forEach(function (id) { const a = audioPlayers[id]; if (a && a.currentTime > 0) saveAudioPos(id, a.currentTime); });
+}
+// Catch the case where the user closes/backgrounds the tab mid-play
+window.addEventListener('pagehide', saveAllAudioPositions);
+document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'hidden') saveAllAudioPositions(); });
+
 function initAudioPlayer(id, src) {
   if (audioPlayers[id]) return;
   const audio = new Audio(src);
   audio.preload = 'metadata';
   audio.playbackRate = getRate(id);
   audioPlayers[id] = audio;
-  audio.addEventListener('timeupdate', () => renderTrack(id));
-  audio.addEventListener('loadedmetadata', () => renderTrack(id));
+  let _restored = false, _lastSave = 0;
+  audio.addEventListener('timeupdate', () => {
+    renderTrack(id);
+    const now = Date.now();
+    if (now - _lastSave > 4000) { _lastSave = now; saveAudioPos(id, audio.currentTime); }  // persist ~every 4s
+  });
+  audio.addEventListener('loadedmetadata', () => {
+    if (!_restored) {                                   // resume from the saved spot, once per load
+      _restored = true;
+      const pos = getAudioPos(id);
+      if (pos > 0 && isFinite(audio.duration) && pos < audio.duration - 2) {
+        try { audio.currentTime = pos; } catch (e) {}
+      }
+    }
+    renderTrack(id);
+  });
   audio.addEventListener('play', () => { setCurrentAudio(id); renderTrack(id); });
-  audio.addEventListener('pause', () => { renderTrack(id); if (id === currentAudioId) startNowPlayingTimeout(); });
-  audio.addEventListener('ended', () => { renderTrack(id); if (id === currentAudioId) startNowPlayingTimeout(); });
+  audio.addEventListener('pause', () => { renderTrack(id); saveAudioPos(id, audio.currentTime); if (id === currentAudioId) startNowPlayingTimeout(); });
+  audio.addEventListener('ended', () => { renderTrack(id); clearAudioPos(id); if (id === currentAudioId) startNowPlayingTimeout(); });
   audio.addEventListener('error', () => renderTrack(id));
 }
 
@@ -3308,6 +3430,7 @@ function jumpAudio(id, delta) {
   const target = audio.currentTime + delta;
   const max = isFinite(audio.duration) ? audio.duration : target;
   audio.currentTime = Math.max(0, Math.min(max, target));
+  saveAudioPos(id, audio.currentTime);
   renderTrack(id);
 }
 
@@ -3325,6 +3448,7 @@ function seekAudio(e, id) {
   const rect = e.currentTarget.getBoundingClientRect();
   const pct = (e.clientX - rect.left) / rect.width;
   audio.currentTime = Math.max(0, Math.min(1, pct)) * audio.duration;
+  saveAudioPos(id, audio.currentTime);
   renderTrack(id);
 }
 
