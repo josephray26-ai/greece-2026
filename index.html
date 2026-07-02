@@ -786,6 +786,26 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
 .day-forecast .fc-row { white-space: nowrap; font-size: 14px; font-weight: 700; color: var(--md-sys-color-secondary); }
 .day-forecast .fc-lbl { font-size: 10px; font-weight: 600; letter-spacing: 0.04em; opacity: 0.7; margin-right: 3px; }
 .day-forecast .fc-lo { opacity: 0.72; }
+/* Full-width, easy-to-tap card CTA row: icon + label + trailing arrow */
+.card-cta {
+  display: flex; align-items: center; gap: 10px; width: 100%;
+  margin-top: 4px; padding: 11px 14px; border-radius: 12px;
+  background: var(--md-sys-color-surface-variant, rgba(128,128,128,0.10));
+  border: none; cursor: pointer; font-family: inherit; text-align: left;
+  color: var(--md-sys-color-primary); font-size: 14px; font-weight: 600;
+  text-decoration: none; -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s, transform 0.1s;
+}
+.card-cta:active { transform: scale(0.99); }
+@media (hover: hover) { .card-cta:hover { background: var(--md-sys-color-primary-container, rgba(46,93,76,0.12)); } }
+.card-cta .cta-lead { font-size: 20px; flex-shrink: 0; }
+.card-cta .cta-label { flex: 1; }
+.card-cta .cta-arrow { font-size: 18px; flex-shrink: 0; }
+.card-cta.card-cta--secondary { background: transparent; padding: 9px 14px; font-size: 13px; }
+@media (hover: hover) { .card-cta.card-cta--secondary:hover { background: var(--md-sys-color-surface-variant, rgba(128,128,128,0.10)); } }
+/* Gold variant of the CTA row (Biblical Context) */
+.card-cta.card-cta--gold { color: var(--devotion-gold); background: var(--devotion-gold-bg); }
+@media (hover: hover) { .card-cta.card-cta--gold:hover { background: var(--devotion-gold-bg); background: color-mix(in srgb, var(--devotion-gold) 16%, transparent); } }
 
 .schedule-card { margin-bottom: 16px; }
 .schedule-card .card-header {
@@ -823,12 +843,15 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
 .schedule-item--minor .schedule-time { font-size: 12px; font-weight: 500; color: var(--md-sys-color-on-surface-variant); opacity: 0.85; }
 .schedule-item--minor .schedule-activity { font-size: 13px; color: var(--md-sys-color-on-surface-variant); }
 .schedule-expander {
-  display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%;
-  padding: 12px 16px; background: none; border: none;
-  border-top: 1px solid var(--md-sys-color-outline-variant);
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  width: calc(100% - 32px); margin: 10px 16px 16px; padding: 11px 16px;
+  background: var(--md-sys-color-surface-variant, rgba(128,128,128,0.10)); border: none; border-radius: 12px;
   cursor: pointer; font-size: 13px; font-weight: 600;
   color: var(--md-sys-color-primary); font-family: inherit; box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent; transition: background 0.15s, transform 0.1s;
 }
+.schedule-expander:active { transform: scale(0.99); }
+@media (hover: hover) { .schedule-expander:hover { background: var(--md-sys-color-primary-container, rgba(46,93,76,0.12)); } }
 .schedule-expander-count { font-weight: 500; opacity: 0.7; margin-left: 2px; }
 .hl-omega {
   margin-left: auto; flex-shrink: 0; align-self: center;
@@ -3207,7 +3230,10 @@ function renderDayDetail(dayNum) {
             <span class="material-symbols-rounded" style="color:var(--md-sys-color-secondary);font-size:20px;">auto_stories</span>
             <span style="font-size:14px;font-weight:600;color:var(--md-sys-color-on-surface);">Biblical Context</span>
           </div>
-          <button onclick="goToBiblical(${_bibleCtxDay})" style="background:none;border:none;padding:0;margin:0 0 6px 0;font-size:15px;font-weight:600;color:var(--md-sys-color-primary);cursor:pointer;text-align:left;display:flex;align-items:center;gap:4px;">${esc(_bibleCtx.title)}<span class="material-symbols-rounded" style="font-size:16px;">arrow_forward</span></button>
+          <button class="card-cta card-cta--gold" style="margin-bottom:10px;" onclick="goToBiblical(${_bibleCtxDay})">
+            <span class="cta-label">${esc(_bibleCtx.title)}</span>
+            <span class="material-symbols-rounded cta-arrow">arrow_forward</span>
+          </button>
           <div style="font-size:13px;color:var(--md-sys-color-on-surface-variant);line-height:1.6;">${esc(_bibleCtx.intro)}</div>
         </div>
       </div>
@@ -3223,8 +3249,10 @@ function renderDayDetail(dayNum) {
             <span style="font-size:14px;font-weight:600;color:var(--md-sys-color-on-surface);">Field Notes</span>
           </div>
           <div style="font-size:13px;color:var(--md-sys-color-on-surface-variant);line-height:1.55;margin-bottom:12px;">On-site guide: where to stand, what to look for, and when to read.</div>
-          <button class="text-btn" style="margin:0;padding:0;" onclick="openScriptModal('${day.fieldNotesId}')">
-            <span class="material-symbols-rounded">article</span>Open Field Notes
+          <button class="card-cta" onclick="openScriptModal('${day.fieldNotesId}')">
+            <span class="material-symbols-rounded cta-lead">article</span>
+            <span class="cta-label">Open</span>
+            <span class="material-symbols-rounded cta-arrow">arrow_forward</span>
           </button>
           ${day.maps ? day.maps.map(m => `
             <a ${m.img ? `onclick="openLightbox('${m.img}','${m.name}')"` : m.key ? `onclick="openLightbox(DAY8_MAPS['${m.key}'],'${m.name}')"` : `href="${m.file}" target="_blank" rel="noopener"`} style="${(m.img || m.key) ? 'cursor:pointer;' : ''}display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--md-sys-color-primary);text-decoration:none;margin-top:10px;">
@@ -3244,14 +3272,16 @@ function renderDayDetail(dayNum) {
           <span style="font-size:14px;font-weight:600;color:var(--md-sys-color-on-surface);">Celebrity Cruise</span>
         </div>
         <div style="font-size:13px;color:var(--md-sys-color-on-surface-variant);line-height:1.55;margin-bottom:12px;">What to wear, where to be, when to be there.</div>
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
-          <button class="text-btn" style="margin:0;padding:0;" onclick="openCruise(${day.dayNum})">
-            <span class="material-symbols-rounded">sailing</span>Open Cruise Details
-          </button>
-          <a href="assets/cruise-details.pdf" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--md-sys-color-primary);text-decoration:none;flex-shrink:0;">
-            <span class="material-symbols-rounded" style="font-size:16px;">picture_as_pdf</span>Additional Info
-          </a>
-        </div>
+        <button class="card-cta" onclick="openCruise(${day.dayNum})">
+          <span class="material-symbols-rounded cta-lead">sailing</span>
+          <span class="cta-label">Open</span>
+          <span class="material-symbols-rounded cta-arrow">arrow_forward</span>
+        </button>
+        <a class="card-cta card-cta--secondary" href="assets/cruise-details.pdf" target="_blank" rel="noopener" style="margin-top:8px;">
+          <span class="material-symbols-rounded cta-lead" style="font-size:18px;">picture_as_pdf</span>
+          <span class="cta-label">Additional Info</span>
+          <span class="material-symbols-rounded cta-arrow">open_in_new</span>
+        </a>
       </div>
     </div>
   `;
@@ -3267,8 +3297,10 @@ function renderDayDetail(dayNum) {
             <span style="font-size:14px;font-weight:600;color:var(--md-sys-color-on-surface);">Explore the Day</span>
           </div>
           <div style="font-size:13px;color:var(--md-sys-color-on-surface-variant);line-height:1.55;margin-bottom:12px;">Ancient wonders, hidden corners, and the stories behind them.</div>
-          <button class="text-btn" style="margin:0;padding:0;" onclick="goToExplore(${day.dayNum})">
-            <span class="material-symbols-rounded">explore</span>${_stopCount} Stop${_stopCount === 1 ? '' : 's'} to Explore
+          <button class="card-cta" onclick="goToExplore(${day.dayNum})">
+            <span class="material-symbols-rounded cta-lead">explore</span>
+            <span class="cta-label">${_stopCount} Stop${_stopCount === 1 ? '' : 's'} to Explore</span>
+            <span class="material-symbols-rounded cta-arrow">arrow_forward</span>
           </button>
         </div>
       </div>
