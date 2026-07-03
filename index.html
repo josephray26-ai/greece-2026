@@ -1216,6 +1216,46 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   transition: width 0.5s linear;
   pointer-events: none;
 }
+/* Larger, easier-to-grab scrubber for the two persistent players
+   (header pop-out + Listen "Now Playing"): taller dark-green bar, a
+   draggable thumb, and an enlarged vertical touch target. */
+#npControls .progress-bar-track,
+#lnpControls .progress-bar-track {
+  height: 12px;
+  border-radius: 8px;
+  overflow: visible;
+  touch-action: none;
+  margin: 4px 0;
+}
+#npControls .progress-bar-track::before,
+#lnpControls .progress-bar-track::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  top: -14px; bottom: -14px;   /* extend the tappable area above/below the bar */
+}
+#npControls .progress-bar-fill,
+#lnpControls .progress-bar-fill {
+  height: 100%;
+  position: relative;
+  border-radius: 8px;
+  background: var(--md-sys-color-primary);
+}
+#npControls .progress-bar-fill::after,
+#lnpControls .progress-bar-fill::after {
+  content: '';
+  position: absolute;
+  right: -9px; top: 50%;
+  width: 18px; height: 18px;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: var(--md-sys-color-primary);
+  box-shadow: 0 1px 5px rgba(0,0,0,0.35);
+}
+#npControls .progress-bar-track.seeking .progress-bar-fill,
+#lnpControls .progress-bar-track.seeking .progress-bar-fill {
+  transition: none;   /* snap to the finger while dragging */
+}
 .time-display {
   display: flex;
   justify-content: space-between;
@@ -2008,7 +2048,7 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
     <button class="play-btn" onclick="togglePlay(currentAudioId)" aria-label="Play or pause"><span class="material-symbols-rounded ap-icon">play_arrow</span></button>
     <button class="ap-jump" onclick="jumpAudio(currentAudioId,30)" aria-label="Forward 30 seconds"><span class="material-symbols-rounded">forward_30</span></button>
     <div class="audio-progress-wrap">
-      <div class="progress-bar-track" onclick="seekAudio(event,currentAudioId)"><div class="progress-bar-fill ap-fill"></div></div>
+      <div class="progress-bar-track" onpointerdown="startSeekDrag(event,currentAudioId)"><div class="progress-bar-fill ap-fill"></div></div>
       <div class="time-display"><span class="ap-elapsed">0:00</span><span class="ap-duration">&mdash;</span></div>
     </div>
   </div>
@@ -2143,7 +2183,7 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
     <button class="play-btn" onclick="togglePlay(currentAudioId)" aria-label="Play or pause"><span class="material-symbols-rounded ap-icon">play_arrow</span></button>
     <button class="ap-jump" onclick="jumpAudio(currentAudioId,30)" aria-label="Forward 30 seconds"><span class="material-symbols-rounded">forward_30</span></button>
     <div class="audio-progress-wrap">
-      <div class="progress-bar-track" onclick="seekAudio(event,currentAudioId)"><div class="progress-bar-fill ap-fill"></div></div>
+      <div class="progress-bar-track" onpointerdown="startSeekDrag(event,currentAudioId)"><div class="progress-bar-fill ap-fill"></div></div>
       <div class="time-display"><span class="ap-elapsed">0:00</span><span class="ap-duration">&mdash;</span></div>
     </div>
   </div>
@@ -3567,6 +3607,35 @@ function setRate(id, rate) {
   renderTrack(id);
 }
 
+function startSeekDrag(e, id) {
+  const audio = audioPlayers[id];
+  if (!audio || !audio.duration) return;
+  const track = e.currentTarget;
+  const rect = track.getBoundingClientRect();
+  if (!rect.width) return;
+  e.preventDefault();
+  track.classList.add('seeking');
+  const apply = (clientX) => {
+    const pct = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
+    if (!isFinite(pct)) return;
+    audio.currentTime = pct * audio.duration;
+    renderTrack(id);
+  };
+  apply(e.clientX);
+  const move = (ev) => { ev.preventDefault(); apply(ev.clientX); };
+  const end = (ev) => {
+    apply(ev.clientX);
+    track.classList.remove('seeking');
+    saveAudioPos(id, audio.currentTime);
+    updateTrackButtons();
+    document.removeEventListener('pointermove', move);
+    document.removeEventListener('pointerup', end);
+    document.removeEventListener('pointercancel', end);
+  };
+  document.addEventListener('pointermove', move);
+  document.addEventListener('pointerup', end);
+  document.addEventListener('pointercancel', end);
+}
 function seekAudio(e, id) {
   const audio = audioPlayers[id];
   if (!audio || !audio.duration) return;
@@ -3966,12 +4035,33 @@ function buildBiblicalCards() {
 }
 
 function toggleBiblicalCard(card) {
-  card.classList.toggle('expanded');
-  if (card.classList.contains('expanded')) {
-    requestAnimationFrame(fitExploreTiles);
-  } else {
+  const opening = !card.classList.contains('expanded');
+  if (!opening) {
+    // Just collapsing this card
+    card.classList.remove('expanded');
     card.querySelectorAll('.explore-tile.expanded').forEach(t => t.classList.remove('expanded'));
+    return;
   }
+  // Accordion: collapse any other open day card in the same list (Explore or Devotion)
+  const container = card.parentElement;
+  if (container) {
+    container.querySelectorAll('.biblical-card.expanded').forEach(c => {
+      if (c !== card) {
+        c.classList.remove('expanded');
+        c.querySelectorAll('.explore-tile.expanded').forEach(t => t.classList.remove('expanded'));
+      }
+    });
+  }
+  card.classList.add('expanded');
+  requestAnimationFrame(fitExploreTiles);
+  // After the collapse/expand reflow settles, pin this card's top just below the
+  // sticky header (so a collapsing card above can't leave it scrolled halfway down).
+  setTimeout(() => {
+    const header = document.querySelector('.top-app-bar');
+    const offset = (header ? header.offsetHeight : 0) + 8;
+    const y = card.getBoundingClientRect().top + window.pageYOffset - offset;
+    window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+  }, 120);
 }
 
 function goToBiblical(dayNum) {
