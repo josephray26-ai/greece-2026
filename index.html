@@ -2822,11 +2822,11 @@ const EXPLORE_DATA = {
         { name: "Mykonos Town (Chora)", summary: "A whitewashed Cycladic maze of blue doors, boutiques, and 365 chapels.", contentId: "explore_day7_mykonos_town" },
         { name: "Little Venice", summary: "18th-century captains' houses with balconies over the waves — the sunset spot.", contentId: "explore_day7_little_venice" },
         { name: "The Windmills (Kato Mili)", summary: "Iconic whitewashed windmills lined up on the hill above Little Venice.", contentId: "explore_day7_windmills" },
-        { name: "Agios Stefanos Beach", summary: "A relaxed, family-friendly sandy beach near the port.", contentId: "explore_day7_agios_stefanos" }
+        { name: "Agios Stefanos Beach", summary: "A relaxed, family-friendly sandy beach near the port.", contentId: "explore_day7_agios_stefanos" },
+        { name: "Church of Panagia Paraportiani", summary: "A sculptural, dreamlike white church of five merged chapels.", contentId: "explore_day7_paraportiani" }
       ],
       additional: [
         { name: "Delos", summary: "A UNESCO sacred island — mythical birthplace of Apollo and a vast ancient city.", contentId: "explore_day7_delos" },
-        { name: "Church of Panagia Paraportiani", summary: "A sculptural, dreamlike white church of five merged chapels.", contentId: "explore_day7_paraportiani" },
         { name: "Paradise Beach", summary: "Mykonos's legendary golden-sand party beach.", contentId: "explore_day7_paradise_beach" },
         { name: "Ano Mera & Panagia Tourliani Monastery", summary: "A quiet inland village with an ornate 16th-century monastery.", contentId: "explore_day7_ano_mera" },
         { name: "Armenistis Lighthouse", summary: "An 1891 stone lighthouse with sweeping north-coast sunset views.", contentId: "explore_day7_armenistis" }
@@ -3321,7 +3321,12 @@ function renderDayDetail(dayNum) {
           <span class="material-symbols-rounded cta-lead" style="font-size:18px;">picture_as_pdf</span>
           <span class="cta-label">Additional Info</span>
           <span class="material-symbols-rounded cta-arrow">open_in_new</span>
-        </a>
+        </a>${ATTIRE_BY_DAY[day.dayNum] ? `
+        <button class="card-cta" style="margin-top:8px;" onclick="openAttire('${ATTIRE_BY_DAY[day.dayNum]}')">
+          <span class="material-symbols-rounded cta-lead">checkroom</span>
+          <span class="cta-label">Tonight&rsquo;s Attire: ${ATTIRE_LABEL[ATTIRE_BY_DAY[day.dayNum]]}</span>
+          <span class="material-symbols-rounded cta-arrow">arrow_forward</span>
+        </button>` : ''}
       </div>
     </div>
   `;
@@ -6944,12 +6949,13 @@ const SCRIPT_CONTENT = {
     html: `
 <div class="script-section">Church of Panagia Paraportiani</div>
 <div class="note-stats">
-  <div class="note-stat"><span class="note-stat-label">Built</span><span class="note-stat-value">Begun 1425; completed over the following centuries</span></div>
-  <div class="note-stat"><span class="note-stat-label">Originally Used For</span><span class="note-stat-value">A complex of five chapels merged into one church</span></div>
-  <div class="note-stat"><span class="note-stat-label">Pop Culture</span><span class="note-stat-value">This sculptural, whitewashed church is one of the most photographed churches in Greece and a fixture of Mykonos postcards.</span></div>
+  <div class="note-stat"><span class="note-stat-label">Built</span><span class="note-stat-value">Begun 1425 and finished over the following two centuries; the oldest chapel (Agios Anargyros) dates to the late 14th century</span></div>
+  <div class="note-stat"><span class="note-stat-label">Originally Used For</span><span class="note-stat-value">Five separate chapels fused into one &mdash; four at ground level (Saints Eustathios, Sozon, Anargyroi, and Anastasia) forming the base of a fifth church built above them</span></div>
+  <div class="note-stat"><span class="note-stat-label">Pop Culture</span><span class="note-stat-value">A designated National Monument and one of the most photographed churches in the world &mdash; the definitive postcard image of Mykonos.</span></div>
 </div>
-<p class="script-body">One of the most photographed churches in Greece &mdash; a sculptural, whitewashed cluster of five chapels fused into a single dreamlike, asymmetrical form near the entrance to the old town.</p>
-<p class="script-note">Fun fact: Its name means &lsquo;Our Lady of the Side Gate,&rsquo; after the old entrance to the medieval castle that once stood beside it.</p>
+<p class="script-body">Tucked into the Kastro quarter at the edge of Chora&rsquo;s old town, Panagia Paraportiani is a single, sculptural, whitewashed mass of five chapels merged into one dreamlike, asymmetrical form. Its name means &lsquo;Our Lady of the Side Gate,&rsquo; after the <em>paraporti</em> &mdash; the side gate of the medieval Kastro (castle) that once stood beside it.</p>
+<p class="script-body">The building is a rare blend of Byzantine, Venetian, and Cycladic architecture, its edges softened by centuries of sun and sea air into smooth, almost hand-sculpted curves. It&rsquo;s most striking at sunset, when the white walls catch gold and pink light off the water beside Little Venice.</p>
+<p class="script-note">Fun fact: The interior is only rarely open to visitors &mdash; but the exterior is the real icon, free to walk right up to and photograph any time of day.</p>
 `
   },
   explore_day7_paradise_beach: {
@@ -8165,6 +8171,24 @@ const SCRIPT_CONTENT = {
 `
   },
 
+  attire_smart_casual: {
+    title: "Tonight\u2019s Attire: Smart Casual",
+    html: `
+<div class="fn-header">Tonight&rsquo;s Attire: Smart Casual</div>
+<p class="fn-body" style="margin-top:12px;">A step up from your typical dinner wear, with collared shirts, dresses, skirts and blouses, or pantsuits. Jackets, sports coats, and blazers are a nice touch.</p>
+<img src="assets/attire-smart-casual.jpg" alt="Smart Casual attire" style="width:100%;border-radius:14px;margin-top:18px;display:block;">
+`
+  },
+  attire_evening_chic: {
+    title: "Tonight\u2019s Attire: Evening Chic",
+    html: `
+<div class="fn-header">Tonight&rsquo;s Attire: Evening Chic</div>
+<p class="fn-body" style="margin-top:12px;">It&rsquo;s your time to shine, your way. Get glamorous. Get chic. Be sophisticated. Evening chic is dressier than smart casual and less dressy than formal.</p>
+<p class="fn-body"><strong>Women&rsquo;s fashion:</strong> Cocktail dress, skirt, pants, or designer jeans with an elegant top.</p>
+<p class="fn-body"><strong>Men&rsquo;s fashion:</strong> Pants or designer jeans with a long sleeve shirt, button-down shirt, or sweater. A sport coat or blazer is optional.</p>
+<img src="assets/attire-evening-chic.jpg" alt="Evening Chic attire" style="width:100%;border-radius:14px;margin-top:18px;display:block;">
+`
+  },
   cr_day3: {
     title: "Celebrity Cruise — Onboard Essentials",
     html: `
@@ -8503,9 +8527,9 @@ const SCRIPT_CONTENT = {
 <div class="fn-subtitle">XNA → DFW → Athens</div>
 
 <div class="fn-section-title">Your Flights</div>
-<div class="fn-bullet"><strong>AA 3275 &nbsp;·&nbsp; XNA → DFW</strong><br>Departs 11:59 AM · Arrives Dallas/Fort Worth 1:20 PM.</div>
+<div class="fn-bullet"><strong><a href="https://www.flightaware.com/live/flight/AAL3275" target="_blank" rel="noopener" style="color:var(--md-sys-color-primary);text-decoration:underline;text-underline-offset:2px;">AA 3275</a> &nbsp;·&nbsp; XNA → DFW</strong><br>Departs 11:59 AM · Arrives Dallas/Fort Worth 1:20 PM.</div>
 <div class="fn-bullet"><strong>Layover at DFW</strong> — time to regroup, grab a meal, and unwind in the Capital One lounge before the long haul.</div>
-<div class="fn-bullet"><strong>AA 216 &nbsp;·&nbsp; DFW → ATH</strong> (international)<br>Departs 4:00 PM · Arrives Athens 11:45 AM the next day. Roughly an 11-hour overnight crossing — set your watch ahead and try to sleep on Athens time.</div>
+<div class="fn-bullet"><strong><a href="https://www.flightaware.com/live/flight/AAL216" target="_blank" rel="noopener" style="color:var(--md-sys-color-primary);text-decoration:underline;text-underline-offset:2px;">AA 216</a> &nbsp;·&nbsp; DFW → ATH</strong> (international)<br>Departs 4:00 PM · Arrives Athens 11:45 AM the next day. Roughly an 11-hour overnight crossing — set your watch ahead and try to sleep on Athens time.</div>
 
 <div class="fn-anchor">
   <div class="fn-anchor-label">Flying International — Don't Forget</div>
@@ -8548,9 +8572,9 @@ const SCRIPT_CONTENT = {
 </a>
 
 <div class="fn-section-title">Your Flights</div>
-<div class="fn-bullet"><strong>AA 3275 &nbsp;·&nbsp; XNA → DFW</strong><br>Departs 11:59 AM · Arrives Dallas/Fort Worth 1:20 PM.</div>
+<div class="fn-bullet"><strong><a href="https://www.flightaware.com/live/flight/AAL3275" target="_blank" rel="noopener" style="color:var(--md-sys-color-primary);text-decoration:underline;text-underline-offset:2px;">AA 3275</a> &nbsp;·&nbsp; XNA → DFW</strong><br>Departs 11:59 AM · Arrives Dallas/Fort Worth 1:20 PM.</div>
 <div class="fn-bullet"><strong>Layover at DFW</strong> — time to regroup, grab a meal, and unwind in the Capital One lounge before the long haul.</div>
-<div class="fn-bullet"><strong>AA 216 &nbsp;·&nbsp; DFW → ATH</strong> (international)<br>Departs 4:00 PM · Arrives Athens 11:45 AM the next day. Roughly an 11-hour overnight crossing — set your watch ahead and try to sleep on Athens time.</div>
+<div class="fn-bullet"><strong><a href="https://www.flightaware.com/live/flight/AAL216" target="_blank" rel="noopener" style="color:var(--md-sys-color-primary);text-decoration:underline;text-underline-offset:2px;">AA 216</a> &nbsp;·&nbsp; DFW → ATH</strong> (international)<br>Departs 4:00 PM · Arrives Athens 11:45 AM the next day. Roughly an 11-hour overnight crossing — set your watch ahead and try to sleep on Athens time.</div>
 
 <div class="fn-anchor">
   <div class="fn-anchor-label">Flying International — Don't Forget</div>
@@ -9021,9 +9045,9 @@ const SCRIPT_CONTENT = {
 <p class="fn-body" style="margin-top:12px;">Enjoy the sea day &mdash; and use a quiet moment to get set for tomorrow&rsquo;s long trip home. Here&rsquo;s the plan.</p>
 
 <div class="fn-section-title">Your Flights Home</div>
-<div class="fn-bullet"><strong>AA 161 &nbsp;·&nbsp; ATH → ORD</strong> (international)<br>Departs Athens 11:15 AM · Arrives Chicago (O'Hare) 2:55 PM the same day. About 11½ hours in the air — a long westbound leg with the sun chasing you the whole way.</div>
+<div class="fn-bullet"><strong><a href="https://www.flightaware.com/live/flight/AAL161" target="_blank" rel="noopener" style="color:var(--md-sys-color-primary);text-decoration:underline;text-underline-offset:2px;">AA 161</a> &nbsp;·&nbsp; ATH → ORD</strong> (international)<br>Departs Athens 11:15 AM · Arrives Chicago (O'Hare) 2:55 PM the same day. About 11½ hours in the air — a long westbound leg with the sun chasing you the whole way.</div>
 <div class="fn-bullet"><strong>Connect at O'Hare.</strong> Chicago is your first U.S. soil, so you clear immigration and customs here: collect your checked bags, pass through customs, re-drop the bags, and clear security again before the domestic gate. Build in time and don't dawdle.</div>
-<div class="fn-bullet"><strong>AA 3846 &nbsp;·&nbsp; ORD → XNA</strong><br>Departs Chicago 4:59 PM · Arrives Northwest Arkansas (XNA) 7:00 PM. Home.</div>
+<div class="fn-bullet"><strong><a href="https://www.flightaware.com/live/flight/AAL3846" target="_blank" rel="noopener" style="color:var(--md-sys-color-primary);text-decoration:underline;text-underline-offset:2px;">AA 3846</a> &nbsp;·&nbsp; ORD → XNA</strong><br>Departs Chicago 4:59 PM · Arrives Northwest Arkansas (XNA) 7:00 PM. Home.</div>
 
 <div class="fn-anchor">
   <div class="fn-anchor-label">Mind the Time Change</div>
@@ -9054,9 +9078,9 @@ const SCRIPT_CONTENT = {
 <div class="fn-subtitle">Athens → Chicago → Fayetteville</div>
 
 <div class="fn-section-title">Your Flights Home</div>
-<div class="fn-bullet"><strong>AA 161 &nbsp;·&nbsp; ATH → ORD</strong> (international)<br>Departs Athens 11:15 AM · Arrives Chicago (O'Hare) 2:55 PM the same day. About 11½ hours in the air — a long westbound leg with the sun chasing you the whole way.</div>
+<div class="fn-bullet"><strong><a href="https://www.flightaware.com/live/flight/AAL161" target="_blank" rel="noopener" style="color:var(--md-sys-color-primary);text-decoration:underline;text-underline-offset:2px;">AA 161</a> &nbsp;·&nbsp; ATH → ORD</strong> (international)<br>Departs Athens 11:15 AM · Arrives Chicago (O'Hare) 2:55 PM the same day. About 11½ hours in the air — a long westbound leg with the sun chasing you the whole way.</div>
 <div class="fn-bullet"><strong>Connect at O'Hare.</strong> Chicago is your first U.S. soil, so you clear immigration and customs here: collect your checked bags, pass through customs, re-drop the bags, and clear security again before the domestic gate. Build in time and don't dawdle.</div>
-<div class="fn-bullet"><strong>AA 3846 &nbsp;·&nbsp; ORD → XNA</strong><br>Departs Chicago 4:59 PM · Arrives Northwest Arkansas (XNA) 7:00 PM. Home.</div>
+<div class="fn-bullet"><strong><a href="https://www.flightaware.com/live/flight/AAL3846" target="_blank" rel="noopener" style="color:var(--md-sys-color-primary);text-decoration:underline;text-underline-offset:2px;">AA 3846</a> &nbsp;·&nbsp; ORD → XNA</strong><br>Departs Chicago 4:59 PM · Arrives Northwest Arkansas (XNA) 7:00 PM. Home.</div>
 
 <div class="fn-anchor">
   <div class="fn-anchor-label">Mind the Time Change</div>
@@ -9298,6 +9322,17 @@ function openCruise(dayNum) {
   document.getElementById('script-modal-title').textContent = s ? s.title : 'Celebrity Cruise';
   document.getElementById('script-modal-body').innerHTML = s ? s.html
     : '<div class="fn-header">Celebrity Cruise</div><p class="fn-body" style="padding:18px 0;color:var(--md-sys-color-on-surface-variant);">Details for this day are coming soon.</p>';
+  applyScriptFontScale();
+  document.getElementById('script-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+// Tonight's Attire (dinner dress code) — keyed by cruise day; button shows only on days 3-9
+const ATTIRE_BY_DAY = { 3: 'smart_casual', 4: 'smart_casual', 5: 'evening_chic', 6: 'smart_casual', 7: 'smart_casual', 8: 'evening_chic', 9: 'smart_casual' };
+const ATTIRE_LABEL = { smart_casual: 'Smart Casual', evening_chic: 'Evening Chic' };
+function openAttire(type) {
+  const s = SCRIPT_CONTENT['attire_' + type];
+  document.getElementById('script-modal-title').textContent = s ? s.title : 'Tonight\u2019s Attire';
+  document.getElementById('script-modal-body').innerHTML = s ? s.html : '';
   applyScriptFontScale();
   document.getElementById('script-modal').classList.add('open');
   document.body.style.overflow = 'hidden';
