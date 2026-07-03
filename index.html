@@ -2892,6 +2892,20 @@ const EXPLORE_DATA = {
         { name: "Ano Poli (Upper Town)", summary: "The atmospheric old Upper Town of Ottoman houses and Byzantine walls.", contentId: "explore_day8_ano_poli" },
         { name: "Church of Hagia Sophia (Thessaloniki)", summary: "A 1,200-year-old Byzantine church with a golden Ascension mosaic.", contentId: "explore_day8_thess_hagia_sophia" }
       ]
+    },
+    {
+      dayNum: 9,
+      date: "Friday, July 17",
+      title: "Day at Sea — Celebrity Infinity",
+      intro: "Tap any deck below to see what's aboard.",
+      stops: [
+        { name: "Deck 3 · Lobby", noDive: true, contentId: "explore_day9_deck3", summary: "The heart of the ship — the Grand Foyer with Guest Relations and the Shore Excursions desk, the Captain's Club, and Tuscan Grille, Celebrity's signature Italian steakhouse." },
+        { name: "Deck 4 · Entertainment", noDive: true, contentId: "explore_day9_deck4", summary: "The show-and-social deck — the Casino, the Celebrity Theater, the Celebrity, Retreat, and Rendezvous Lounges, and the Trellis main dining room." },
+        { name: "Deck 5 · Shopping", noDive: true, contentId: "explore_day9_deck5", summary: "The shopping promenade — Ready to Wear, Moda, Jasmine, Glitz, the Effy fine-jewelry boutique, Innovations, and still more boutiques to browse." },
+        { name: "Deck 10 · Pool & Spa", noDive: true, contentId: "explore_day9_deck10", summary: "The resort deck — the main Pool and the glass-roofed Solarium, the Oceanview Café and the Pool Grill, plus the Fitness Center and The Spa." },
+        { name: "Deck 11 · Up Top", noDive: true, contentId: "explore_day9_deck11", summary: "The open-air Jogging Track, and Le Petit Chef at Qsine — a whimsical 3D-animated dinner-and-a-show." },
+        { name: "Deck 12 · Sun Deck", noDive: true, contentId: "explore_day9_deck12", summary: "Top of the ship — the Sports Deck, a poolside Movie Screen for films under the stars, and the breezy Rooftop Terrace." }
+      ]
     }
   ]
 };
@@ -3367,6 +3381,7 @@ function renderDayDetail(dayNum) {
   `;
 
   const _exploreDay = EXPLORE_DATA.days.find(d => d.dayNum === day.dayNum);
+  const _exSubtitle = EXPLORE_DAY_SUBTITLE[day.dayNum] || "Ancient wonders, hidden corners, and the stories behind them.";
   if (_exploreDay) {
     const _stopCount = _exploreDay.stops.length;
     html += `
@@ -3376,10 +3391,27 @@ function renderDayDetail(dayNum) {
             <span class="material-symbols-rounded" style="color:var(--md-sys-color-tertiary);font-size:20px;">explore</span>
             <span style="font-size:14px;font-weight:600;color:var(--md-sys-color-on-surface);">Explore the Day</span>
           </div>
-          <div style="font-size:13px;color:var(--md-sys-color-on-surface-variant);line-height:1.55;margin-bottom:12px;">Ancient wonders, hidden corners, and the stories behind them.</div>
+          <div style="font-size:13px;color:var(--md-sys-color-on-surface-variant);line-height:1.55;margin-bottom:12px;">${_exSubtitle}</div>
           <button class="card-cta" onclick="goToExplore(${day.dayNum})">
             <span class="material-symbols-rounded cta-lead">explore</span>
             <span class="cta-label">${_stopCount} Stop${_stopCount === 1 ? '' : 's'} to Explore</span>
+            <span class="material-symbols-rounded cta-arrow">arrow_forward</span>
+          </button>
+        </div>
+      </div>
+    `;
+  } else if (day.dayNum === 10) {
+    html += `
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-content">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+            <span class="material-symbols-rounded" style="color:var(--md-sys-color-tertiary);font-size:20px;">explore</span>
+            <span style="font-size:14px;font-weight:600;color:var(--md-sys-color-on-surface);">Explore the Day</span>
+          </div>
+          <div style="font-size:13px;color:var(--md-sys-color-on-surface-variant);line-height:1.55;margin-bottom:12px;">${_exSubtitle}</div>
+          <button class="card-cta" onclick="openGallery()">
+            <span class="material-symbols-rounded cta-lead">photo_library</span>
+            <span class="cta-label">Trip Photos</span>
             <span class="material-symbols-rounded cta-arrow">arrow_forward</span>
           </button>
         </div>
@@ -3748,7 +3780,12 @@ const EXPLORE_DAY_HIGHLIGHTS = {
   5: "A crossroads of empires — ancient maritime republic, crusader stronghold, Ottoman and Italian possession, and finally Greek. Few places stack so many civilizations behind one set of medieval walls.",
   6: "The New Testament world steps into Asia Minor. One of the greatest cities of the Roman east, Ephesus is where Paul spent years preaching — its marble streets and great theater still standing in what is now Turkey.",
   7: "The modern Greek tourism miracle in miniature — a once-poor, wind-scoured island turned global playground of whitewashed lanes, hilltop windmills, and the chapel-dotted shore of Little Venice.",
-  8: "Macedonia — Alexander's homeland and a Roman and Byzantine powerhouse. In Thessaloniki and nearby Philippi, where Paul founded the first Christian church on European soil, Greek conquest, Roman power, and the birth of European Christianity meet."
+  8: "Macedonia — Alexander's homeland and a Roman and Byzantine powerhouse. In Thessaloniki and nearby Philippi, where Paul founded the first Christian church on European soil, Greek conquest, Roman power, and the birth of European Christianity meet.",
+  9: "No ports today — just the ship, bow to stern: dining, lounges, pools, the Spa, a jogging track, and a movie under the stars."
+};
+const EXPLORE_DAY_SUBTITLE = {
+  9: "Your floating resort, deck by deck — where to eat, unwind, and play at sea.",
+  10: "Reflecting on the smiles, fun, and memories for a lifetime."
 };
 
 // Strip tags + common entities from a deep-dive HTML fragment.
@@ -3875,6 +3912,8 @@ function exploreTile(st, badge) {
     const cap = d.caption ? ",'" + d.caption.replace(/\\/g, '\\\\').replace(/'/g, "\\'") + "'" : '';
     return `<button class="explore-drawing-btn" onclick="event.stopPropagation(); openLightbox('${d.src}','${d.title}'${cap})"><img src="${d.src}" alt="" loading="lazy">${d.label}</button>`;
   }).join('');
+  const diveBtn = st.noDive ? '' : `<button class="explore-dive-btn" onclick="event.stopPropagation(); openScriptModal('${st.contentId}')"><span class="material-symbols-rounded">menu_book</span>Dive Deeper</button>`;
+  const actions = (diveBtn || drawings) ? `<div class="explore-tile-actions">${diveBtn}${drawings}</div>` : '';
   return `
     <div class="explore-tile" data-content="${st.contentId}" onclick="toggleExploreTile(this)">
       <div class="explore-tile-head">
@@ -3885,9 +3924,7 @@ function exploreTile(st, badge) {
       <div class="explore-tile-detail">
         <div class="explore-tile-summary">${esc(st.summary)}</div>
         <div class="explore-tile-learn-slot"></div>
-        <div class="explore-tile-actions">
-          <button class="explore-dive-btn" onclick="event.stopPropagation(); openScriptModal('${st.contentId}')"><span class="material-symbols-rounded">menu_book</span>Dive Deeper</button>${drawings}
-        </div>
+        ${actions}
       </div>
     </div>`;
 }
@@ -3912,7 +3949,7 @@ function buildExploreCards() {
     card.className = 'card biblical-card';
     card.dataset.day = day.dayNum;
     const highlight = EXPLORE_DAY_HIGHLIGHTS[day.dayNum] || '';
-    const stops = day.stops.slice().sort((a, b) => a.name.localeCompare(b.name));
+    const stops = day.dayNum === 9 ? day.stops.slice() : day.stops.slice().sort((a, b) => a.name.localeCompare(b.name));
     const additional = (day.additional || []).slice().sort((a, b) => a.name.localeCompare(b.name));
     const n = stops.length;
     card.innerHTML = `
@@ -6215,6 +6252,30 @@ const SCRIPT_CONTENT = {
 <p class="script-body">Two soaring Ionic columns out front carry statues of Athena and Apollo, while Plato and Socrates sit in marble at the entrance. It was inspired by Plato's original Academy, the philosophy school he founded around 387 BC in an olive grove across town.</p>
 <p class="script-note">Fun fact: Its statues and friezes were painted in vivid color to show how ancient Greek temples actually looked — not the bare white marble we usually imagine.</p>
 `
+  },
+  explore_day9_deck3: {
+    title: "Deck 3 · Lobby",
+    html: `<p class="script-note">Fun fact: Why did the steak get the best table at Tuscan Grille? Because it was a <em>rare</em> find.</p>`
+  },
+  explore_day9_deck4: {
+    title: "Deck 4 · Entertainment",
+    html: `<p class="script-note">Fun fact: I asked the Casino for acting tips before the Celebrity Theater show. They told me to just <em>roll</em> with it.</p>`
+  },
+  explore_day9_deck5: {
+    title: "Deck 5 · Shopping",
+    html: `<p class="script-note">Fun fact: I bought a belt made entirely of watches on Deck 5. What a <em>waist</em> of time.</p>`
+  },
+  explore_day9_deck10: {
+    title: "Deck 10 · Pool & Spa",
+    html: `<p class="script-note">Fun fact: What did the sea say to the pool deck? Nothing — it just <em>waved</em>.</p>`
+  },
+  explore_day9_deck11: {
+    title: "Deck 11 · Up Top",
+    html: `<p class="script-note">Fun fact: I only ever jog on the top deck. I like my workouts to have a <em>higher purpose</em>.</p>`
+  },
+  explore_day9_deck12: {
+    title: "Deck 12 · Sun Deck",
+    html: `<p class="script-note">Fun fact: Why does the movie love Deck 12? Under the open sky, every review is <em>stellar</em>.</p>`
   },
   explore_day2_acropolis: {
     title: "Acropolis",
