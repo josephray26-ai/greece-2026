@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
-<script>(function(){try{var t=localStorage.getItem('greece-theme')||'light';document.documentElement.setAttribute('data-theme',t);}catch(e){}document.documentElement.classList.add('pre-splash');})();</script>
+<script>(function(){try{var t=localStorage.getItem('greece-theme')||'light';document.documentElement.setAttribute('data-theme',t);}catch(e){}try{if(sessionStorage.getItem('greece-splash-seen')!=='1')document.documentElement.classList.add('pre-splash');}catch(e){document.documentElement.classList.add('pre-splash');}})();</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Greece 2026 — T&amp;T Mediterranean Adventure</title>
@@ -1362,7 +1362,7 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   justify-content: center;
   padding: 16px;
 }
-.lightbox.open { display: flex; }
+.lightbox.open { display: flex; flex-direction: column; }
 .lightbox img {
   max-width: 100%;
   max-height: 90dvh;
@@ -1379,6 +1379,19 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   display: flex; align-items: center; justify-content: center;
 }
 .lightbox-close .material-symbols-rounded { font-size: 24px; }
+.lightbox.has-caption img { max-height: 74dvh; }
+.lightbox-caption {
+  max-width: 760px;
+  margin-top: 14px;
+  padding: 0 8px;
+  color: rgba(255,255,255,0.9);
+  font-size: 13px;
+  line-height: 1.55;
+  text-align: center;
+  overflow-y: auto;
+  max-height: 20dvh;
+  -webkit-overflow-scrolling: touch;
+}
 
 /* ── Divider ── */
 .divider { height: 1px; background: var(--md-sys-color-outline-variant); margin: 0 16px; }
@@ -1917,6 +1930,16 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
 (function(){
   var splash = document.getElementById('splash');
   if (!splash) return;
+  // Only show the splash on a fresh session load. If they've already seen it this
+  // session (reload, back/forward, resuming the still-open app), skip to Home.
+  var _splashSeen = false;
+  try { _splashSeen = sessionStorage.getItem('greece-splash-seen') === '1'; } catch (e) {}
+  if (_splashSeen) {
+    window.__splashSkipped = true;                 // init() releases the held hero immediately
+    if (splash.parentNode) splash.parentNode.removeChild(splash);
+    return;
+  }
+  try { sessionStorage.setItem('greece-splash-seen', '1'); } catch (e) {}
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.body.style.overflow = 'hidden';
   function done(){
@@ -2173,6 +2196,7 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
     <span class="material-symbols-rounded">close</span>
   </button>
   <img id="lightboxImg" src="" alt="">
+  <div class="lightbox-caption" id="lightboxCaption" style="display:none;"></div>
 </div>
 
 <!-- Firebase SDK (Trip Photo Gallery) -->
@@ -2932,9 +2956,14 @@ const lightbox = document.getElementById('lightbox');
 const lightboxImg = document.getElementById('lightboxImg');
 document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
 lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
-function openLightbox(src, alt) {
+function openLightbox(src, alt, caption) {
   lightboxImg.src = src;
   lightboxImg.alt = alt || '';
+  var capEl = document.getElementById('lightboxCaption');
+  if (capEl) {
+    if (caption) { capEl.textContent = caption; capEl.style.display = ''; lightbox.classList.add('has-caption'); }
+    else { capEl.textContent = ''; capEl.style.display = 'none'; lightbox.classList.remove('has-caption'); }
+  }
   lightbox.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -3711,6 +3740,32 @@ function toggleExploreTile(el) {
 }
 
 const EXPLORE_DRAWINGS = {
+  explore_day0_piraeus: [
+    { src: 'assets/piraeus-tapestry-1515.jpg', label: 'c.1515', title: 'Paul Preaching at Athens (Raphael tapestry), c.1515',
+      caption: 'Paul Preaching at Athens, Tapestry. Vatican Museum, Raphael c.1515. The Paul Preaching at Athens tapestry is a masterpiece designed by Renaissance artist Raphael. Woven in Brussels, it depicts the Apostle delivering his famous Areopagus sermon. It is permanently housed at the Vatican Museums in the Pinacoteca’s Raphael Hall. Commissioned by Pope Leo X to hang in the Sistine Chapel, the tapestry illustrates the biblical scene from Acts 17.' }
+  ],
+  explore_day0_rhodes: [
+    { src: 'assets/rhodes-shipwreck-1637.jpg', label: 'c.1637', title: 'Saint Paul Shipwrecked on Malta, c.1637',
+      caption: 'Saint Paul Shipwrecked on Malta. Laurent de La Hyre, French, 1606 - 1656 was an innovative artist, often using his superior skills as a storyteller to narrate rarely depicted subjects. Here La Hyre illustrated Acts 28:1-6. Paul was in the custody of soldiers on a ship bound for Rome. A shipwreck occurred off the coast of Malta and a fire was made for the survivors. Roused by the heat of the fire, a snake fastened onto Paul’s hand. The local inhabitants initially concluded he must be a murderer and was receiving retribution, but when Paul did not get sick they decided instead he must be a god. The arresting use of color and elegant figures are hallmarks of La Hyre’s early, painterly style.' },
+    { src: 'assets/rhodes-backhuysen-1690.jpg', label: 'c.1690', title: 'Paul’s Shipwreck (Backhuysen), c.1690',
+      caption: 'Paul’s Shipwreck, Ludolf Backhuysen c.1690, In AD 60 Paul is on his way to Rome when his ship perishes before Malta. The apostle is forced to stay on the island for three months. Tradition has it that he performs several miracles there and founds a Christian community. There is no proof for any of this, however. Ludolf Backhuysen is known for his seascapes, specializing in sea battles and harbor views. We know of only four religious works by him – this being one of them. It is in the collection of a museum in the city of Emden, where he was born.' }
+  ],
+  explore_day0_thessaloniki: [
+    { src: 'assets/thessaloniki-rotunda-450.jpg', label: 'c.450', title: 'Rotunda of Thessaloniki mosaics, c.450',
+      caption: 'Mosaics of Agios Georgios, The Rotunda of Thessaloniki. Two clerics standing to each side of the altar and ciborium. The altar shows the Book of the Gospels in a precious, ornamental covering laid upon the altar, as well as a curtain hanging between the columns of the ciborium. Tall, standing candlesticks can also be seen to either side of the altar. Most scholars date this spectacular decorative phase to the late 5th century (around 450–475 CE).' }
+  ],
+  explore_day0_philippi: [
+    { src: 'assets/philippi-paul-1857.jpg', label: 'c.1857', title: 'Paul Whipped at Philippi, c.1857',
+      caption: 'Basilica of St. Paul Outside the Walls, Rome. This is from a series of paintings by various artists that line the nave and transept of the basilica. After Paul exorcises the slave girl her owners bring him and Silas before the magistrates at Philippi, who order him whipped and imprisoned.' }
+  ],
+  explore_day0_ephesus: [
+    { src: 'assets/ephesus-paul-1649.jpg', label: 'c.1649', title: 'Saint Paul at Ephesus, c.1649',
+      caption: 'Saint Paul directs the men to burn a pile of books that represent the pagan tradition. He has travelled to the city of Ephesus to encourage the Jews and Greeks to convert to Christianity, and his success is shown by the figures praying and confessing. Commissioned in Notre-Dame in Paris by the city’s goldsmiths in 1649.' }
+  ],
+  explore_day0_athens: [
+    { src: 'assets/school-of-athens-1509.jpg', label: 'c.1509', title: 'The School of Athens, c.1509',
+      caption: 'The School of Athens is a fresco by the Italian Renaissance artist Raphael. It was painted between 1509 and 1511 as part of a commission by Pope Julius II to decorate the rooms now called the Stanze di Raffaello in the Apostolic Palace in Vatican City. The fresco depicts a congregation of ancient mathematicians, philosophers, and scientists, with Plato and Aristotle featured in the center.' }
+  ],
   explore_day2_acropolis: [
     { src: 'assets/acropolis-1684.jpg', label: 'c.1684', title: 'The Acropolis, c.1684' },
     { src: 'assets/acropolis-1846.jpg', label: 'c.1846', title: 'The Acropolis, c.1846' }
@@ -3748,7 +3803,8 @@ const EXPLORE_DRAWINGS = {
 };
 function exploreTile(st, badge) {
   const drawings = (EXPLORE_DRAWINGS[st.contentId] || []).map(function (d) {
-    return `<button class="explore-drawing-btn" onclick="event.stopPropagation(); openLightbox('${d.src}','${d.title}')"><img src="${d.src}" alt="" loading="lazy">${d.label}</button>`;
+    const cap = d.caption ? ",'" + d.caption.replace(/\\/g, '\\\\').replace(/'/g, "\\'") + "'" : '';
+    return `<button class="explore-drawing-btn" onclick="event.stopPropagation(); openLightbox('${d.src}','${d.title}'${cap})"><img src="${d.src}" alt="" loading="lazy">${d.label}</button>`;
   }).join('');
   return `
     <div class="explore-tile" data-content="${st.contentId}" onclick="toggleExploreTile(this)">
@@ -9363,6 +9419,7 @@ function init() {
   let _fitT;
   window.addEventListener('resize', () => { clearTimeout(_fitT); _fitT = setTimeout(() => { fitCardTitles(); fitExploreTiles(); }, 150); });
   initHomeCtas();
+  if (window.__splashSkipped) startHomeIntro();   // returning this session: reveal Home right away
   // Hero slideshow + entrance are held until the splash completes (startHomeIntro).
   // Failsafe: never leave the hero hidden if the splash is missing or interrupted.
   setTimeout(function(){ if (document.documentElement.classList.contains('pre-splash')) startHomeIntro(); }, 8000);
