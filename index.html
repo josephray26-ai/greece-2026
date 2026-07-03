@@ -3316,12 +3316,7 @@ function renderDayDetail(dayNum) {
           <span class="material-symbols-rounded cta-lead">sailing</span>
           <span class="cta-label">Open</span>
           <span class="material-symbols-rounded cta-arrow">arrow_forward</span>
-        </button>
-        <a class="card-cta card-cta--secondary" href="assets/cruise-details.pdf" target="_blank" rel="noopener" style="margin-top:8px;">
-          <span class="material-symbols-rounded cta-lead" style="font-size:18px;">picture_as_pdf</span>
-          <span class="cta-label">Additional Info</span>
-          <span class="material-symbols-rounded cta-arrow">open_in_new</span>
-        </a>${ATTIRE_BY_DAY[day.dayNum] ? `
+        </button>${ATTIRE_BY_DAY[day.dayNum] ? `
         <button class="card-cta" style="margin-top:8px;" onclick="openAttire('${ATTIRE_BY_DAY[day.dayNum]}')">
           <span class="material-symbols-rounded cta-lead">checkroom</span>
           <span class="cta-label">Tonight&rsquo;s Attire: ${ATTIRE_LABEL[ATTIRE_BY_DAY[day.dayNum]]}</span>
@@ -8192,6 +8187,16 @@ const SCRIPT_CONTENT = {
   cr_day3: {
     title: "Celebrity Cruise — Onboard Essentials",
     html: `
+<div class="fn-header">Pier Terminal</div>
+<div class="fn-subtitle">Cruise Passenger Terminal · Piraeus</div>
+<p class="fn-body">Upon entering, check the terminal signage for your <strong>Celebrity Infinity</strong> pier assignment.</p>
+<div class="fn-bullet"><strong>Address:</strong> Akti Xaveriou, Piraeus</div>
+<div class="fn-bullet"><strong>Cruise Port Piraeus</strong> — Gate E12, Terminal B/C</div>
+<a href="https://maps.app.goo.gl/TGuhpwgPzxjajdY76" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:var(--md-sys-color-primary);text-decoration:none;margin:8px 0 4px;"><span class="material-symbols-rounded" style="font-size:18px;">map</span>Open in Google Maps</a>
+
+<div class="fn-section-title">Driving</div>
+<p class="fn-body">Take Attiki Odos/A6/E94 and A/D PAThE/A1/E75 to Leof. Posidonos in Pireas. Take exit Poseidonos Interchange from A/D PAThE/A1/E75. Head southwest on Attiki Odos/A62. Use the right 2 lanes to take exit K2 to merge onto Attiki Odos/A6/E94 toward ELEFSINA/ATHINA. Use the right 2 lanes to take Exit 8 to merge onto A/D PAThE/A1/E75 toward Pireas. Take exit Poseidonos Interchange toward Piraias. Merge onto Leof. Posidonos. Continue onto Mikras Asias. Turn left onto Alipedou. Slight left onto 34ou Sintagmatos Pezikou. Continue onto Leof. It. Politichniou. Continue onto Leof. Chatzikiriakou. Turn right onto Iasonos. Turn left onto Akti Miaouli. Slight right. At the roundabout, take the 1st exit.</p>
+
 <div class="fn-header">Dining Dress Code</div>
 <div class="fn-subtitle">Celebrity Infinity · what to wear at dinner</div>
 
@@ -8642,6 +8647,7 @@ const SCRIPT_CONTENT = {
 
 <div class="fn-section-title">Getting There</div>
 <p class="fn-body">This is your port — no transit needed. Piraeus has been Athens' window to the sea since Themistocles fortified it in the 5th century BC and linked it to the city with the Long Walls.</p>
+<a href="https://maps.app.goo.gl/TGuhpwgPzxjajdY76" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:var(--md-sys-color-primary);text-decoration:none;margin-top:6px;"><span class="material-symbols-rounded" style="font-size:18px;">map</span>Cruise Terminal — Google Maps</a>
 
 <div class="fn-section-title">What to Look For</div>
 <div class="fn-bullet"><strong>Zea Harbour (Pasalimani)</strong> and <strong>Mikrolimano</strong> — the ancient naval harbors. Traces of the <em>neosoikoi</em>, the covered ship-sheds that housed the trireme fleet, have been found around these basins.</div>
