@@ -1080,6 +1080,17 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   font-family: inherit; font-size: 12.5px; font-weight: 700;
 }
 .explore-dive-btn .material-symbols-rounded { font-size: 17px; }
+.explore-tile-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 13px; }
+.explore-tile-actions .explore-dive-btn { margin-top: 0; }
+.explore-drawing-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 4px 13px 4px 4px; border-radius: 100px;
+  border: 1.5px solid var(--md-sys-color-outline-variant); background: var(--md-sys-color-surface);
+  cursor: pointer; font-family: inherit; font-size: 11.5px; font-weight: 700;
+  color: var(--md-sys-color-on-surface); -webkit-tap-highlight-color: transparent;
+}
+.explore-drawing-btn img { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; flex-shrink: 0; display: block; }
+@media (hover: hover) { .explore-drawing-btn:hover { border-color: var(--md-sys-color-primary); } }
 /* Cinematic staggered entrance for Explore day cards */
 @keyframes exploreRise {
   from { opacity: 0; transform: translateY(64px); }
@@ -3699,7 +3710,46 @@ function toggleExploreTile(el) {
   requestAnimationFrame(fitExploreTiles);
 }
 
+const EXPLORE_DRAWINGS = {
+  explore_day2_acropolis: [
+    { src: 'assets/acropolis-1684.jpg', label: 'c.1684', title: 'The Acropolis, c.1684' },
+    { src: 'assets/acropolis-1846.jpg', label: 'c.1846', title: 'The Acropolis, c.1846' }
+  ],
+  explore_day2_ancient_agora: [
+    { src: 'assets/agora-1712.jpg', label: 'c.1712', title: 'The Ancient Agora of Athens, c.1712' },
+    { src: 'assets/agora-1945.jpg', label: 'c.1945', title: 'The Ancient Agora of Athens, c.1945' }
+  ],
+  explore_day2_panathenaic: [
+    { src: 'assets/panathenaic-1896.jpg', label: 'c.1896', title: 'The Panathenaic Stadium, c.1896' }
+  ],
+  explore_day2_roman_agora: [
+    { src: 'assets/roman-agora-1815.jpg', label: 'c.1815', title: 'The Roman Agora, c.1815' }
+  ],
+  explore_day2_mars_hill: [
+    { src: 'assets/mars-hill-1659.jpg', label: 'c.1659', title: 'Mars Hill (Areopagus), c.1659' },
+    { src: 'assets/mars-hill-1690.jpg', label: '1690', title: 'Mars Hill (Areopagus), 1690' }
+  ],
+  explore_day6_ephesus_city: [
+    { src: 'assets/ephesus-1812.jpg', label: 'c.1812', title: 'Ephesus Ancient City, c.1812' },
+    { src: 'assets/ephesus-1952.jpg', label: 'c.1952', title: 'Ephesus Ancient City, c.1952' }
+  ],
+  explore_day8_philippi_site: [
+    { src: 'assets/philippi-1897.jpg', label: 'c.1897', title: 'Archaeological Site of Philippi, c.1897' },
+    { src: 'assets/philippi-1929.jpg', label: 'c.1929', title: 'Archaeological Site of Philippi, c.1929' }
+  ],
+  explore_day8_thessaloniki_forum: [
+    { src: 'assets/thessaloniki-1848.jpg', label: 'c.1848', title: 'Thessaloniki, c.1848' },
+    { src: 'assets/thessaloniki-1720.jpg', label: 'c.1720', title: 'Thessaloniki, c.1720' }
+  ],
+  explore_day8_thess_museum: [
+    { src: 'assets/thessaloniki-1848.jpg', label: 'c.1848', title: 'Thessaloniki, c.1848' },
+    { src: 'assets/thessaloniki-1720.jpg', label: 'c.1720', title: 'Thessaloniki, c.1720' }
+  ]
+};
 function exploreTile(st, badge) {
+  const drawings = (EXPLORE_DRAWINGS[st.contentId] || []).map(function (d) {
+    return `<button class="explore-drawing-btn" onclick="event.stopPropagation(); openLightbox('${d.src}','${d.title}')"><img src="${d.src}" alt="" loading="lazy">${d.label}</button>`;
+  }).join('');
   return `
     <div class="explore-tile" data-content="${st.contentId}" onclick="toggleExploreTile(this)">
       <div class="explore-tile-head">
@@ -3710,7 +3760,9 @@ function exploreTile(st, badge) {
       <div class="explore-tile-detail">
         <div class="explore-tile-summary">${esc(st.summary)}</div>
         <div class="explore-tile-learn-slot"></div>
-        <button class="explore-dive-btn" onclick="event.stopPropagation(); openScriptModal('${st.contentId}')"><span class="material-symbols-rounded">menu_book</span>Dive Deeper</button>
+        <div class="explore-tile-actions">
+          <button class="explore-dive-btn" onclick="event.stopPropagation(); openScriptModal('${st.contentId}')"><span class="material-symbols-rounded">menu_book</span>Dive Deeper</button>${drawings}
+        </div>
       </div>
     </div>`;
 }

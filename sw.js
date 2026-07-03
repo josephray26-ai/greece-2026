@@ -2,7 +2,7 @@
 // Precaches the app shell + displayed images so the app works offline after
 // the first online visit. Audio/video stream (not precached). The unused
 // full-size day itinerary PNGs are intentionally excluded.
-const CACHE = 'greece-2026-v139';
+const CACHE = 'greece-2026-v147';
 const PRECACHE = [
   "./",
   "index.html",
@@ -10,6 +10,20 @@ const PRECACHE = [
   "assets/cta-athens.jpg",
   "assets/cta-cruise.jpg",
   "assets/cta-santorini.jpg",
+  "assets/acropolis-1684.jpg",
+  "assets/acropolis-1846.jpg",
+  "assets/agora-1712.jpg",
+  "assets/agora-1945.jpg",
+  "assets/panathenaic-1896.jpg",
+  "assets/roman-agora-1815.jpg",
+  "assets/mars-hill-1659.jpg",
+  "assets/mars-hill-1690.jpg",
+  "assets/ephesus-1812.jpg",
+  "assets/ephesus-1952.jpg",
+  "assets/philippi-1897.jpg",
+  "assets/philippi-1929.jpg",
+  "assets/thessaloniki-1848.jpg",
+  "assets/thessaloniki-1720.jpg",
   "assets/day0-info.jpg",
   "assets/day1-info.jpg",
   "assets/cruise-details.pdf",
