@@ -4128,6 +4128,29 @@ function toggleBiblicalCard(card) {
   }, 120);
 }
 
+// Expand a day card, accordion-collapsing any other open card in the same list.
+function accordionExpand(card) {
+  const container = card.parentElement;
+  if (container) {
+    container.querySelectorAll('.biblical-card.expanded').forEach(c => {
+      if (c !== card) {
+        c.classList.remove('expanded');
+        c.querySelectorAll('.explore-tile.expanded').forEach(t => t.classList.remove('expanded'));
+      }
+    });
+  }
+  card.classList.add('expanded');
+}
+// Scroll so the card's top sits just below the sticky header. Uses the offsetTop
+// chain (not getBoundingClientRect) so the cards' entrance transform can't fold in
+// and over-scroll past the top of the card.
+function scrollCardBelowHeader(card) {
+  const header = document.querySelector('.top-app-bar');
+  const offset = (header ? header.offsetHeight : 0) + 8;
+  let y = 0, el = card;
+  while (el) { y += el.offsetTop; el = el.offsetParent; }
+  window.scrollTo({ top: Math.max(0, y - offset), behavior: 'smooth' });
+}
 function goToBiblical(dayNum) {
   // Switch to Biblical tab
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
@@ -4135,13 +4158,14 @@ function goToBiblical(dayNum) {
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
   document.getElementById('section-biblical').classList.add('active');
   activeSection = 'biblical';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
   requestAnimationFrame(fitCardTitles);
-  // Find and expand the matching card
-  const card = document.querySelector('.biblical-card[data-day="' + dayNum + '"]');
+  // Find (within the Devotion list only), expand, and anchor the matching card
+  const card = document.querySelector('#biblicalCards .biblical-card[data-day="' + dayNum + '"]');
   if (card) {
-    card.classList.add('expanded');
-    setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'start' }), 120);
+    accordionExpand(card);
+    setTimeout(() => scrollCardBelowHeader(card), 120);
+  } else {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }
 
@@ -4157,13 +4181,8 @@ function goToExplore(dayNum) {
   // so the card's title row isn't hidden behind the top app bar.
   const card = document.querySelector('#exploreCards .biblical-card[data-day="' + dayNum + '"]');
   if (card) {
-    card.classList.add('expanded');
-    setTimeout(() => {
-      const header = document.querySelector('.top-app-bar');
-      const offset = (header ? header.offsetHeight : 0) + 8;
-      const y = card.getBoundingClientRect().top + window.pageYOffset - offset;
-      window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
-    }, 120);
+    accordionExpand(card);
+    setTimeout(() => scrollCardBelowHeader(card), 120);
   } else {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
