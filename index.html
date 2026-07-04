@@ -34,6 +34,7 @@
   --devotion-gold: #E7B85C;
   --devotion-gold-strong: #F0C97A;
   --devotion-gold-bg: rgba(231,184,92,0.12);
+  --devotion-gold-bg-2: rgba(231,184,92,0.06);
   --devotion-gold-border: #E7B85C;
   --md-sys-elevation-1: 0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
   --md-sys-elevation-2: 0 3px 6px rgba(0,0,0,0.4), 0 2px 4px rgba(0,0,0,0.3);
@@ -63,6 +64,7 @@
   --devotion-gold: #A9791E;
   --devotion-gold-strong: #8A6214;
   --devotion-gold-bg: rgba(200,150,55,0.13);
+  --devotion-gold-bg-2: rgba(200,150,55,0.07);
   --devotion-gold-border: #C79A3B;
   --md-sys-elevation-1: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.08);
   --md-sys-elevation-2: 0 3px 6px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.08);
@@ -996,6 +998,20 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   color: var(--md-sys-color-primary);
 }
 .explore-stops-callout .material-symbols-rounded { font-size: 18px; }
+.explore-stops-callout .explore-stops-chev { color: inherit; }
+/* Collapsed Explore card: make the "N Stops to Explore" callout look like a
+   tappable button (matching the "Show full schedule" expander). The expanded
+   state keeps the plain look. */
+.biblical-card:not(.expanded) .explore-stops-callout {
+  justify-content: center;
+  margin: 12px 16px 16px;
+  padding: 11px 16px;
+  border-radius: 12px;
+  background: var(--md-sys-color-surface-variant, rgba(128,128,128,0.10));
+  transition: background 0.15s, transform 0.1s;
+}
+.biblical-card:not(.expanded) .explore-stops-callout:active { transform: scale(0.99); }
+@media (hover: hover) { .biblical-card:not(.expanded) .explore-stops-callout:hover { background: var(--md-sys-color-primary-container, rgba(46,93,76,0.12)); } }
 /* ── Devotion tab: collapsed preview — Greek "Word of the Day" (gold accent) ── */
 .devotion-preview { background: var(--md-sys-color-surface); border-top: 1px solid var(--md-sys-color-outline-variant); cursor: pointer; padding-bottom: 4px; -webkit-tap-highlight-color: transparent; }
 .word-of-day {
@@ -1026,6 +1042,19 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
 }
 .devotion-topics-callout .material-symbols-rounded { font-size: 18px; }
 .devotion-topics-icon { color: var(--md-sys-color-primary); }
+.devotion-topics-callout .devotion-topics-chev { color: inherit; }
+/* Collapsed Devotion card: gold pill button for the topics callout (mirrors the
+   Explore card treatment). The expanded state keeps the plain look. */
+.biblical-card:not(.expanded) .devotion-topics-callout {
+  justify-content: center;
+  margin: 12px 16px 16px;
+  padding: 11px 16px;
+  border-radius: 12px;
+  background: var(--devotion-gold-bg-2);
+  transition: background 0.15s, transform 0.1s;
+}
+.biblical-card:not(.expanded) .devotion-topics-callout:active { transform: scale(0.99); }
+@media (hover: hover) { .biblical-card:not(.expanded) .devotion-topics-callout:hover { background: color-mix(in srgb, var(--devotion-gold) 13%, transparent); } }
 .explore-tile-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -3961,11 +3990,10 @@ function buildExploreCards() {
             Day ${day.dayNum} &nbsp;·&nbsp; ${esc(day.date)}
           </div>
         </div>
-        <span class="material-symbols-rounded biblical-chevron">expand_more</span>
       </div>
       <div class="explore-preview" onclick="toggleBiblicalCard(this.closest('.biblical-card'))">
         ${highlight ? `<div class="explore-day-highlight">${highlight}</div>` : ''}
-        <div class="explore-stops-callout"><span class="material-symbols-rounded">explore</span>${n} Stop${n === 1 ? '' : 's'} to Explore</div>
+        <div class="explore-stops-callout"><span class="material-symbols-rounded">explore</span>${n} Stop${n === 1 ? '' : 's'} to Explore<span class="material-symbols-rounded biblical-chevron explore-stops-chev">expand_more</span></div>
       </div>
       <div class="biblical-body">
         <div class="explore-tile-grid">
@@ -4023,7 +4051,6 @@ function buildBiblicalCards() {
             Day ${day.dayNum} &nbsp;·&nbsp; ${esc(day.date)}
           </div>
         </div>
-        <span class="material-symbols-rounded biblical-chevron">expand_more</span>
       </div>
       <div class="devotion-preview" onclick="toggleBiblicalCard(this.closest('.biblical-card'))">
         ${wod ? `<div class="word-of-day">
@@ -4031,7 +4058,7 @@ function buildBiblicalCards() {
           <div class="word-of-day-term">${esc(wod.greek)} <span class="word-of-day-translit">· ${esc(wod.translit)}</span></div>
           <div class="word-of-day-meaning">${esc(wod.meaning)}</div>
         </div>` : ''}
-        <div class="devotion-topics-callout"><span class="material-symbols-rounded devotion-topics-icon">auto_stories</span>${topicCount} Quiet Time Topic${topicCount === 1 ? '' : 's'} to Meditate On</div>
+        <div class="devotion-topics-callout"><span class="material-symbols-rounded devotion-topics-icon">auto_stories</span>${topicCount} Quiet Time Topic${topicCount === 1 ? '' : 's'} to Meditate On<span class="material-symbols-rounded biblical-chevron devotion-topics-chev">expand_more</span></div>
       </div>
       <div class="biblical-body">
         <div style="display:flex;flex-wrap:wrap;gap:6px 20px;margin:20px 0 14px 16px;">
