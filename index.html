@@ -3926,6 +3926,9 @@ function buildTripKnowledge() {
     }
     const wod = WORD_OF_DAY[d.dayNum];
     if (wod) L.push('  WORD OF THE DAY: ' + wod.greek + ' (' + wod.translit + ') — ' + wod.meaning);
+    if (typeof ATTIRE_BY_DAY !== 'undefined' && ATTIRE_BY_DAY[d.dayNum]) {
+      L.push('  CELEBRITY CRUISE DINNER ATTIRE (Tonight’s Attire): ' + ((typeof ATTIRE_LABEL !== 'undefined' && ATTIRE_LABEL[ATTIRE_BY_DAY[d.dayNum]]) || ATTIRE_BY_DAY[d.dayNum]));
+    }
   });
   L.push('\n== SITES & STOPS ==');
   EXPLORE_DATA.days.forEach(function (d) {
@@ -3945,6 +3948,18 @@ function buildTripKnowledge() {
     if (!KB_INCLUDE_PREFIXES.some(function (p) { return id.indexOf(p) === 0; })) return;
     L.push('[' + entry.title + '] ' + _exClip(_exStrip(entry.html), KB_MAX_CHARS_PER_ENTRY));
   });
+  if (typeof EXPLORE_DRAWINGS !== 'undefined') {
+    const _seenArt = {};
+    const _art = [];
+    Object.keys(EXPLORE_DRAWINGS).forEach(function (k) {
+      (EXPLORE_DRAWINGS[k] || []).forEach(function (dr) {
+        if (!dr || _seenArt[dr.src]) return;
+        _seenArt[dr.src] = 1;
+        if (dr.title || dr.caption) _art.push('  • ' + (dr.title || '') + (dr.caption ? ' — ' + dr.caption : ''));
+      });
+    });
+    if (_art.length) { L.push('\n== HISTORICAL ARTWORK & DRAWINGS (Explore tab) =='); _art.forEach(function (x) { L.push(x); }); }
+  }
   _tripKB = L.join('\n');
   return _tripKB;
 }
