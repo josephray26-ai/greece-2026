@@ -3903,7 +3903,7 @@ function _exClip(s, n) { return s.length > n ? s.slice(0, n - 1).replace(/\s+\S*
 // "What you'll learn" teaser pulled from the stop's own deep dive (when it was built + a fun fact).
 // ── Trip knowledge base for the AI chat ───────────────────────
 let _tripKB = null;
-const KB_MAX_CHARS_PER_ENTRY = 900;
+const KB_MAX_CHARS_PER_ENTRY = 60000;   // effectively full content; only guards a pathological entry
 const KB_TRIM_KEYS = new Set(['athens', 'ephesus', 'thessaloniki', 'piraeus', 'santorini', 'rhodes']);
 const KB_INCLUDE_PREFIXES = ['fn_', 'cr_', 'attire_', 'explore_'];
 function _kbFirstSentence(txt) {
@@ -3937,16 +3937,20 @@ function buildTripKnowledge() {
       L.push('  • ' + st.name + ': ' + st.summary);
     });
   });
-  L.push('\n== NOTES & GUIDES ==');
+  L.push('\n== DEEP-DIVE CONTENT (Explore “Dive Deeper” articles, Field Notes, Cruise info, and Podcast / Read-the-Interview scripts) ==');
+  const _seenKB = {};
   Object.keys(SCRIPT_CONTENT).forEach(function (id) {
     const entry = SCRIPT_CONTENT[id];
     if (!entry || !entry.html) return;
-    if (KB_TRIM_KEYS.has(id)) {
-      L.push('[' + entry.title + '] ' + _kbFirstSentence(_exStrip(entry.html)) + ' (Full audio-tour available in the app.)');
-      return;
-    }
-    if (!KB_INCLUDE_PREFIXES.some(function (p) { return id.indexOf(p) === 0; })) return;
-    L.push('[' + entry.title + '] ' + _exClip(_exStrip(entry.html), KB_MAX_CHARS_PER_ENTRY));
+    // Include the Explore dive-deepers, field notes, cruise, attire, and the long podcast / tour
+    // interview scripts. Skip raw scripture / Bible-book text dumps (the model already knows Scripture).
+    const included = KB_TRIM_KEYS.has(id) || KB_INCLUDE_PREFIXES.some(function (p) { return id.indexOf(p) === 0; });
+    if (!included) return;
+    const plain = _exStrip(entry.html);
+    const sig = plain.slice(0, 140);
+    if (_seenKB[sig]) return;                    // drop near-duplicate entries (e.g. Athens stops repeated on Day 2 & Day 3)
+    _seenKB[sig] = 1;
+    L.push('\n[' + entry.title + '] ' + (plain.length > KB_MAX_CHARS_PER_ENTRY ? _exClip(plain, KB_MAX_CHARS_PER_ENTRY) : plain));
   });
   if (typeof EXPLORE_DRAWINGS !== 'undefined') {
     const _seenArt = {};
