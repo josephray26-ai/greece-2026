@@ -1724,6 +1724,29 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   box-shadow: 0 -10px 18px -12px rgba(0,0,0,0.28);
 }
 
+/* ── Ask a Question chat ── */
+.chat-body { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 16px; display: flex; flex-direction: column; gap: 10px; }
+.chat-msg { max-width: 85%; padding: 10px 14px; border-radius: 18px; line-height: 1.45; font-size: 15px; white-space: pre-wrap; word-wrap: break-word; }
+.chat-msg.user { align-self: flex-end; background: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary); border-bottom-right-radius: 6px; }
+.chat-msg.assistant { align-self: flex-start; background: var(--md-sys-color-primary-container); color: var(--md-sys-color-on-surface); border-bottom-left-radius: 6px; }
+.chat-msg.error { align-self: flex-start; background: transparent; color: var(--md-sys-color-on-surface-variant); border: 1px solid var(--md-sys-color-outline-variant); }
+.chat-typing { align-self: flex-start; display: flex; gap: 4px; padding: 12px 14px; }
+.chat-typing span { width: 7px; height: 7px; border-radius: 50%; background: var(--md-sys-color-outline); animation: chatBlink 1.2s infinite ease-in-out; }
+.chat-typing span:nth-child(2) { animation-delay: .2s; }
+.chat-typing span:nth-child(3) { animation-delay: .4s; }
+@keyframes chatBlink { 0%,80%,100% { opacity:.3; transform:translateY(0); } 40% { opacity:1; transform:translateY(-3px); } }
+.chat-empty { margin: auto; text-align: center; padding: 24px 8px; max-width: 380px; }
+.chat-empty-icon { font-size: 40px; color: var(--md-sys-color-primary); }
+.chat-empty-title { font-size: 18px; font-weight: 700; margin-top: 8px; color: var(--md-sys-color-on-surface); }
+.chat-empty-sub { font-size: 13px; color: var(--md-sys-color-on-surface-variant); margin-top: 4px; }
+.chat-suggestions { display: flex; flex-direction: column; gap: 8px; margin-top: 18px; }
+.chat-suggestion { text-align: left; background: var(--md-sys-color-surface-variant); color: var(--md-sys-color-on-surface); border: 1px solid var(--md-sys-color-outline-variant); border-radius: 14px; padding: 10px 14px; font: inherit; font-size: 14px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.chat-footer { flex-shrink: 0; display: flex; align-items: flex-end; gap: 8px; padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--md-sys-color-outline-variant); background: var(--md-sys-color-surface); }
+.chat-input { flex: 1; resize: none; max-height: 120px; overflow-y: auto; border: 1px solid var(--md-sys-color-outline-variant); border-radius: 20px; padding: 10px 14px; font: inherit; font-size: 15px; line-height: 1.4; background: var(--md-sys-color-surface); color: var(--md-sys-color-on-surface); }
+.chat-input:focus { outline: none; border-color: var(--md-sys-color-primary); }
+.chat-send-btn { flex-shrink: 0; width: 42px; height: 42px; border-radius: 50%; border: none; background: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary); display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.chat-send-btn:disabled { opacity: .4; cursor: default; }
+
 /* ── Video Modal ── */
 .video-modal-overlay {
   position: fixed; inset: 0; z-index: 1100;
@@ -2057,6 +2080,9 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   <span class="app-title">Greece 2026 T &amp; T</span>
   <span class="header-actions"><button class="icon-btn now-playing-btn" id="nowPlayingBtn" onclick="toggleNowPlayingPanel()" title="Now playing" aria-label="Now playing controls">
     <span class="material-symbols-rounded">headphones</span>
+  </button>
+  <button class="icon-btn" id="chat-open-btn" onclick="openChatModal()" title="Ask a Question" aria-label="Ask a Question" style="color:var(--md-sys-color-primary);">
+    <span class="material-symbols-rounded">chat_bubble</span>
   </button>
   <button class="icon-btn" id="gallery-open-btn" onclick="openGallery()" title="Trip Photos" style="color:var(--md-sys-color-primary);">
     <span class="material-symbols-rounded">photo_camera</span>
@@ -3054,7 +3080,7 @@ function closeLightbox() {
   lightbox.classList.remove('open');
   document.body.style.overflow = '';
 }
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeLightbox(); var _cm = document.getElementById('chat-modal'); if (_cm && _cm.classList.contains('open')) closeChatModal(); } });
 
 /* ═══════════════════════════════════════════════════
    COUNTDOWN
@@ -3107,7 +3133,7 @@ function buildDestinationChips() {
     const chip = document.createElement('div');
     chip.className = 'dest-chip';
     chip.innerHTML = `
-      <span class="dest-day">Day ${day.dayNum}</span>
+      <span class="dest-day">${dayLabel(day.dayNum)}</span>
       <span class="dest-name">${day.title.split('—')[0].trim()}</span>
       <span class="dest-date">${day.date.split(',')[0]}, Jul ${day.date.includes('Jul') ? '' : ''}${getJulDate(day.dayNum)}</span>
     `;
@@ -3130,12 +3156,14 @@ function getJulDate(dayNum) {
 /* ═══════════════════════════════════════════════════
    ITINERARY
    ═══════════════════════════════════════════════════ */
+// Day label: the pre-trip flight day (0) reads as "Depart" everywhere.
+function dayLabel(n) { return n === 0 ? 'Depart' : 'Day ' + n; }
 function buildDayChips() {
   const container = document.getElementById('dayChipsScroll');
   TRIP_DATA.days.forEach(day => {
     const chip = document.createElement('button');
     chip.className = 'day-chip' + (day.dayNum === activeDay ? ' active' : '');
-    chip.textContent = `Day ${day.dayNum}`;
+    chip.textContent = dayLabel(day.dayNum);
     chip.dataset.day = day.dayNum;
     chip.addEventListener('click', () => setActiveDay(day.dayNum));
     container.appendChild(chip);
@@ -3828,6 +3856,53 @@ function _exStrip(h) {
 function _exClip(s, n) { return s.length > n ? s.slice(0, n - 1).replace(/\s+\S*$/, '') + '…' : s; }
 
 // "What you'll learn" teaser pulled from the stop's own deep dive (when it was built + a fun fact).
+// ── Trip knowledge base for the AI chat ───────────────────────
+let _tripKB = null;
+const KB_MAX_CHARS_PER_ENTRY = 900;
+const KB_TRIM_KEYS = new Set(['athens', 'ephesus', 'thessaloniki', 'piraeus', 'santorini', 'rhodes']);
+const KB_INCLUDE_PREFIXES = ['fn_', 'cr_', 'attire_', 'explore_'];
+function _kbFirstSentence(txt) {
+  const m = txt.match(/^.*?[.!?](\s|$)/);
+  return (m ? m[0] : txt).slice(0, 220).trim();
+}
+function buildTripKnowledge() {
+  if (_tripKB) return _tripKB;
+  const L = [];
+  L.push('TRIP: ' + TRIP_DATA.title + ' (' + TRIP_DATA.dates + ').');
+  TRIP_DATA.days.forEach(function (d) {
+    L.push('\n== ' + dayLabel(d.dayNum) + ' — ' + d.date + ' — ' + d.title + ' (' + d.location + ') ==');
+    (d.schedule || []).forEach(function (s) { L.push('  ' + s.time + ': ' + s.activity); });
+    const bk = d.bibleKnowledge;
+    if (bk) {
+      L.push('  BIBLE (' + bk.title + '): ' + bk.intro);
+      (bk.connections || []).forEach(function (c) {
+        L.push('   - ' + c.title + (c.ref ? ' [' + c.ref + ']' : '') + ': ' + c.detail);
+      });
+    }
+    const wod = WORD_OF_DAY[d.dayNum];
+    if (wod) L.push('  WORD OF THE DAY: ' + wod.greek + ' (' + wod.translit + ') — ' + wod.meaning);
+  });
+  L.push('\n== SITES & STOPS ==');
+  EXPLORE_DATA.days.forEach(function (d) {
+    L.push(dayLabel(d.dayNum) + ' — ' + d.title + ':');
+    (d.stops || []).concat(d.additional || []).forEach(function (st) {
+      L.push('  • ' + st.name + ': ' + st.summary);
+    });
+  });
+  L.push('\n== NOTES & GUIDES ==');
+  Object.keys(SCRIPT_CONTENT).forEach(function (id) {
+    const entry = SCRIPT_CONTENT[id];
+    if (!entry || !entry.html) return;
+    if (KB_TRIM_KEYS.has(id)) {
+      L.push('[' + entry.title + '] ' + _kbFirstSentence(_exStrip(entry.html)) + ' (Full audio-tour available in the app.)');
+      return;
+    }
+    if (!KB_INCLUDE_PREFIXES.some(function (p) { return id.indexOf(p) === 0; })) return;
+    L.push('[' + entry.title + '] ' + _exClip(_exStrip(entry.html), KB_MAX_CHARS_PER_ENTRY));
+  });
+  _tripKB = L.join('\n');
+  return _tripKB;
+}
 function exploreTeaser(contentId) {
   const sc = (typeof SCRIPT_CONTENT !== 'undefined') && SCRIPT_CONTENT[contentId];
   if (!sc || !sc.html) return '';
@@ -3987,7 +4062,7 @@ function buildExploreCards() {
           <div class="biblical-location">${splitTitleParts(day.title)}</div>
           <div class="biblical-date-badge">
             <span class="material-symbols-rounded" style="font-size:14px;">calendar_today</span>
-            Day ${day.dayNum} &nbsp;·&nbsp; ${esc(day.date)}
+            ${dayLabel(day.dayNum)} &nbsp;·&nbsp; ${esc(day.date)}
           </div>
         </div>
       </div>
@@ -4048,7 +4123,7 @@ function buildBiblicalCards() {
           <div class="biblical-location">${splitTitleParts(bk.title)}</div>
           <div class="biblical-date-badge">
             <span class="material-symbols-rounded" style="font-size:14px;">calendar_today</span>
-            Day ${day.dayNum} &nbsp;·&nbsp; ${esc(day.date)}
+            ${dayLabel(day.dayNum)} &nbsp;·&nbsp; ${esc(day.date)}
           </div>
         </div>
       </div>
@@ -4211,7 +4286,7 @@ function buildPodcastCards() {
     card.className = 'card podcast-card';
     let html = `
       <div class="podcast-header">
-        <div class="podcast-episode-label">Day ${day.dayNum} &nbsp;&middot;&nbsp; ${esc(day.location)}</div>
+        <div class="podcast-episode-label">${dayLabel(day.dayNum)} &nbsp;&middot;&nbsp; ${esc(day.location)}</div>
       </div>`;
     // Audio Tours (from the Explore tab)
     if (tours.length) {
@@ -8723,9 +8798,9 @@ const SCRIPT_CONTENT = {
   /* ── FIELD NOTES ── */
 
   fn_day0: {
-    title: "Field Notes — Day 0 · Flight Day",
+    title: "Field Notes — Depart · Flight Day",
     html: `
-<div class="fn-header">Day 0 · Flight Day — Getting There</div>
+<div class="fn-header">Depart · Flight Day — Getting There</div>
 <div class="fn-subtitle">XNA → DFW → Athens</div>
 
 <div class="fn-section-title">Your Flights</div>
@@ -9564,6 +9639,158 @@ function closeScriptModal() {
 function closeScriptModalOutside(e) {
   if (e.target === document.getElementById('script-modal')) closeScriptModal();
 }
+
+// ── Ask a Question (AI chat, direct Gemini call) ──────────────
+const CHAT_ENDPOINT = 'https://greece-chat.greece2026.workers.dev';   // Cloudflare Worker proxy (key stored server-side)
+const CHAT_STORE_KEY = 'greece2026_chat';
+const CHAT_MAX_TURNS = 20;
+const CHAT_HISTORY_SEND = 12;
+const CHAT_SUGGESTIONS = [
+  'What are we doing on Day 4 in Santorini?',
+  'Who was Paul writing to in Thessalonica?',
+  'What should I wear to dinner on the cruise?',
+  'Give me a quick history of the Acropolis.'
+];
+let chatHistory = [];
+let chatBusy = false;
+
+function loadChat() {
+  try { chatHistory = JSON.parse(localStorage.getItem(CHAT_STORE_KEY) || '[]') || []; }
+  catch (e) { chatHistory = []; }
+}
+function persistChat() {
+  chatHistory = chatHistory.slice(-CHAT_MAX_TURNS);
+  try { localStorage.setItem(CHAT_STORE_KEY, JSON.stringify(chatHistory)); } catch (e) {}
+}
+function openChatModal() {
+  loadChat();
+  renderChat();
+  document.getElementById('chat-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  setTimeout(function () { const i = document.getElementById('chat-input'); if (i) i.focus(); }, 250);
+}
+function closeChatModal() {
+  document.getElementById('chat-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeChatModalOutside(e) {
+  if (e.target === document.getElementById('chat-modal')) closeChatModal();
+}
+function clearChat() {
+  chatHistory = [];
+  try { localStorage.removeItem(CHAT_STORE_KEY); } catch (e) {}
+  renderChat();
+}
+function renderChat() {
+  const body = document.getElementById('chat-body');
+  const empty = document.getElementById('chat-empty');
+  body.querySelectorAll('.chat-msg,.chat-typing').forEach(function (n) { n.remove(); });
+  if (!chatHistory.length) {
+    empty.style.display = '';
+    const sug = document.getElementById('chat-suggestions');
+    if (sug && !sug.childElementCount) {
+      CHAT_SUGGESTIONS.forEach(function (q) {
+        const b = document.createElement('button');
+        b.className = 'chat-suggestion';
+        b.textContent = q;
+        b.onclick = function () { document.getElementById('chat-input').value = q; sendChat(); };
+        sug.appendChild(b);
+      });
+    }
+    return;
+  }
+  empty.style.display = 'none';
+  chatHistory.forEach(function (m) { appendMsg(m.role, m.content); });
+  scrollChatDown();
+}
+function appendMsg(role, text) {
+  const div = document.createElement('div');
+  div.className = 'chat-msg ' + role;
+  div.textContent = text;
+  document.getElementById('chat-body').appendChild(div);
+  scrollChatDown();
+  return div;
+}
+function showTyping() {
+  const t = document.createElement('div');
+  t.className = 'chat-typing';
+  t.id = 'chat-typing';
+  t.innerHTML = '<span></span><span></span><span></span>';
+  document.getElementById('chat-body').appendChild(t);
+  scrollChatDown();
+}
+function hideTyping() { const t = document.getElementById('chat-typing'); if (t) t.remove(); }
+function scrollChatDown() { const b = document.getElementById('chat-body'); b.scrollTop = b.scrollHeight; }
+function chatAutoGrow(el) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 120) + 'px'; }
+function chatKeydown(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChat(); } }
+
+async function sendChat() {
+  if (chatBusy) return;
+  const input = document.getElementById('chat-input');
+  const q = input.value.trim();
+  if (!q) return;
+  document.getElementById('chat-empty').style.display = 'none';
+  input.value = ''; chatAutoGrow(input);
+  chatHistory.push({ role: 'user', content: q });
+  appendMsg('user', q);
+  persistChat();
+  chatBusy = true;
+  document.getElementById('chat-send-btn').disabled = true;
+  showTyping();
+  try {
+    const answer = await callChatWorker(q);
+    hideTyping();
+    chatHistory.push({ role: 'assistant', content: answer });
+    appendMsg('assistant', answer);
+    persistChat();
+  } catch (err) {
+    hideTyping();
+    const offline = (typeof navigator !== 'undefined' && navigator.onLine === false);
+    const msg = offline
+      ? 'You appear to be offline. Ask a Question needs an internet connection.'
+      : ((err && err.userMessage) || 'Sorry — I could not answer just now. Please try again.');
+    const d = appendMsg('assistant', msg);
+    d.classList.remove('assistant'); d.classList.add('error');
+  } finally {
+    chatBusy = false;
+    const sb = document.getElementById('chat-send-btn'); if (sb) sb.disabled = false;
+    input.focus();
+  }
+}
+
+async function callChatWorker(question) {
+  if (!CHAT_ENDPOINT) {
+    const e = new Error('no endpoint');
+    e.userMessage = 'The assistant is not connected yet — the chat service still needs to be set up.';
+    throw e;
+  }
+  const hist = chatHistory.slice(-CHAT_HISTORY_SEND - 1, -1).map(function (m) { return { role: m.role, content: m.content }; });
+  const body = JSON.stringify({ question: question, history: hist, knowledge: buildTripKnowledge() });
+  const attempt = async function () {
+    const ctrl = new AbortController();
+    const to = setTimeout(function () { ctrl.abort(); }, 30000);
+    try {
+      const res = await fetch(CHAT_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: body, signal: ctrl.signal });
+      if (!res.ok) {
+        const e = new Error('HTTP ' + res.status);
+        e.status = res.status;
+        e.userMessage = res.status === 429
+          ? 'The assistant is busy right now (rate limit). Please wait a moment and try again.'
+          : 'Sorry — the assistant had a problem (' + res.status + '). Please try again.';
+        throw e;
+      }
+      const data = await res.json();
+      if (!data || !data.answer) throw new Error('Empty answer');
+      return data.answer;
+    } finally { clearTimeout(to); }
+  };
+  try { return await attempt(); }
+  catch (e) {
+    if (e.status && e.status !== 429 && e.status < 500) throw e;
+    await new Promise(function (r) { setTimeout(r, 900); });
+    return attempt();
+  }
+}
 function toggleScriptFullscreen() {
   const c = document.getElementById('script-modal-container');
   const icon = document.getElementById('fullscreen-icon');
@@ -10081,6 +10308,38 @@ async function submitPhoto() {
       </div>
     </div>
     <div class="script-modal-body" id="script-modal-body"></div>
+  </div>
+</div>
+
+<!-- Ask a Question (AI chat) -->
+<div id="chat-modal" class="script-modal-overlay" onclick="closeChatModalOutside(event)" role="dialog" aria-modal="true" aria-labelledby="chat-modal-title">
+  <div class="script-modal-container" id="chat-modal-container">
+    <div class="script-modal-drag"></div>
+    <div class="script-modal-header">
+      <span class="script-modal-title-text" id="chat-modal-title">Ask a Question</span>
+      <div class="script-modal-actions">
+        <button class="icon-btn" onclick="clearChat()" title="Clear chat" aria-label="Clear chat">
+          <span class="material-symbols-rounded">delete_sweep</span>
+        </button>
+        <button class="icon-btn" onclick="closeChatModal()" title="Close" aria-label="Close">
+          <span class="material-symbols-rounded">close</span>
+        </button>
+      </div>
+    </div>
+    <div class="chat-body" id="chat-body">
+      <div class="chat-empty" id="chat-empty">
+        <span class="material-symbols-rounded chat-empty-icon">travel_explore</span>
+        <div class="chat-empty-title">Ask me about your trip</div>
+        <div class="chat-empty-sub">Itinerary, sites, biblical background, or general Greece &amp; travel questions.</div>
+        <div class="chat-suggestions" id="chat-suggestions"></div>
+      </div>
+    </div>
+    <div class="chat-footer">
+      <textarea id="chat-input" class="chat-input" rows="1" placeholder="Ask a question…" enterkeyhint="send" oninput="chatAutoGrow(this)" onkeydown="chatKeydown(event)"></textarea>
+      <button class="chat-send-btn" id="chat-send-btn" onclick="sendChat()" title="Send" aria-label="Send">
+        <span class="material-symbols-rounded">send</span>
+      </button>
+    </div>
   </div>
 </div>
 
