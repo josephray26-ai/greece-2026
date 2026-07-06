@@ -1361,6 +1361,30 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
 }
 .np-panel.open { display: block; }
 @keyframes npDrop { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+.header-menu {
+  position: fixed;
+  top: calc(56px + env(safe-area-inset-top, 0px) + 6px);
+  right: 8px;
+  width: min(230px, calc(100vw - 16px));
+  z-index: 1200;
+  background: var(--md-sys-color-surface);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: 16px;
+  box-shadow: var(--md-sys-elevation-3, 0 10px 28px rgba(0,0,0,0.3));
+  padding: 6px;
+  display: none;
+  animation: npDrop 0.18s ease;
+}
+.header-menu.open { display: block; }
+.header-menu-item {
+  display: flex; align-items: center; gap: 14px; width: 100%;
+  padding: 12px 14px; border-radius: 12px; border: none; background: transparent;
+  color: var(--md-sys-color-on-surface); font: inherit; font-size: 15px; font-weight: 500;
+  cursor: pointer; text-align: left; -webkit-tap-highlight-color: transparent;
+}
+.header-menu-item .material-symbols-rounded { font-size: 22px; color: var(--md-sys-color-primary); flex-shrink: 0; }
+.header-menu-item:active { background: var(--md-sys-color-surface-variant); }
+@media (hover: hover) { .header-menu-item:hover { background: var(--md-sys-color-surface-variant); } }
 .np-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; color: var(--md-sys-color-primary); }
 .np-title { font-size: 15px; font-weight: 600; color: var(--md-sys-color-on-surface); margin: 2px 0 12px; }
 
@@ -2081,17 +2105,27 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   <span class="header-actions"><button class="icon-btn now-playing-btn" id="nowPlayingBtn" onclick="toggleNowPlayingPanel()" title="Now playing" aria-label="Now playing controls">
     <span class="material-symbols-rounded">headphones</span>
   </button>
-  <button class="icon-btn" id="chat-open-btn" onclick="openChatModal()" title="Ask a Question" aria-label="Ask a Question" style="color:var(--md-sys-color-primary);">
+  <button class="icon-btn" id="chat-open-btn" onclick="openChatModal()" title="Ask Paulo" aria-label="Ask Paulo" style="color:var(--md-sys-color-primary);">
     <span class="material-symbols-rounded">chat_bubble</span>
   </button>
-  <button class="icon-btn" id="gallery-open-btn" onclick="openGallery()" title="Trip Photos" style="color:var(--md-sys-color-primary);">
-    <span class="material-symbols-rounded">photo_camera</span>
-  </button>
-  <button class="icon-btn" id="themeToggle" title="Toggle theme">
-    <span class="material-symbols-rounded" id="themeIcon">dark_mode</span>
+  <button class="icon-btn" id="header-menu-btn" onclick="toggleHeaderMenu(event)" title="Menu" aria-label="Menu">
+    <span class="material-symbols-rounded">menu</span>
   </button>
   </span>
 </header>
+
+<!-- Header menu (Theme / Memories / Ask Paulo) -->
+<div class="header-menu" id="headerMenu" role="menu">
+  <button class="header-menu-item" onclick="toggleTheme()" role="menuitem">
+    <span class="material-symbols-rounded" id="themeIcon">dark_mode</span><span>Theme</span>
+  </button>
+  <button class="header-menu-item" onclick="closeHeaderMenu(); openGallery();" role="menuitem">
+    <span class="material-symbols-rounded">photo_camera</span><span>Memories</span>
+  </button>
+  <button class="header-menu-item" onclick="closeHeaderMenu(); openChatModal();" role="menuitem">
+    <span class="material-symbols-rounded">chat_bubble</span><span>Ask Paulo</span>
+  </button>
+</div>
 
 <!-- Now-playing popover (header) -->
 <div class="np-panel" id="nowPlayingPanel">
@@ -3007,13 +3041,13 @@ function initTheme() {
 function updateThemeIcon(theme) {
   document.getElementById('themeIcon').textContent = theme === 'dark' ? 'light_mode' : 'dark_mode';
 }
-document.getElementById('themeToggle').addEventListener('click', () => {
+function toggleTheme() {
   const current = document.documentElement.getAttribute('data-theme');
   const next = current === 'dark' ? 'light' : 'dark';
   document.documentElement.setAttribute('data-theme', next);
   localStorage.setItem('greece-theme', next);
   updateThemeIcon(next);
-});
+}
 
 // Section navigation
 document.querySelectorAll('.nav-tab').forEach(tab => {
@@ -3080,7 +3114,7 @@ function closeLightbox() {
   lightbox.classList.remove('open');
   document.body.style.overflow = '';
 }
-document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeLightbox(); var _cm = document.getElementById('chat-modal'); if (_cm && _cm.classList.contains('open')) closeChatModal(); } });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeLightbox(); closeHeaderMenu(); var _cm = document.getElementById('chat-modal'); if (_cm && _cm.classList.contains('open')) closeChatModal(); } });
 
 /* ═══════════════════════════════════════════════════
    COUNTDOWN
@@ -3788,6 +3822,17 @@ document.addEventListener('click', e => {
   const btn = document.getElementById('nowPlayingBtn');
   if (panel && panel.classList.contains('open') && !panel.contains(e.target) && btn && !btn.contains(e.target)) {
     panel.classList.remove('open');
+  }
+});
+
+// Header menu (Theme / Memories / Ask Paulo)
+function toggleHeaderMenu(e) { if (e) e.stopPropagation(); const m = document.getElementById('headerMenu'); if (m) m.classList.toggle('open'); }
+function closeHeaderMenu() { const m = document.getElementById('headerMenu'); if (m) m.classList.remove('open'); }
+document.addEventListener('click', e => {
+  const menu = document.getElementById('headerMenu');
+  const btn = document.getElementById('header-menu-btn');
+  if (menu && menu.classList.contains('open') && !menu.contains(e.target) && btn && !btn.contains(e.target)) {
+    menu.classList.remove('open');
   }
 });
 
@@ -10316,7 +10361,7 @@ async function submitPhoto() {
   <div class="script-modal-container" id="chat-modal-container">
     <div class="script-modal-drag"></div>
     <div class="script-modal-header">
-      <span class="script-modal-title-text" id="chat-modal-title">Ask a Question</span>
+      <span class="script-modal-title-text" id="chat-modal-title">Ask Paulo</span>
       <div class="script-modal-actions">
         <button class="icon-btn" onclick="clearChat()" title="Clear chat" aria-label="Clear chat">
           <span class="material-symbols-rounded">delete_sweep</span>
