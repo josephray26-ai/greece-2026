@@ -3030,6 +3030,11 @@ const DAY_AUDIO_TOURS = {
       { id: 'tour-museum',    title: 'National Archaeological Museum' }],
   6: [{ id: 'tour-ephesus',   title: 'Ancient Ephesus' }]
 };
+const DAY_MUSIC = {
+  0: [{ id: 'music-morning',   title: 'Greece - Morning',    src: 'Greece - Morning.MP3' },
+      { id: 'music-evening',   title: 'Greece - Evening',    src: 'Greece - Evening.MP3' },
+      { id: 'music-oldschool', title: 'Greece - Old School', src: 'Greece - Old School.MP3' }]
+};
 let podcastsBuilt = false; // defer podcast card build until tab is tapped
 
 // Theme
@@ -4344,8 +4349,9 @@ function buildPodcastCards() {
   container.innerHTML = '';
   TRIP_DATA.days.forEach(day => {
     const tours = DAY_AUDIO_TOURS[day.dayNum] || [];
+    const music = DAY_MUSIC[day.dayNum] || [];
     const pod = day.podcast;
-    if (!tours.length && !pod) return;
+    if (!tours.length && !music.length && !pod) return;
     const card = document.createElement('div');
     card.className = 'card podcast-card';
     let html = `
@@ -4358,6 +4364,16 @@ function buildPodcastCards() {
       tours.forEach(t => {
         audioMeta[t.id] = { title: t.title, type: 'Audio Tour' };
         html += trackButton(t.id, t.title, '');
+      });
+      html += `</div>`;
+    }
+    // Music
+    if (music.length) {
+      html += `<div class="listen-section"><div class="listen-group-label"><span class="material-symbols-rounded">music_note</span>Music</div>`;
+      music.forEach(m => {
+        podcastSrcs[m.id] = m.src;
+        audioMeta[m.id] = { title: m.title, type: 'Music' };
+        html += trackButton(m.id, m.title, '');
       });
       html += `</div>`;
     }
