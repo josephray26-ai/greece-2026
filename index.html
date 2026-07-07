@@ -1758,6 +1758,11 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   padding: 16px; flex: 1;
 }
 .script-modal-body .script-scripture { margin-left: 0; }
+/* Drag-to-dismiss: header/handle grab zones shouldn't pan-scroll on touch, and shouldn't select text */
+.script-modal-drag, .script-modal-header,
+.notes-modal-drag, .notes-modal-header,
+.sched-modal-drag, .sched-modal-title { touch-action: none; -webkit-user-select: none; user-select: none; }
+.script-modal-drag, .notes-modal-drag, .sched-modal-drag { cursor: grab; }
 /* Audio-tour player pinned to the bottom of the deep-dive modal while text scrolls behind it */
 .tour-audio-bar {
   position: -webkit-sticky;
@@ -10085,6 +10090,57 @@ function esc(str) {
 let _ctaParallaxEls = [];
 let _ctaRaf = null;
 
+// Pull-down-to-dismiss for bottom-sheet modals: grab the header/handle and drag down.
+// Anything below the header keeps its own scroll — the gesture only starts from the grab zone.
+function enableSheetDrag(container, grabEls, closeFn) {
+  if (!container || !grabEls || !grabEls.length || typeof closeFn !== 'function') return;
+  let startY = 0, dy = 0, dragging = false, active = false, pid = null;
+  const THRESH = 90;                                   // px pulled before it dismisses
+  function inGrab(t) { return grabEls.some(function (g) { return g && g.contains(t); }); }
+  function reset() { container.style.transition = ''; container.style.transform = ''; }
+  container.addEventListener('pointerdown', function (e) {
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    if (!inGrab(e.target)) return;                      // only from the header / drag handle
+    active = true; dragging = false; startY = e.clientY; dy = 0; pid = e.pointerId;
+  });
+  container.addEventListener('pointermove', function (e) {
+    if (!active || e.pointerId !== pid) return;
+    dy = e.clientY - startY;
+    if (dy < 0) dy = 0;                                 // downward only
+    if (!dragging && dy > 6) { dragging = true; container.style.transition = 'none'; try { container.setPointerCapture(pid); } catch (_) {} }
+    if (dragging) { e.preventDefault(); container.style.transform = 'translateY(' + dy + 'px)'; }
+  });
+  function end(e) {
+    if (!active) return;
+    if (e && e.pointerId != null && pid != null && e.pointerId !== pid) return;
+    active = false;
+    try { container.releasePointerCapture(pid); } catch (_) {}
+    if (!dragging) { pid = null; return; }              // a tap (e.g. a header button) — leave it to the click
+    dragging = false; pid = null;
+    container.style.transition = 'transform 0.26s ease';
+    if (dy > THRESH) {
+      container.style.transform = 'translateY(100%)';
+      setTimeout(function () { closeFn(); reset(); }, 240);
+    } else {
+      container.style.transform = 'translateY(0)';     // snap back
+      setTimeout(reset, 280);
+    }
+  }
+  container.addEventListener('pointerup', end);
+  container.addEventListener('pointercancel', end);
+}
+function _wireSheet(container, grabSel, closeFn) {
+  if (!container) return;
+  const grabEls = grabSel.map(function (s) { return container.querySelector(s); }).filter(Boolean);
+  enableSheetDrag(container, grabEls, closeFn);
+}
+function initSheetDrags() {
+  _wireSheet(document.getElementById('script-modal-container'), ['.script-modal-drag', '.script-modal-header'], closeScriptModal);
+  _wireSheet(document.getElementById('chat-modal-container'), ['.script-modal-drag', '.script-modal-header'], closeChatModal);
+  _wireSheet(document.querySelector('#notes-modal .notes-modal-container'), ['.notes-modal-drag', '.notes-modal-header'], closeNotesModal);
+  _wireSheet(document.querySelector('#verse-note-modal .notes-modal-container'), ['.notes-modal-drag', '.notes-modal-header'], closeVerseNoteModal);
+  _wireSheet(document.querySelector('#sched-modal .sched-modal-box'), ['.sched-modal-drag', '.sched-modal-title'], closeScheduleEditor);
+}
 function init() {
   // Day 0 / Day 10 reuse the Biblical Context from Day 1 / Day 9 (itinerary card only)
   (function () {
@@ -10106,6 +10162,7 @@ function init() {
   let _fitT;
   window.addEventListener('resize', () => { clearTimeout(_fitT); _fitT = setTimeout(() => { fitCardTitles(); fitExploreTiles(); }, 150); });
   initHomeCtas();
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initSheetDrags); else initSheetDrags();
   if (window.__splashSkipped) startHomeIntro();   // returning this session: reveal Home right away
   // Hero slideshow + entrance are held until the splash completes (startHomeIntro).
   // Failsafe: never leave the hero hidden if the splash is missing or interrupted.
