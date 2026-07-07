@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
-<script>(function(){try{var t=localStorage.getItem('greece-theme')||'light';document.documentElement.setAttribute('data-theme',t);}catch(e){}try{if(sessionStorage.getItem('greece-splash-seen')!=='1')document.documentElement.classList.add('pre-splash');}catch(e){document.documentElement.classList.add('pre-splash');}})();</script>
+<script>(function(){try{var t=localStorage.getItem('greece-theme')||'light';document.documentElement.setAttribute('data-theme',t);}catch(e){}try{var _sd=new Date();var _sk=_sd.getFullYear()+'-'+(_sd.getMonth()+1)+'-'+_sd.getDate();if(localStorage.getItem('greece-splash-date')!==_sk)document.documentElement.classList.add('pre-splash');}catch(e){document.documentElement.classList.add('pre-splash');}})();</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Greece 2026 — T&amp;T Mediterranean Adventure</title>
@@ -2065,16 +2065,19 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
 (function(){
   var splash = document.getElementById('splash');
   if (!splash) return;
-  // Only show the splash on a fresh session load. If they've already seen it this
-  // session (reload, back/forward, resuming the still-open app), skip to Home.
+  // Show the splash at most once per calendar day, per device/browser. localStorage
+  // persists across sessions (unlike sessionStorage), so reopening or fully reloading
+  // the app later the same day skips straight to Home; the next day it plays again.
+  var _today = '';
+  try { var _sd = new Date(); _today = _sd.getFullYear() + '-' + (_sd.getMonth() + 1) + '-' + _sd.getDate(); } catch (e) {}
   var _splashSeen = false;
-  try { _splashSeen = sessionStorage.getItem('greece-splash-seen') === '1'; } catch (e) {}
+  try { _splashSeen = _today !== '' && localStorage.getItem('greece-splash-date') === _today; } catch (e) {}
   if (_splashSeen) {
     window.__splashSkipped = true;                 // init() releases the held hero immediately
     if (splash.parentNode) splash.parentNode.removeChild(splash);
     return;
   }
-  try { sessionStorage.setItem('greece-splash-seen', '1'); } catch (e) {}
+  try { localStorage.setItem('greece-splash-date', _today); } catch (e) {}
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.body.style.overflow = 'hidden';
   function done(){
