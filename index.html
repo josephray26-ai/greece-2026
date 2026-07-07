@@ -1105,6 +1105,7 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
 .explore-visit-btn .material-symbols-rounded { font-size: 17px; color: var(--md-sys-color-on-surface-variant); }
 .explore-visit-btn.is-explored { background: rgba(120,199,163,0.20); border-color: #7cc7a3; }
 .explore-visit-btn.is-explored .evb-icon { color: #1f8a63; }
+.explore-lookback-empty { margin: 14px 16px 4px; padding: 16px; border-radius: 14px; background: var(--md-sys-color-surface-variant, rgba(128,128,128,0.10)); font-size: 13px; line-height: 1.55; color: var(--md-sys-color-on-surface-variant); text-align: center; }
 .explore-tile-name {
   flex: 1; font-size: 14px; font-weight: 600; line-height: 17px;
   color: var(--md-sys-color-on-surface);
@@ -2786,7 +2787,7 @@ const TRIP_DATA = {
     {
       dayNum: 10,
       date: "Saturday, July 18",
-      title: "Final Day — Departure",
+      title: "Traveling Home",
       location: "Athens / Piraeus, Greece",
       itineraryImage: "assets/day10-itinerary.png",
       schedule: [
@@ -3910,7 +3911,8 @@ const EXPLORE_DAY_HIGHLIGHTS = {
   6: "The New Testament world steps into Asia Minor. One of the greatest cities of the Roman east, Ephesus is where Paul spent years preaching — its marble streets and great theater still standing in what is now Turkey.",
   7: "The modern Greek tourism miracle in miniature — a once-poor, wind-scoured island turned global playground of whitewashed lanes, hilltop windmills, and the chapel-dotted shore of Little Venice.",
   8: "Macedonia — Alexander's homeland and a Roman and Byzantine powerhouse. In Thessaloniki and nearby Philippi, where Paul founded the first Christian church on European soil, Greek conquest, Roman power, and the birth of European Christianity meet.",
-  9: "No ports today — just the ship, bow to stern: dining, lounges, pools, the Spa, a jogging track, and a movie under the stars."
+  9: "No ports today — just the ship, bow to stern: dining, lounges, pools, the Spa, a jogging track, and a movie under the stars.",
+  10: "The voyage home. A moment to look back over every place you set foot along the way — the ports walked, the ruins climbed, and the stories met."
 };
 const EXPLORE_DAY_SUBTITLE = {
   9: "Your floating resort, deck by deck — where to eat, unwind, and play at sea.",
@@ -4117,6 +4119,7 @@ function toggleExplored(contentId) {
       const lb = btn.querySelector('.evb-label'); if (lb) lb.textContent = on ? 'Explored' : 'Mark as explored';
     }
   });
+  refreshLookback();
 }
 function exploreTile(st, badge) {
   const drawings = (EXPLORE_DRAWINGS[st.contentId] || []).map(function (d) {
@@ -4201,6 +4204,65 @@ function buildExploreCards() {
     `;
     container.appendChild(card);
   });
+  container.appendChild(buildLookbackCard());
+}
+
+// Day 10 "A look back" — a recap card gathering every stop marked explored across the trip.
+function _collectExploredStops() {
+  const out = [], seen = {};
+  EXPLORE_DATA.days.forEach(function (d) {
+    (d.stops || []).concat(d.additional || []).forEach(function (st) {
+      if (exploredStops[st.contentId] && !seen[st.contentId]) { seen[st.contentId] = 1; out.push(st); }
+    });
+  });
+  return out;
+}
+function buildLookbackCard() {
+  const list = _collectExploredStops();
+  const n = list.length;
+  const day10 = TRIP_DATA.days.find(function (d) { return d.dayNum === 10; });
+  const highlight = EXPLORE_DAY_HIGHLIGHTS[10] || '';
+  const calloutText = n ? (n + ' Stop' + (n === 1 ? '' : 's') + ' Explored') : 'No Stops Explored Yet';
+  const body = n
+    ? `<div class="explore-tile-grid">${list.map(function (st, i) { return exploreTile(st, i + 1); }).join('')}</div>`
+    : `<div class="explore-lookback-empty">No stops marked as explored yet. As you visit each place, tap the number on its card (or the &ldquo;Mark as explored&rdquo; button) &mdash; they&rsquo;ll gather here for the trip home.</div>`;
+  const card = document.createElement('div');
+  card.className = 'card biblical-card';
+  card.dataset.day = 10;
+  card.innerHTML = `
+    <div class="biblical-card-header" onclick="toggleBiblicalCard(this.parentElement)">
+      <div class="biblical-header-left">
+        <div class="biblical-location">${splitTitleParts('Traveling Home \u2014 A look back')}</div>
+        <div class="biblical-date-badge">
+          <span class="material-symbols-rounded" style="font-size:14px;">calendar_today</span>
+          ${dayLabel(10)} &nbsp;&middot;&nbsp; ${esc(day10 ? day10.date : '')}
+        </div>
+      </div>
+    </div>
+    <div class="explore-preview" onclick="toggleBiblicalCard(this.closest('.biblical-card'))">
+      ${highlight ? `<div class="explore-day-highlight">${highlight}</div>` : ''}
+      <div class="explore-stops-callout"><span class="material-symbols-rounded">done_all</span>${calloutText}<span class="material-symbols-rounded biblical-chevron explore-stops-chev">expand_more</span></div>
+    </div>
+    <div class="biblical-body">
+      ${body}
+      <div style="display:flex;flex-wrap:wrap;gap:6px 20px;margin:14px 16px 16px;">
+        <button class="text-btn" style="margin:0;padding:0;" data-note-key="travel_day_10" onclick="openNotesModal('travel_day_10', 'Traveling Home')">
+          <span class="material-symbols-rounded">edit_note</span><span class="note-btn-label">${notesData['travel_day_10'] ? 'Edit Notes' : 'Add Notes'}</span>
+        </button>
+      </div>
+    </div>
+  `;
+  return card;
+}
+function refreshLookback() {
+  const container = document.getElementById('exploreCards');
+  if (!container) return;
+  const old = container.querySelector('.biblical-card[data-day="10"]');
+  if (!old) return;
+  const wasExpanded = old.classList.contains('expanded');
+  const fresh = buildLookbackCard();
+  if (wasExpanded) fresh.classList.add('expanded');
+  old.replaceWith(fresh);
 }
 
 // Greek "Word of the Day" for the Devotion tab collapsed preview (keyed by dayNum)
