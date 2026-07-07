@@ -1084,8 +1084,27 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   display: flex; align-items: center; justify-content: center;
   background: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary);
   font-size: 13px; font-weight: 700;
+  cursor: pointer; transition: background 0.2s, color 0.2s;
 }
+.explore-tile-dot:active { transform: scale(0.9); }
 .explore-tile-dot .material-symbols-rounded { font-size: 16px; }
+.explore-dot-check { display: none; align-items: center; justify-content: center; }
+/* Explored ("been there") state — check on the number + light-green fill */
+.explore-tile.explored .explore-dot-badge { display: none; }
+.explore-tile.explored .explore-dot-check { display: flex; }
+.explore-tile.explored .explore-tile-dot { background: #a7e0c8; color: #12594a; }
+.explore-tile.explored:not(.expanded) { background: rgba(120,199,163,0.18); border-color: rgba(120,199,163,0.55); }
+.explore-visit-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 14px; border-radius: 100px; cursor: pointer; font-family: inherit;
+  font-size: 12.5px; font-weight: 700;
+  border: 1.5px solid var(--md-sys-color-outline-variant);
+  background: var(--md-sys-color-surface); color: var(--md-sys-color-on-surface);
+  -webkit-tap-highlight-color: transparent;
+}
+.explore-visit-btn .material-symbols-rounded { font-size: 17px; color: var(--md-sys-color-on-surface-variant); }
+.explore-visit-btn.is-explored { background: rgba(120,199,163,0.20); border-color: #7cc7a3; }
+.explore-visit-btn.is-explored .evb-icon { color: #1f8a63; }
 .explore-tile-name {
   flex: 1; font-size: 14px; font-weight: 600; line-height: 17px;
   color: var(--md-sys-color-on-surface);
@@ -4080,17 +4099,35 @@ const EXPLORE_DRAWINGS = {
     { src: 'assets/thessaloniki-1720.jpg', label: 'c.1720', title: 'Thessaloniki, c.1720' }
   ]
 };
+let exploredStops = {};
+try { exploredStops = JSON.parse(localStorage.getItem('greece2026_explored') || '{}') || {}; } catch (e) { exploredStops = {}; }
+function toggleExplored(contentId) {
+  const on = !exploredStops[contentId];
+  if (on) exploredStops[contentId] = 1; else delete exploredStops[contentId];
+  try { localStorage.setItem('greece2026_explored', JSON.stringify(exploredStops)); } catch (e) {}
+  document.querySelectorAll('#exploreCards .explore-tile[data-content="' + contentId + '"]').forEach(function (tile) {
+    tile.classList.toggle('explored', on);
+    const btn = tile.querySelector('.explore-visit-btn');
+    if (btn) {
+      btn.classList.toggle('is-explored', on);
+      const ic = btn.querySelector('.evb-icon'); if (ic) ic.textContent = on ? 'check_circle' : 'radio_button_unchecked';
+      const lb = btn.querySelector('.evb-label'); if (lb) lb.textContent = on ? 'Explored' : 'Mark as explored';
+    }
+  });
+}
 function exploreTile(st, badge) {
   const drawings = (EXPLORE_DRAWINGS[st.contentId] || []).map(function (d) {
     const cap = d.caption ? ",'" + d.caption.replace(/\\/g, '\\\\').replace(/'/g, "\\'") + "'" : '';
     return `<button class="explore-drawing-btn" onclick="event.stopPropagation(); openLightbox('${d.src}','${d.title}'${cap})"><img src="${d.src}" alt="" loading="lazy">${d.label}</button>`;
   }).join('');
   const diveBtn = st.noDive ? '' : `<button class="explore-dive-btn" onclick="event.stopPropagation(); openScriptModal('${st.contentId}')"><span class="material-symbols-rounded">menu_book</span>Dive Deeper</button>`;
-  const actions = (diveBtn || drawings) ? `<div class="explore-tile-actions">${diveBtn}${drawings}</div>` : '';
+  const on = !!exploredStops[st.contentId];
+  const visitBtn = `<button class="explore-visit-btn${on ? ' is-explored' : ''}" onclick="event.stopPropagation(); toggleExplored('${st.contentId}')"><span class="material-symbols-rounded evb-icon">${on ? 'check_circle' : 'radio_button_unchecked'}</span><span class="evb-label">${on ? 'Explored' : 'Mark as explored'}</span></button>`;
+  const actions = `<div class="explore-tile-actions">${visitBtn}${diveBtn}${drawings}</div>`;
   return `
-    <div class="explore-tile" data-content="${st.contentId}" onclick="toggleExploreTile(this)">
+    <div class="explore-tile${on ? ' explored' : ''}" data-content="${st.contentId}" onclick="toggleExploreTile(this)">
       <div class="explore-tile-head">
-        <span class="explore-tile-dot">${badge}</span>
+        <span class="explore-tile-dot" title="Toggle explored" onclick="event.stopPropagation(); toggleExplored('${st.contentId}')"><span class="explore-dot-badge">${badge}</span><span class="material-symbols-rounded explore-dot-check">check</span></span>
         <span class="explore-tile-name">${esc(st.name)}</span>
         <span class="material-symbols-rounded explore-tile-chev">expand_more</span>
       </div>
