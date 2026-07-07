@@ -1106,6 +1106,9 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
 .explore-visit-btn.is-explored { background: rgba(120,199,163,0.20); border-color: #7cc7a3; }
 .explore-visit-btn.is-explored .evb-icon { color: #1f8a63; }
 .explore-lookback-empty { margin: 14px 16px 4px; padding: 16px; border-radius: 14px; background: var(--md-sys-color-surface-variant, rgba(128,128,128,0.10)); font-size: 13px; line-height: 1.55; color: var(--md-sys-color-on-surface-variant); text-align: center; }
+.pack-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 5px 16px; margin: 8px 0 4px; }
+.pack-item { font-size: 13px; line-height: 1.45; color: var(--md-sys-color-on-surface); display: flex; gap: 8px; align-items: flex-start; }
+.pack-item::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--md-sys-color-primary); flex-shrink: 0; margin-top: 6px; }
 .explore-tile-name {
   flex: 1; font-size: 14px; font-weight: 600; line-height: 17px;
   color: var(--md-sys-color-on-surface);
@@ -3461,12 +3464,17 @@ function renderDayDetail(dayNum) {
             <span class="material-symbols-rounded" style="color:var(--md-sys-color-tertiary);font-size:20px;">map</span>
             <span style="font-size:14px;font-weight:600;color:var(--md-sys-color-on-surface);">Field Notes</span>
           </div>
-          <div style="font-size:13px;color:var(--md-sys-color-on-surface-variant);line-height:1.55;margin-bottom:12px;">On-site guide: where to stand, what to look for, and when to read.</div>
+          <div style="font-size:13px;color:var(--md-sys-color-on-surface-variant);line-height:1.55;margin-bottom:12px;">Today&rsquo;s guide: where to be, what to look for &amp; helpful links you may need.</div>
           <button class="card-cta" onclick="openScriptModal('${day.fieldNotesId}')">
             <span class="material-symbols-rounded cta-lead">article</span>
             <span class="cta-label">Open</span>
             <span class="material-symbols-rounded cta-arrow">arrow_forward</span>
-          </button>
+          </button>${day.dayNum === 0 ? `
+          <button class="card-cta" style="margin-top:8px;" onclick="openScriptModal('packing_list')">
+            <span class="material-symbols-rounded cta-lead">luggage</span>
+            <span class="cta-label">Packing List</span>
+            <span class="material-symbols-rounded cta-arrow">arrow_forward</span>
+          </button>` : ''}
           ${day.maps ? day.maps.map(m => `
             <a ${m.img ? `onclick="openLightbox('${m.img}','${m.name}')"` : m.key ? `onclick="openLightbox(DAY8_MAPS['${m.key}'],'${m.name}')"` : `href="${m.file}" target="_blank" rel="noopener"`} style="${(m.img || m.key) ? 'cursor:pointer;' : ''}display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--md-sys-color-primary);text-decoration:none;margin-top:10px;">
               <span class="material-symbols-rounded" style="font-size:15px;">map</span>${m.name}
@@ -8978,6 +8986,48 @@ const SCRIPT_CONTENT = {
   },
 
   /* ── FIELD NOTES ── */
+
+  packing_list: {
+    title: "Packing List",
+    html: `
+<div class="fn-header">Packing List</div>
+<div class="fn-subtitle">A cruise &amp; travel checklist for the trip</div>
+<p class="fn-body">A broad list to skim before you pack &mdash; grab what fits our July itinerary and skip the rest. Sorted by category so nothing gets left behind.</p>
+<div class="fn-section-title">Casual Attire</div>
+<div class="pack-grid"><div class="pack-item">Shorts</div><div class="pack-item">Jeans/khakis</div><div class="pack-item">T-shirts/tank tops</div><div class="pack-item">Sundresses/skirts</div></div>
+<div class="fn-section-title">Formal Attire</div>
+<div class="pack-grid"><div class="pack-item">Dress shirts</div><div class="pack-item">Blazers/suits/tuxedo</div><div class="pack-item">Slacks</div><div class="pack-item">Cocktail dresses/gowns</div><div class="pack-item">Skirts/blouses</div><div class="pack-item">Dressy pantsuits</div></div>
+<div class="fn-section-title">Outerwear</div>
+<div class="pack-grid"><div class="pack-item">Sweaters/sweatshirts</div><div class="pack-item">Coats/jackets/raincoats</div><div class="pack-item">Hats/sun hats</div><div class="pack-item">Gloves</div><div class="pack-item">Scarves/shawls</div></div>
+<div class="fn-section-title">Undergarments &amp; Sleepwear</div>
+<div class="pack-grid"><div class="pack-item">Underwear</div><div class="pack-item">Socks/stockings</div><div class="pack-item">Bras</div><div class="pack-item">Undershirts</div><div class="pack-item">Pajamas</div></div>
+<div class="fn-section-title">Beachwear &amp; Activewear</div>
+<div class="pack-grid"><div class="pack-item">Swimsuits</div><div class="pack-item">Cover-ups</div><div class="pack-item">Workout clothes/activewear</div></div>
+<div class="fn-section-title">Footwear</div>
+<div class="pack-grid"><div class="pack-item">Sneakers</div><div class="pack-item">Sandals/flip-flops</div><div class="pack-item">Leisure shoes</div><div class="pack-item">Dress shoes</div><div class="pack-item">Specialty footwear (hiking boots/rainboots/water shoes)</div></div>
+<div class="fn-section-title">Accessories</div>
+<div class="pack-grid"><div class="pack-item">Belts</div><div class="pack-item">Ties</div><div class="pack-item">Jewelry</div><div class="pack-item">Wristwatches</div><div class="pack-item">Eyeglasses</div><div class="pack-item">Sunglasses</div><div class="pack-item">Glasses cases</div><div class="pack-item">Umbrella/poncho</div></div>
+<div class="fn-section-title">Toiletries</div>
+<div class="pack-grid"><div class="pack-item">Toothbrush</div><div class="pack-item">Toothpaste</div><div class="pack-item">Dental floss</div><div class="pack-item">Mouthwash</div><div class="pack-item">Shampoo/conditioner</div><div class="pack-item">Moisturizer</div><div class="pack-item">Deodorant</div><div class="pack-item">Facial cleanser/skincare products</div><div class="pack-item">Lip balm</div><div class="pack-item">Razor</div><div class="pack-item">Shaving cream</div><div class="pack-item">Nail file/clipper</div><div class="pack-item">Tweezers</div><div class="pack-item">Cotton balls/pads</div><div class="pack-item">Q-tips</div><div class="pack-item">Contact lenses/case/solution/eye drops</div></div>
+<div class="fn-section-title">Hair &amp; Makeup Products</div>
+<div class="pack-grid"><div class="pack-item">Brush/comb</div><div class="pack-item">Hairstyling tools</div><div class="pack-item">Hairstyling products</div><div class="pack-item">Hair accessories</div><div class="pack-item">Makeup</div><div class="pack-item">Makeup remover</div><div class="pack-item">Perfume/cologne</div></div>
+<div class="fn-section-title">Health &amp; Safety Products</div>
+<div class="pack-grid"><div class="pack-item">Sunscreen/aloe vera</div><div class="pack-item">Insect repellent</div><div class="pack-item">Pain relievers</div><div class="pack-item">First-aid kit</div><div class="pack-item">Tissues</div><div class="pack-item">Medications/vitamins</div><div class="pack-item">Seasickness remedies</div><div class="pack-item">Hand wipes</div><div class="pack-item">Hand sanitizer</div><div class="pack-item">Feminine hygiene products</div><div class="pack-item">Birth control</div></div>
+<div class="fn-section-title">Technology</div>
+<div class="pack-grid"><div class="pack-item">Cell phone and charger</div><div class="pack-item">Laptop/tablet and charger</div><div class="pack-item">Headphones</div><div class="pack-item">Portable speaker</div><div class="pack-item">Camera/lenses/memory cards/batteries/charger</div><div class="pack-item">Waterproof phone case</div><div class="pack-item">Binoculars</div><div class="pack-item">Alarm clock</div><div class="pack-item">Voltage adapters (for international hotels)</div></div>
+<div class="fn-section-title">Bags</div>
+<div class="pack-grid"><div class="pack-item">Purses</div><div class="pack-item">Daypack/beach bag</div><div class="pack-item">Collapsible tote</div><div class="pack-item">Ziplock bags</div><div class="pack-item">Wet bag</div><div class="pack-item">Luggage locks</div></div>
+<div class="fn-section-title">Laundry</div>
+<div class="pack-grid"><div class="pack-item">Laundry bag</div><div class="pack-item">Laundry kit (detergent/wrinkle-release spray/stain remover)</div></div>
+<div class="fn-section-title">Wallet &amp; Money Belt Items</div>
+<div class="pack-grid"><div class="pack-item">Passports/visas</div><div class="pack-item">Medical insurance card</div><div class="pack-item">Travel insurance information</div><div class="pack-item">Driver's license/international driver's license</div><div class="pack-item">Wallet/money belt with cash/ATM card/credit cards</div></div>
+<div class="fn-section-title">Documentation &amp; Contact Info</div>
+<div class="pack-grid"><div class="pack-item">Travel documents (boarding passes/airline tickets/hotel info/itinerary)</div><div class="pack-item">Copies of passport/important documents/credit cards</div><div class="pack-item">Important phone numbers (credit cards/emergency contacts)</div><div class="pack-item">Prescriptions/list of medications/medical history</div><div class="pack-item">Printed/personal luggage tags</div><div class="pack-item">Travel guides/phrase book</div><div class="pack-item">Small notebook/journal</div><div class="pack-item">Pens/highlighters</div><div class="pack-item">Addresses for friends/relatives</div><div class="pack-item">Maps and directions (if not on your phone)</div></div>
+<div class="fn-section-title">Miscellaneous</div>
+<div class="pack-grid"><div class="pack-item">House/car keys</div><div class="pack-item">Snacks/chewing gum</div><div class="pack-item">Reusable water bottle</div><div class="pack-item">Antibacterial wipes</div><div class="pack-item">Travel aids (earplugs/sleeping mask/travel pillow)</div><div class="pack-item">Pleasure reading (books/e-book with charger)</div><div class="pack-item">Snorkel/goggles</div><div class="pack-item">Kids/baby gear (diapers/toys/games)</div></div>
+<p class="fn-footer">A general reference list &mdash; adjust to your own needs, the season, and how you like to travel.</p>
+`
+  },
 
   fn_day0: {
     title: "Field Notes — Depart · Flight Day",
