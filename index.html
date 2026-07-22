@@ -502,6 +502,7 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   font-family: 'Fraunces', 'Roboto Serif', Georgia, serif;
   font-size: 16px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.9);
   opacity: 0; animation: splashFadeUp 1s ease 0.5s both;
+  max-width: 84vw; text-align: center; line-height: 1.6; text-wrap: balance;
 }
 @keyframes splashFadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) {
@@ -2074,6 +2075,71 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
 (function(){
   var splash = document.getElementById('splash');
   if (!splash) return;
+  // Keep a copy of the markup so the same animation can be replayed later
+  // (e.g. when the menu opens the Next Adventure page) after the boot splash
+  // has removed itself from the DOM.
+  var SPLASH_MARKUP = splash.innerHTML;
+
+  // The splash animation itself. `onDone` fires the moment the curtain starts
+  // to lift, so whatever is underneath can begin its entrance in sync.
+  function runSplash(splash, onDone){
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    document.body.style.overflow = 'hidden';
+    function done(){
+      splash.classList.add('hide');
+      document.body.style.overflow = '';
+      if (onDone) onDone();
+      setTimeout(function(){ if (splash && splash.parentNode) splash.parentNode.removeChild(splash); }, 900);
+    }
+    var cells = splash.querySelectorAll('.splash-sym');
+    var targets = ['\u039B','\u03CC','\u03B3','\u03BF','\u03C2'];               // spells \u039B\u03CC\u03B3\u03BF\u03C2 (Logos)
+    var pool = ['\u0394','\u039E','\u03A6','\u03A8','\u0398','\u03A3','\u0393','\u0391','\u03A0','\u03A9','\u039B','\u03CC','\u03B3','\u03BF','\u03C2'];
+    var frozen = [false,false,false,false,false];
+    if (reduce) {
+      for (var r=0;r<cells.length;r++) cells[r].textContent = targets[r] || '';
+      setTimeout(done, 1200);
+      return;
+    }
+    var DURATION = 5000;
+    var t0 = (window.performance && performance.now) ? performance.now() : Date.now();
+    var running = true;
+    function elapsed(){ return ((window.performance && performance.now) ? performance.now() : Date.now()) - t0; }
+    function tick(){
+      if (!running) return;
+      for (var i=0;i<cells.length;i++){ if (!frozen[i]) cells[i].textContent = pool[Math.floor(Math.random()*pool.length)]; }
+      var p = Math.min(elapsed()/DURATION, 1);
+      setTimeout(tick, 40 + 520 * p * p);            // shuffle decelerates toward the end
+    }
+    tick();
+    for (var k=0;k<cells.length;k++){                 // freeze left-to-right every 0.75s
+      (function(idx){ setTimeout(function(){ frozen[idx] = true; cells[idx].textContent = targets[idx]; }, 750 * (idx + 1)); })(k);
+    }
+    setTimeout(function(){
+      running = false;
+      splash.classList.add('burst');                                   // gold explodes from behind the logo
+      setTimeout(function(){ splash.classList.add('hide'); document.body.style.overflow = ''; if (onDone) onDone(); }, 500);  // reveal + play the hero in sync with the fade
+      setTimeout(function(){ if (splash && splash.parentNode) splash.parentNode.removeChild(splash); }, 1400);
+    }, DURATION);
+  }
+
+  // Replay the identical animation on demand with a different caption.
+  window.replaySplash = function(titleText, onDone){
+    if (window.__splashRunning) return false;
+    window.__splashRunning = true;
+    var el = document.createElement('div');
+    el.id = 'splash';
+    el.className = 'splash';
+    el.setAttribute('role', 'presentation');
+    el.setAttribute('aria-hidden', 'true');
+    el.innerHTML = SPLASH_MARKUP;
+    var cap = el.querySelector('.splash-title');
+    if (cap) cap.textContent = titleText;
+    document.body.appendChild(el);
+    void el.offsetWidth;                              // restart the CSS entrance animations
+    runSplash(el, function(){ window.__splashRunning = false; if (onDone) onDone(); });
+    return true;
+  };
+
   // Show the splash at most once per calendar day, per device/browser. localStorage
   // persists across sessions (unlike sessionStorage), so reopening or fully reloading
   // the app later the same day skips straight to Home; the next day it plays again.
@@ -2087,43 +2153,11 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
     return;
   }
   try { localStorage.setItem('greece-splash-date', _today); } catch (e) {}
-  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  document.body.style.overflow = 'hidden';
-  function done(){
-    splash.classList.add('hide');
-    document.body.style.overflow = '';
+  window.__splashRunning = true;
+  runSplash(splash, function(){
+    window.__splashRunning = false;
     if (window.startHomeIntro) window.startHomeIntro();
-    setTimeout(function(){ if (splash && splash.parentNode) splash.parentNode.removeChild(splash); }, 900);
-  }
-  var cells = splash.querySelectorAll('.splash-sym');
-  var targets = ['\u039B','\u03CC','\u03B3','\u03BF','\u03C2'];               // spells \u039B\u03CC\u03B3\u03BF\u03C2 (Logos)
-  var pool = ['\u0394','\u039E','\u03A6','\u03A8','\u0398','\u03A3','\u0393','\u0391','\u03A0','\u03A9','\u039B','\u03CC','\u03B3','\u03BF','\u03C2'];
-  var frozen = [false,false,false,false,false];
-  if (reduce) {
-    for (var r=0;r<cells.length;r++) cells[r].textContent = targets[r] || '';
-    setTimeout(done, 1200);
-    return;
-  }
-  var DURATION = 5000;
-  var t0 = (window.performance && performance.now) ? performance.now() : Date.now();
-  var running = true;
-  function elapsed(){ return ((window.performance && performance.now) ? performance.now() : Date.now()) - t0; }
-  function tick(){
-    if (!running) return;
-    for (var i=0;i<cells.length;i++){ if (!frozen[i]) cells[i].textContent = pool[Math.floor(Math.random()*pool.length)]; }
-    var p = Math.min(elapsed()/DURATION, 1);
-    setTimeout(tick, 40 + 520 * p * p);            // shuffle decelerates toward the end
-  }
-  tick();
-  for (var k=0;k<cells.length;k++){                 // freeze left-to-right every 0.75s
-    (function(idx){ setTimeout(function(){ frozen[idx] = true; cells[idx].textContent = targets[idx]; }, 750 * (idx + 1)); })(k);
-  }
-  setTimeout(function(){
-    running = false;
-    splash.classList.add('burst');                                   // gold explodes from behind the logo
-    setTimeout(function(){ splash.classList.add('hide'); document.body.style.overflow = ''; if (window.startHomeIntro) window.startHomeIntro(); }, 500);  // reveal + play the hero in sync with the fade
-    setTimeout(function(){ if (splash && splash.parentNode) splash.parentNode.removeChild(splash); }, 1400);
-  }, DURATION);
+  });
 })();
 </script>
 
@@ -2155,6 +2189,9 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
   </button>
   <button class="header-menu-item" onclick="closeHeaderMenu(); openChatModal();" role="menuitem">
     <span class="material-symbols-rounded">chat_bubble</span><span>Ask Paulo</span>
+  </button>
+  <button class="header-menu-item" onclick="openNextAdventure()" role="menuitem">
+    <span class="material-symbols-rounded">rocket_launch</span><span>Next Adventure</span>
   </button>
 </div>
 
@@ -2271,6 +2308,60 @@ main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
         <h2 class="cta-title reveal-item">Listen</h2>
         <p class="cta-text reveal-item">Story-rich audio guides — history, faith and culture. Or enjoy story telling through text and video formats.</p>
         <button class="cta-btn reveal-item" type="button" onclick="goToTab('podcasts')">Browse Episodes <span class="material-symbols-rounded">arrow_forward</span></button>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- NEXT ADVENTURE (reached from the header menu, not the bottom nav) -->
+  <section id="section-next" class="section">
+
+    <!-- HERO -->
+    <div class="home-hero">
+      <div class="home-hero-bg" id="nextHeroSlideshow">
+        <img class="hero-slide active" src="assets/next-1.jpg" alt="Tokyo Tower above the city at dusk">
+        <img class="hero-slide" src="assets/next-2.jpg" alt="Gyeongbokgung Palace in Seoul" loading="lazy">
+        <img class="hero-slide" src="assets/next-3.jpg" alt="The Forbidden City in Beijing" loading="lazy">
+        <img class="hero-slide" src="assets/next-4.jpg" alt="The Pudong skyline in Shanghai" loading="lazy">
+        <img class="hero-slide" src="assets/next-5.jpg" alt="Marina Bay Sands in Singapore" loading="lazy">
+        <img class="hero-slide" src="assets/next-6.jpg" alt="Limestone karsts in Ha Long Bay, Vietnam" loading="lazy">
+        <img class="hero-slide" src="assets/next-7.jpg" alt="Taipei 101 above the Taipei skyline" loading="lazy">
+        <img class="hero-slide" src="assets/next-8.jpg" alt="A hidden beach in El Nido, the Philippines" loading="lazy">
+      </div>
+      <div class="home-hero-content">
+        <div class="hero-eyebrow fade-up">TBD &nbsp;&middot;&nbsp; T&amp;T Expedition</div>
+        <div class="hero-h1 fade-up delay-1">East Sea<br><em>Adventure</em></div>
+        <div class="hero-scroll-caret fade-up delay-2">
+          <span class="material-symbols-rounded">expand_more</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- IMMERSIVE: the eight stops -->
+    <div class="home-immersive">
+      <div class="home-immersive-bg"><img loading="lazy" src="assets/next-stops-bg.jpg" alt="Shanghai skyline at dusk"></div>
+      <div class="home-immersive-inner">
+        <div class="section-label">The Eight Stops</div>
+        <div class="stops-showcase" id="nextStopsShowcase">
+          <div class="stop-word">Tokyo</div>
+          <div class="stop-word">Seoul</div>
+          <div class="stop-word">Beijing</div>
+          <div class="stop-word">Shanghai</div>
+          <div class="stop-word">Singapore</div>
+          <div class="stop-word">Vietnam</div>
+          <div class="stop-word">Taiwan</div>
+          <div class="stop-word">Philippines</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta-band">
+      <div class="cta-bg"><img loading="lazy" src="assets/next-cta.jpg" alt="An aircraft wing and sunrise seen from a cabin window"></div>
+      <div class="cta-content">
+        <div class="cta-eyebrow reveal-item">Are you ready?</div>
+        <h2 class="cta-title reveal-item">For your Next Adventure</h2>
+        <!-- Intentionally inert for now: the destination page does not exist yet. -->
+        <button class="cta-btn reveal-item" type="button">Let&rsquo;s Go! <span class="material-symbols-rounded">arrow_forward</span></button>
       </div>
     </div>
 
@@ -10227,6 +10318,33 @@ function goToTab(name) {
   if (tab) tab.click();
 }
 
+function showNextAdventureSection() {
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('section-next').classList.add('active');
+  activeSection = 'next';
+  window.scrollTo({ top: 0, behavior: 'auto' });
+}
+
+function startNextIntro() {
+  document.documentElement.classList.remove('pre-splash');   // release the held hero entrance
+  if (window._nextIntroStarted) return;
+  window._nextIntroStarted = true;
+  initHeroSlideshow('nextHeroSlideshow');
+}
+
+// Menu entry point. The page is swapped in behind the splash so it is fully
+// painted (and its hero entrance held by .pre-splash) when the curtain lifts.
+function openNextAdventure() {
+  closeHeaderMenu();
+  if (window.__splashRunning) return;
+  document.documentElement.classList.add('pre-splash');
+  showNextAdventureSection();
+  if (!window.replaySplash || !window.replaySplash('Unlocking your next Adventure', startNextIntro)) {
+    startNextIntro();
+  }
+}
+
 function startHomeIntro() {
   if (window._homeIntroStarted) return;   // run once
   window._homeIntroStarted = true;
@@ -10235,8 +10353,8 @@ function startHomeIntro() {
 }
 window.startHomeIntro = startHomeIntro;
 
-function initHeroSlideshow() {
-  const slides = document.querySelectorAll('#heroSlideshow .hero-slide');
+function initHeroSlideshow(rootId) {
+  const slides = document.querySelectorAll('#' + (rootId || 'heroSlideshow') + ' .hero-slide');
   if (slides.length < 2) return;
   const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduce) return;            // honour reduced-motion: keep the first photo static
@@ -10272,19 +10390,18 @@ function initHomeCtas() {
       const trigger = b.querySelector('.cta-title') || b;
       io.observe(trigger);
     });
-    const _showcase = document.getElementById('stopsShowcase');
-    if (_showcase) {
+    const _showcases = document.querySelectorAll('.stops-showcase');
+    if (_showcases.length) {
       const sio = new IntersectionObserver(function(entries) {
         entries.forEach(function(e) {
           if (e.isIntersecting) { e.target.classList.add('in-view'); sio.unobserve(e.target); }
         });
       }, { threshold: 0.3 });
-      sio.observe(_showcase);
+      _showcases.forEach(function(s) { sio.observe(s); });
     }
   } else {
     bands.forEach(function(b) { b.classList.add('in-view'); });
-    const _sc = document.getElementById('stopsShowcase');
-    if (_sc) _sc.classList.add('in-view');
+    document.querySelectorAll('.stops-showcase').forEach(function(s) { s.classList.add('in-view'); });
   }
   // Lightweight parallax (skipped when reduced-motion is requested)
   const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -10295,7 +10412,7 @@ function initHomeCtas() {
   }
 }
 function _onCtaScroll() {
-  if (_ctaRaf || activeSection !== 'home') return;
+  if (_ctaRaf || (activeSection !== 'home' && activeSection !== 'next')) return;
   _ctaRaf = requestAnimationFrame(function() {
     _ctaRaf = null;
     const vh = window.innerHeight;
